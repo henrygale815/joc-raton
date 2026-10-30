@@ -34,14 +34,15 @@ body.pawsy #paws{opacity:.36}
 .st.on{filter:none;opacity:1;background:rgba(244,162,89,.35);transform:scale(1.08)}
 .card{position:relative;background:var(--card);border-radius:26px;padding:24px;box-shadow:0 12px 34px rgba(0,0,0,.45);animation:pop .35s ease}
 @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
-h1{font-size:30px;margin:0 0 6px}
+h1{font-size:30px;margin:0 0 6px;font-family:var(--hand)}
+.scene,.env,#boss,.chestsvg,.burst,.st svg{filter:url(#crayon)}
 p{font-size:22px;line-height:1.45;margin:10px 0}
 .center{text-align:center}
 .hand{font-family:var(--hand)}
 .flash{font-size:19px;color:var(--muted);font-style:italic}
 .say{background:#fff;border-radius:16px;padding:12px 16px;border-left:6px solid var(--accent);margin:10px 0}
 .say p{margin:6px 0;font-size:21px}
-.say b.timi{color:#2f6fb5}.say b.tomi{color:#c26a1b}.say b.ten{color:#8a4f8a}.say b.mis{color:var(--purple)}
+.say b.missi{color:#2f6fb5}.say b.ssippi{color:#c26a1b}.say b.ten{color:#8a4f8a}.say b.mis{color:var(--purple)}
 .tracks{font-size:22px;background:#efe3c8;border-radius:14px;padding:10px 14px}
 .scene{display:block;width:100%;height:auto;margin:4px 0 8px;border-radius:18px}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
@@ -77,6 +78,8 @@ input{font:inherit;font-size:28px;width:100%;padding:14px 16px;border-radius:16p
 .chestbtn{background:#fff;border-radius:18px;padding:30px 6px 10px;text-align:center;font-weight:bold;font-size:19px;box-shadow:0 5px 0 #d8c9a8;cursor:pointer}
 .chestbtn:active{transform:translateY(4px);box-shadow:0 1px 0 #d8c9a8}
 .chestbtn.off{opacity:.4;pointer-events:none}
+.chests.mini{pointer-events:none;max-width:420px;margin:10px auto 0}
+.chests.mini .chestbtn{padding:10px 6px 8px;font-size:16px}
 .chestsvg{display:block;width:100%;height:auto;overflow:visible}
 .chestsvg .lid{transform-box:fill-box;transform-origin:50% 100%;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
 .chestsvg .contents{opacity:0;transition:opacity .5s .25s,transform .6s .25s}
@@ -105,6 +108,10 @@ input{font:inherit;font-size:28px;width:100%;padding:14px 16px;border-radius:16p
 @keyframes ripple{from{transform:scale(.4);opacity:1}to{transform:scale(2.4);opacity:0}}
 #me{transition:transform .4s cubic-bezier(.4,1.8,.6,1)}
 /* tastatura */
+.kslots{display:flex;justify-content:center;gap:8px;margin:12px 0}
+.kslots span{width:56px;height:66px;border-radius:12px;background:#fff;border:3px dashed var(--accent-d);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:bold}
+.ktiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.ktiles button{min-height:64px;font-size:34px;padding:6px}
 .keyshow{font-size:46px;font-weight:bold;letter-spacing:10px;text-align:center;background:#1d2b3a;color:#7cfc9a;border-radius:14px;padding:6px;min-height:72px;font-family:"Courier New",monospace}
 .keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .keypad button{min-height:62px;font-size:28px;padding:8px}
@@ -114,7 +121,7 @@ input{font:inherit;font-size:28px;width:100%;padding:14px 16px;border-radius:16p
 .hp-label{font-size:18px;font-weight:bold;display:flex;justify-content:space-between}
 .arena{position:relative;height:226px}
 #boss{display:block;margin:0 auto;width:220px;height:220px;animation:bob 2s ease-in-out infinite}
-#boss.angry{filter:drop-shadow(0 0 14px #ff3b30);animation-duration:.8s}
+#boss.angry{filter:url(#crayon) drop-shadow(0 0 14px #ff3b30);animation-duration:.8s}
 #boss.hit{animation:shake .4s}
 #boss.attack{animation:lunge .5s}
 #boss.spin{animation:spin360 .8s}
@@ -165,6 +172,10 @@ body.dark #dark{opacity:.94}
 .leaf{position:fixed;top:-20px;width:18px;height:11px;border-radius:50% 0;pointer-events:none;z-index:12;animation:fall linear forwards}
 .burst{display:block;width:280px;height:280px;margin:0 auto;animation:boom 1s ease-out}
 @keyframes boom{0%{transform:scale(.2);opacity:0}40%{transform:scale(1.4);opacity:1}100%{transform:scale(1)}}
+.puff{transform-box:fill-box;transform-origin:center;animation:puff 3s ease-in-out infinite alternate}
+@keyframes puff{to{transform:translate(8px,-10px) scale(1.25)}}
+.vanish{animation:vanish 1s ease-in forwards}
+@keyframes vanish{to{opacity:0;transform:scale(.3) rotate(20deg)}}
 .runbox{overflow:hidden;height:170px;position:relative}
 .runner{position:absolute;left:calc(50% - 65px);width:130px}
 .runner.go{animation:run 2.4s ease-in forwards}
@@ -183,6 +194,13 @@ footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35)
   <defs>
     <symbol id="paw" viewBox="0 0 40 48"><ellipse cx="20" cy="33" rx="10.5" ry="11.5"/><ellipse cx="5.5" cy="21" rx="3.4" ry="6.5" transform="rotate(-35 5.5 21)"/><ellipse cx="12" cy="11" rx="3.4" ry="7.5" transform="rotate(-14 12 11)"/><ellipse cx="20" cy="7.5" rx="3.4" ry="7.5"/><ellipse cx="28" cy="11" rx="3.4" ry="7.5" transform="rotate(14 28 11)"/><ellipse cx="34.5" cy="21" rx="3.4" ry="6.5" transform="rotate(35 34.5 21)"/></symbol>
     <symbol id="sock" viewBox="0 0 40 54"><g stroke="#2b2118" stroke-width="2.5" stroke-linejoin="round"><path d="M10 2 H28 V30 Q28 36 34 40 Q40 46 34 50 Q28 53 20 48 L8 40 Q4 37 6 30 Z" fill="#fff"/><path d="M10 9 H28 M10 17 H28 M10 25 H28" stroke="#e05a47" stroke-width="4"/></g></symbol>
+    <filter id="crayon" x="-4%" y="-4%" width="108%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="1" seed="7" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="3" result="g"/>
+      <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.8 0 0 0 2.15" result="ga"/>
+      <feComposite in="d" in2="ga" operator="in"/>
+    </filter>
     <linearGradient id="rb" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ff5f6d"/><stop offset=".3" stop-color="#ffc371"/><stop offset=".55" stop-color="#5fe08a"/><stop offset=".8" stop-color="#47b5ff"/><stop offset="1" stop-color="#b06bff"/></linearGradient>
   </defs>
 </svg>
@@ -198,7 +216,8 @@ footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35)
 // ====== SETĂRI ======
 const NUME_ACCEPTATE = ['david', 'davi'];
 const COD_LACAT = '8888';
-const NUMAR_PREFERAT = '8';
+const PAROLA = 'ミシシッピ';        // Mișșișșippi în katakana
+const KANA_CAPCANE = ['ツ', 'ビ', 'ン']; // litere-capcană amestecate printre cele bune
 const RATON = 'Credibilul Raton Mișșișșippi';
 // ====================
 
@@ -218,7 +237,19 @@ const NAME = () => esc(S.name);
 
 // ---------- sunete ----------
 let AC;
-function ac() { if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } if (AC && AC.state === 'suspended') AC.resume(); return AC; }
+function ac() {
+  if (!AC || AC.state === 'closed') { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+  if (AC && AC.state !== 'running') { try { AC.resume(); } catch (e) {} }
+  return AC;
+}
+// iOS: sunetul pornește doar după o atingere, iar contextul se poate „întrerupe” după ce schimbi aplicația
+function unlockAudio() {
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+  const a = ac(); if (!a) return;
+  try { const s = a.createBufferSource(); s.buffer = a.createBuffer(1, 1, 22050); s.connect(a.destination); s.start(0); } catch (e) {}
+}
+['touchstart', 'touchend', 'pointerdown', 'click', 'keydown'].forEach(ev => document.addEventListener(ev, unlockAudio, { passive: true, capture: true }));
+document.addEventListener('visibilitychange', () => { if (!document.hidden && AC) ac(); });
 function tone(f, d = .12, type = 'sine', vol = .2, delay = 0, slide) {
   const a = ac(); if (!a) return;
   const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain();
@@ -286,7 +317,7 @@ function trail(x0, y0, dx, dy, n, step, o = {}) {
 }
 function raccoon(x, y, w, o = {}) {
   const fur = o.messy ? '#9d9da4' : '#b4b4bb', body = '#a3a3aa', dk = '#2b2118', mid = '#3a3a40', d = o.delay || 0;
-  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 120 150" overflow="visible" class="rac${o.laugh ? ' laugh' : ''}"><g class="bod" style="animation-delay:${d / 3}s"><g stroke="${dk}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 120 150" overflow="visible" class="rac${o.laugh ? ' laugh' : ''}"><g class="bod" style="animation-delay:${d / 3}s"><g stroke="${dk}" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
 <g class="tail" style="animation-delay:${d}s">
 <path d="M84 132 q36 -2 30 -46" fill="none" stroke="${dk}" stroke-width="21"/>
 <path d="M84 132 q36 -2 30 -46" fill="none" stroke="#cfcfd4" stroke-width="16"/>
@@ -303,6 +334,7 @@ ${o.messy ? `<path d="M24 36 l-10 -10 l13 1 l-3 -14 l12 8 l5 -15 l7 13 l9 -13 l3
 <ellipse cx="60" cy="56" rx="41" ry="33" fill="${fur}"/>
 <path d="M52 24 Q60 21 68 24 L64 46 L56 46 Z" fill="${mid}" stroke="none"/>
 <path d="M26 50 Q38 36 54 45" fill="none" stroke="#fff" stroke-width="6"/><path d="M94 50 Q82 36 66 45" fill="none" stroke="#fff" stroke-width="6"/>
+<path d="M29 40 Q40 31 52 37 M91 40 Q80 31 68 37" fill="none" stroke="#111" stroke-width="8"/>
 <path d="M21 58 Q28 46 45 49 Q55 52 60 59 Q65 52 75 49 Q92 46 99 58 Q93 72 76 68 Q66 66 60 68 Q54 66 44 68 Q27 72 21 58 Z" fill="${dk}"/>
 <circle cx="43" cy="58" r="7" fill="#fff" stroke="none"/><circle cx="77" cy="58" r="7" fill="#fff" stroke="none"/>
 <g class="eyes" style="animation-delay:${d * 2}s"><circle cx="44" cy="59" r="4" fill="#111" stroke="none"/><circle cx="78" cy="59" r="4" fill="#111" stroke="none"/>
@@ -316,7 +348,7 @@ ${o.messy ? '<circle cx="34" cy="42" r="4" fill="#555" stroke="none"/><circle cx
 </g></g></svg>`;
 }
 function dormouse(x, y, w, asleep) {
-  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 120 150" overflow="visible"><g stroke="#2b2118" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 120 150" overflow="visible"><g stroke="#2b2118" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
 <path d="M72 130 Q122 128 112 72 Q106 42 86 52" fill="none" stroke="#2b2118" stroke-width="22"/>
 <path d="M72 130 Q122 128 112 72 Q106 42 86 52" fill="none" stroke="#a89a8c" stroke-width="17"/>
 <ellipse cx="58" cy="110" rx="30" ry="31" fill="#9c8f84"/>
@@ -328,6 +360,7 @@ function dormouse(x, y, w, asleep) {
 <ellipse cx="58" cy="62" rx="35" ry="30" fill="#a79a8e"/>
 <ellipse cx="58" cy="76" rx="17" ry="12" fill="#f1e9dd"/>
 <circle cx="43" cy="58" r="11" fill="#6e6258" stroke="none"/><circle cx="73" cy="58" r="11" fill="#6e6258" stroke="none"/>
+<path d="M33 42 Q43 36 52 41 M83 42 Q73 36 64 41" fill="none" stroke="#111" stroke-width="6"/>
 ${asleep ? '<path d="M36 59 q7 6 14 0 M66 59 q7 6 14 0" fill="none" stroke-width="3"/><circle cx="66" cy="74" r="5" fill="rgba(180,220,255,.75)" stroke="#4f6d8f" stroke-width="1.5"><animate attributeName="r" values="3;8;3" dur="1.6s" repeatCount="indefinite"/></circle>'
     : '<circle cx="43" cy="58" r="8" fill="#111" stroke="none"/><circle cx="73" cy="58" r="8" fill="#111" stroke="none"/><circle cx="46" cy="55" r="2.5" fill="#fff" stroke="none"/><circle cx="76" cy="55" r="2.5" fill="#fff" stroke="none"/>'}
 <ellipse cx="58" cy="71" rx="4.5" ry="3.5" fill="#e98ca0"/>
@@ -398,7 +431,7 @@ function mapScene() {
 <path d="M316 98 l22 22 M338 98 l-22 22" stroke="#c0392b" stroke-width="7" stroke-linecap="round"/>
 ${pawAt(130, 150, 80, .55, '#5b3a1e', .7)}${pawAt(150, 146, 100, .55, '#5b3a1e', .7)}${pawAt(250, 116, 70, .55, '#5b3a1e', .7)}${pawAt(272, 116, 90, .55, '#5b3a1e', .7)}
 <g font-family="Noteworthy,Chalkboard SE,Comic Sans MS,cursive" font-size="16" fill="#5b3a1e" text-anchor="middle" font-weight="bold">
-<text x="70" y="184">Timi și Tomi</text><text x="200" y="58" transform="rotate(-70 200 58)" fill="#2f6fb5">Râul cu Pietre</text><text x="330" y="178">Ascunzătoarea</text></g>
+<text x="70" y="184">Mișși și Șșippi</text><text x="200" y="58" transform="rotate(-70 200 58)" fill="#2f6fb5">Râul cu Pietre</text><text x="244" y="214" font-size="30" fill="#2f6fb5">川</text><text x="300" y="98" font-size="26" fill="#3e8a3a">山</text><text x="330" y="178">Ascunzătoarea</text></g>
 <g transform="translate(355 215)" stroke="#5b3a1e" stroke-width="2"><path d="M0 -16 L4 0 L0 16 L-4 0Z" fill="#c0392b"/><path d="M-16 0 L0 4 L16 0 L0 -4Z" fill="#f1deb0"/></g>
 </svg>`;
 }
@@ -444,7 +477,7 @@ ${open ? '<circle cx="214" cy="150" r="6" fill="#ff3b30"><animate attributeName=
     : '<g stroke="#2b2118" stroke-width="3"><circle cx="230" cy="160" r="56" fill="#a0652e"/><path d="M202 112 V214 M230 104 V216 M258 112 V214" stroke-width="2.5"/><circle cx="262" cy="166" r="6" fill="#e2b33c"/></g>'}
 <rect x="0" y="222" width="400" height="38" fill="#5c9a40"/>
 <g stroke="#2b2118" stroke-width="3"><rect x="316" y="122" width="48" height="66" rx="6" fill="#8a949e"/><rect x="323" y="130" width="34" height="16" rx="3" fill="#1d2b3a"/></g>
-<text x="340" y="143" text-anchor="middle" font-size="13" font-weight="bold" fill="#7cfc9a" font-family="Courier New,monospace">${open ? 'OK' : '?'}</text>
+<text x="340" y="143" text-anchor="middle" font-size="13" font-weight="bold" fill="#7cfc9a">${open ? 'OK' : 'カナ?'}</text>
 <g fill="#c9d1d9" stroke="#2b2118" stroke-width="1.5">${[0, 1, 2].map(r => [0, 1, 2].map(c => `<rect x="${324 + c * 11}" y="${152 + r * 11}" width="8" height="8" rx="2"/>`).join('')).join('')}</g>
 ${pawAt(160, 240, 80, .6, '#3d2a14', .6)}${pawAt(182, 236, 100, .6, '#3d2a14', .6)}
 ${dormouse(36, 82, 104, dead)}
@@ -472,8 +505,25 @@ const BOSS_SVG = `<svg id="boss" viewBox="0 0 200 200" xmlns="http://www.w3.org/
     <circle cx="124" cy="66" r="10" fill="#ff3b30" stroke="#ffd166"><animate attributeName="r" values="9;11;9" dur="1.2s" repeatCount="indefinite"/></circle>
     <rect x="84" y="82" width="32" height="16" rx="6" fill="#eef1f4"/><ellipse cx="100" cy="86" rx="6" ry="4" fill="#2b2118"/>
     <line x1="92" y1="96" x2="108" y2="96"/>
+    <text x="100" y="166" text-anchor="middle" font-size="15" font-weight="bold" fill="#2b2118" stroke="none">メカ</text>
   </g>
 </svg>`;
+const BOSS_SHADOW = `<svg class="scene" viewBox="0 0 300 200"><rect width="300" height="200" fill="#26222f"/>
+${[[30, 170, 40], [90, 185, 34], [210, 186, 38], [270, 168, 42], [20, 110, 26], [282, 100, 28], [150, 196, 30]].map(([x, y, r], i) => `<circle class="puff" cx="${x}" cy="${y}" r="${r}" fill="#8a8794" opacity=".55" style="animation-delay:${i * .4}s"/>`).join('')}
+<g transform="translate(90 16)" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M28 74 Q60 62 92 74 L114 176 Q60 188 6 176 Z" fill="#3b1f4f"/>
+<g class="rac"><g class="tail"><path d="M88 158 q40 0 34 -52" fill="none" stroke="#000" stroke-width="22"/><path d="M88 158 q40 0 34 -52" fill="none" stroke="#2c2c35" stroke-width="16" stroke-dasharray="7 7" stroke-linecap="butt"/></g></g>
+<ellipse cx="60" cy="132" rx="32" ry="36" fill="#15151b"/>
+<path d="M24 60 L28 26 L54 44 Z" fill="#15151b"/><path d="M96 60 L92 26 L66 44 Z" fill="#15151b"/>
+<ellipse cx="60" cy="74" rx="41" ry="33" fill="#15151b"/>
+<path d="M30 68 Q44 60 56 70 Q44 74 30 68 Z" fill="#ffd400" stroke="none"><animate attributeName="opacity" values="1;1;0;1;1" keyTimes="0;.9;.93;.96;1" dur="4s" repeatCount="indefinite"/></path>
+<path d="M90 64 Q76 58 64 70 Q76 74 90 64 Z" fill="#ffd400" stroke="none"><animate attributeName="opacity" values="1;1;0;1;1" keyTimes="0;.9;.93;.96;1" dur="4s" repeatCount="indefinite"/></path>
+<path d="M28 58 L54 64 M66 62 L92 52" stroke="#4a4a55" stroke-width="5"/>
+<path d="M40 88 Q62 102 84 84 Q62 94 40 88 Z" fill="#fff" stroke-width="2"/><rect x="66" y="89" width="7" height="6" fill="#ffd166" stroke="none"/>
+<path d="M14 48 Q60 32 106 46 Q100 54 60 50 Q22 56 14 48 Z" fill="#0b0b10"/>
+<path d="M34 46 Q36 12 60 10 Q84 12 86 44 Q60 39 34 46 Z" fill="#0b0b10"/><path d="M35 38 Q60 33 85 37 L86 44 Q60 39 34 46 Z" fill="#6b3fa0" stroke="none"/>
+<path d="M40 84 L18 80 M40 88 L20 92 M84 82 L104 76 M84 86 L104 90" stroke="#55555f" stroke-width="1.5"/>
+</g></svg>`;
 const CAN = '<svg viewBox="0 0 30 36"><rect x="4" y="4" width="22" height="28" rx="4" fill="#c9d1d9" stroke="#2b2118" stroke-width="3"/><rect x="4" y="12" width="22" height="10" fill="#e05a47"/></svg>';
 const PEEL = '<svg viewBox="0 0 36 36"><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#2b2118" stroke-width="8" stroke-linecap="round"/><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#ffd84d" stroke-width="5" stroke-linecap="round"/></svg>';
 const FIST = '<svg viewBox="0 0 60 60"><g stroke="#2b2118" stroke-width="3"><rect x="8" y="12" width="44" height="38" rx="12" fill="#9aa5b1"/><path d="M19 12 V28 M30 12 V28 M41 12 V28" fill="none"/><rect x="2" y="22" width="14" height="18" rx="5" fill="#b8c1ca"/></g></svg>';
@@ -519,7 +569,7 @@ function show(o) {
 }
 function go(stage) { S.stage = stage; save(); setPaws(); SCENES[stage](); }
 function setPaws() { document.body.classList.toggle('pawsy', ['intro', 'letter', 'maze'].includes(S.stage)); }
-const say = (lines) => `<div class="say">${lines.map(([w, t]) => `<p><b class="${w}">${{ timi: 'Timi', tomi: 'Tomi', ten: 'Tenneșșee', mis: 'Mișșișșippi' }[w]}:</b> ${t}</p>`).join('')}</div>`;
+const say = (lines) => `<div class="say">${lines.map(([w, t]) => `<p><b class="${w}">${{ missi: 'Mișși', ssippi: 'Șșippi', ten: 'Tenneșșee', mis: 'Mișșișșippi' }[w]}:</b> ${t}</p>`).join('')}</div>`;
 
 // efecte
 function bigText(txt, cls = '', ms = 1400) { const d = document.createElement('div'); d.className = 'bigtxt ' + cls; d.innerHTML = txt; document.getElementById('over').appendChild(d); setTimeout(() => d.remove(), ms); }
@@ -585,7 +635,8 @@ function checkName(raw) {
   if (NUME_ACCEPTATE.includes(n)) { S.name = n === 'davi' ? 'Davi' : 'David'; save(); return trapped(); }
   SFX.wrong();
   let r;
-  if (!n) r = 'Ai uitat să scrii! Cerneala mea fermecată nu poate citi nume invizibile.';
+  if (n.includes('pufu')) r = `${X}?! Marele detectiv PUFU?! Singurul din lume care m-ar putea prinde vreodată pe mine!... Stai puțin. Pufu e mult mai înalt. Și are un scris mult mai ordonat. Nu, sigur nu ești el. Dar dacă vrei să ajungi un detectiv ca Pufu... scrie-ți numele TĂU adevărat. Dacă îndrăznești!`;
+  else if (!n) r = 'Ai uitat să scrii! Cerneala mea fermecată nu poate citi nume invizibile.';
   else if (/mis+i|misi|raton/.test(n)) r = 'Hei! EU sunt Mișșișșippi! Tu nu poți fi eu. Ai coadă cu dungi? Vezi? Scrie numele TĂU.';
   else if (['mama', 'tata', 'mami', 'tati', 'buni', 'bunica', 'bunicul'].includes(n)) r = `${X}? Lui ${X} i-am trimis deja o scrisoare. Asta e pentru tine! Cum te cheamă pe TINE?`;
   else if (VEDETE.includes(n)) r = `${X}?! ${X} mi-a scris ieri și avea un scris mult mai... ${pick(['verde', 'zburător', 'mustăcios', 'electric'])}. Nu ești tu!`;
@@ -675,7 +726,7 @@ ${raccoon(110, 60, 52, { apron: '#5aa9e6' })}${raccoon(150, 60, 52, { apron: '#f
 // ---------- 2. TIMI ȘI TOMI ----------
 const TWINS_SVG = (laugh = false) => `<svg class="scene" viewBox="0 0 300 170"><rect width="300" height="170" fill="#e9f5dc"/><rect y="138" width="300" height="32" fill="#9ccc7a"/>
 ${raccoon(50, 6, 100, { apron: '#5aa9e6', laugh })}${raccoon(160, 6, 100, { apron: '#f4a259', laugh, delay: .7 })}
-<g font-size="17" font-weight="bold" text-anchor="middle" font-family="Trebuchet MS,sans-serif"><text x="100" y="166" fill="#2f6fb5">Timi</text><text x="210" y="166" fill="#c26a1b">Tomi</text></g>
+<g font-size="17" font-weight="bold" text-anchor="middle" font-family="Trebuchet MS,sans-serif"><text x="100" y="166" fill="#2f6fb5">Mișși</text><text x="210" y="166" fill="#c26a1b">Șșippi</text></g>
 ${laugh ? '<text class="hihi" x="28" y="40" fill="#2f6fb5">hi-hi!</text><text class="hihi" x="236" y="30" fill="#c26a1b" style="animation-delay:.5s">hi-hi-hi!</text>' : ''}</svg>`;
 // [întrebare, corect, greșit, greșit]
 const QUIZ = [
@@ -711,12 +762,14 @@ const COLORS = { rosu: ['#d64541', 'ROȘU', 'Roșu'], albastru: ['#3f7fd0', 'ALB
 function twins() {
   SFX.chatter();
   show({
-    title: 'Timi și Tomi',
+    title: 'Mișși și Șșippi',
     text: [TWINS_SVG(true), say([
-      ['timi', '«Bună ziua, bună ziua! Noi suntem Timi și Tomi, nepoții lui Mișșișșippi!»'], ['tomi', '«...Mișșișșippi!»'],
-      ['timi', '«Unchiul a ascuns ceva într-unul dintre cuferele noastre!»'], ['tomi', '«...cuferele noastre!»'],
-      ['timi', '«Dar atenție: la fiecare joc, unul dintre noi minte tot timpul, iar celălalt spune tot timpul adevărul! Cine minte? Nu-ți spunem! Hi-hi!»'], ['tomi', '«...nu-ți spunem! Hi-hi!»'],
-      ['timi', '«Întâi te întrebăm NOI ceva. Apoi ne întrebi TU!»'], ['tomi', '«...TU!»']])],
+      ['missi', '«Bună ziua, bună ziua! Eu sunt Mișși!»'], ['ssippi', '«...și eu sunt Șșippi!»'],
+      ['missi', '«Și împreună suntem... MIȘȘI-ȘȘIPPI! Ca unchiul nostru!»'], ['ssippi', '«...ca unchiul! Hi-hi!»'],
+      ['missi', '«Unchiul a ascuns o comoară într-unul dintre cele trei cufere ale noastre: roșu, albastru sau verde.»'], ['ssippi', '«...sau verde!»'],
+      ['missi', '«La fiecare joc, unul dintre noi minte tot timpul, iar celălalt spune tot timpul adevărul. Cine minte? Nu-ți spunem!»'], ['ssippi', '«...nu-ți spunem! Hi-hi!»'],
+      ['missi', '«Întâi te întrebăm NOI ceva. Apoi ne întrebi TU. Și la final îți spunem unde e comoara!»'], ['ssippi', '«...unde e comoara!»']]),
+      `<div class="chests mini">${Object.keys(COLORS).map(k => `<div class="chestbtn">${chestSVG(COLORS[k][0])}${COLORS[k][2]}</div>`).join('')}</div>`],
     buttons: [{ t: 'Hai să ne jucăm!', f: () => go('tquiz'), c: 'wide' }],
   });
 }
@@ -727,38 +780,49 @@ function tquiz(msg, laugh) {
   const i = pick(left); S.tw.used.push(i); save();
   const [q, ok, ...bad] = QUIZ[i];
   show({
-    text: [TWINS_SVG(laugh), msg || '', say([['timi', '«Întrebarea noastră este...»'], ['tomi', '«...este...»']]), `<p class="center"><b>${q}</b></p>`],
+    text: [TWINS_SVG(laugh), msg || '', say([['missi', '«Întrebarea noastră este...»'], ['ssippi', '«...este...»']]), `<p class="center"><b>${q}</b></p>`],
     cols: 'three',
     buttons: shuffle([ok, ...bad]).map(a => ({
       t: a, c: 'alt', f: () => a === ok
         ? (SFX.good(), tAsk())
-        : (SFX.wrong(), tquiz(say([['timi', `«${a}? Nuuu! Greșit!»`], ['tomi', '«...greșit! Încă una!»']]), true)),
+        : (SFX.wrong(), tquiz(say([['missi', `«${a}? Nuuu! Greșit!»`], ['ssippi', '«...greșit! Încă una!»']]), true)),
     })),
   });
 }
 function tAsk() {
-  const liar = Math.random() < .5 ? 'timi' : 'tomi', chest = pick(Object.keys(COLORS));
+  const liar = Math.random() < .5 ? 'missi' : 'ssippi', chest = pick(Object.keys(COLORS));
   const qs = shuffle(ASK.map((_, i) => i)).slice(0, 2);
   S.tw.round = { liar, chest, qs }; save();
   show({
-    text: [TWINS_SVG(), say([['timi', '«Corect! Bravo!»'], ['tomi', '«...bravo! Acum e rândul TĂU să ne întrebi ceva!»']]),
-      '<p>Ce-i întrebi pe Timi și Tomi?</p>'],
+    text: [TWINS_SVG(), say([['missi', '«Corect! Bravo!»'], ['ssippi', '«...bravo! Acum e rândul TĂU să ne întrebi ceva!»']]),
+      '<p>Ce-i întrebi pe Mișși și Șșippi?</p>'],
     cols: 'one',
     buttons: qs.map((i, j) => ({ t: `Question ${'AB'[j]}!<br><span class="qsub">«${ASK[i][0]}»</span>`, c: 'alt', f: () => tAnswer(i, 'AB'[j]) })),
   });
 }
-function claim(first, second) { return [['timi', `«${first}!»`], ['tomi', `«...${first.toLowerCase()}? Ba nu! ${second}!»`]]; }
+function claim(first, second) { return [['missi', `«${first}!»`], ['ssippi', `«...${first.toLowerCase()}? Ba nu! ${second}!»`]]; }
 function tAnswer(qi, L) {
   SFX.chatter();
-  const { liar, chest } = S.tw.round, [q, t, f] = ASK[qi];
-  const wrongChest = pick(Object.keys(COLORS).filter(c => c !== chest));
-  const timiTrue = liar === 'tomi';
-  const c1 = `Comoara e în cufărul ${COLORS[timiTrue ? chest : wrongChest][1]}`, c2 = `E în cufărul ${COLORS[timiTrue ? wrongChest : chest][1]}`;
+  const R = S.tw.round, [q, t, f] = ASK[qi], missiTrue = R.liar === 'ssippi';
+  R.said = { L, q, missi: missiTrue ? t : f, ssippi: missiTrue ? f : t }; save();
   show({
-    text: [TWINS_SVG(), `<p>Tu: <b>Question ${L}! «${q}»</b></p>`, say(claim(timiTrue ? t : f, timiTrue ? f : t)),
-      '<p class="flash">Hmm! Unul dintre ei a mințit. Ține minte cine!</p>',
-      '<p>Acum, despre cufere:</p>', say(claim(c1, c2)),
-      `<div class="chests">${Object.keys(COLORS).map(k => `<div class="chestbtn" data-c="${k}">${chestSVG(COLORS[k][0], k === chest ? IN_MAP : (k === 'rosu' ? IN_SOCK : k === 'verde' ? IN_BOOT : pick([IN_SOCK, IN_BOOT])))}${COLORS[k][2]}</div>`).join('')}</div>`,
+    text: [TWINS_SVG(), `<p>Tu: <b>Question ${L}! «${q}»</b></p>`, say(claim(R.said.missi, R.said.ssippi)),
+      '<p class="flash">Hmm! Unul dintre ei a mințit. Ține minte cine!</p>'],
+    buttons: [{ t: 'Și unde e comoara?', f: tChests, c: 'wide' }],
+  });
+}
+function tChests() {
+  const R = S.tw.round, missiTrue = R.liar === 'ssippi';
+  const wrongChest = R.wrong || (R.wrong = pick(Object.keys(COLORS).filter(c => c !== R.chest)));
+  save();
+  const c1 = `Comoara e în cufărul ${COLORS[missiTrue ? R.chest : wrongChest][1]}`, c2 = `E în cufărul ${COLORS[missiTrue ? wrongChest : R.chest][1]}`;
+  SFX.chatter();
+  show({
+    text: [TWINS_SVG(), say([['missi', '«Ei bine, detective... a venit momentul cel mare!»'], ['ssippi', '«...momentul cel mare!»'],
+      ['missi', '«Fiecare dintre noi îți spune unde a ascuns unchiul comoara. Dar nu uita: unul dintre noi minte!»'], ['ssippi', '«...minte! Hi-hi!»']]),
+      `<p class="flash">Mai ții minte? La Question ${R.said.L}, Mișși a zis «${R.said.missi}», iar Șșippi a zis «${R.said.ssippi}».</p>`,
+      say(claim(c1, c2)),
+      `<div class="chests">${Object.keys(COLORS).map(k => `<div class="chestbtn" data-c="${k}">${chestSVG(COLORS[k][0], k === R.chest ? IN_MAP : (k === 'rosu' ? IN_SOCK : k === 'verde' ? IN_BOOT : pick([IN_SOCK, IN_BOOT])))}${COLORS[k][2]}</div>`).join('')}</div>`,
       '<p class="center"><b>Pe cine crezi? Alege un cufăr!</b></p>'],
     after: c => c.querySelectorAll('.chestbtn').forEach(el => el.onclick = () => openTwinChest(el)),
   });
@@ -773,8 +837,8 @@ async function openTwinChest(el) {
     return show({
       text: [`<div style="max-width:220px;margin:30px auto 0">${chestSVG(COLORS[k][0], el.querySelector('.contents').innerHTML)}</div>`,
         k === 'rosu' || el.innerHTML.includes('#sock') ? 'Înăuntru e doar... o șosetă cu dungi. Iar ea?!' : 'Înăuntru e un pantof vechi și foarte mirositor. Pfui!',
-        TWINS_SVG(true), say([['timi', '«Hi-hi-hi! Ai crezut pe cine nu trebuia!»'], ['tomi', '«...nu trebuia!»'],
-          ['timi', '«Joc nou! Acum ne amestecăm: poate mint eu, poate minte el!»'], ['tomi', '«...minte el! Adică... hi-hi!»']])],
+        TWINS_SVG(true), say([['missi', '«Hi-hi-hi! Ai crezut pe cine nu trebuia!»'], ['ssippi', '«...nu trebuia!»'],
+          ['missi', '«Joc nou! Acum ne amestecăm: poate mint eu, poate minte el!»'], ['ssippi', '«...minte el! Adică... hi-hi!»']])],
       buttons: [{ t: 'Încă o dată!', f: () => tquiz(), c: 'wide' }],
       after: c => c.querySelector('.chestsvg').classList.add('open'),
     });
@@ -786,8 +850,8 @@ function map() {
   show({
     title: 'Harta lui Mișșișșippi!',
     text: ['În cufăr era o hartă veche, mototolită, cu urme de lăbuțe pe ea.', mapScene(),
-      say([['timi', '«Harta unchiului! Uite: s-a ascuns dincolo de Râul cu Pietre!»'], ['tomi', '«...Râul cu Pietre!»'],
-        ['timi', '«Pe fiecare rând de pietre, sari doar pe piatra cu răspunsul corect! Altfel faci PLEOSC!»'], ['tomi', '«...PLEOSC! Hi-hi!»']])],
+      say([['missi', '«Harta unchiului! Uite: s-a ascuns dincolo de Râul cu Pietre!»'], ['ssippi', '«...Râul cu Pietre!»'],
+        ['missi', '«Pe fiecare rând de pietre, sari doar pe piatra cu răspunsul corect! Altfel faci PLEOSC!»'], ['ssippi', '«...PLEOSC! Hi-hi!»']])],
     buttons: [{ t: 'Spre râu!', f: () => { S.rv = null; go('river'); }, c: 'wide' }],
   });
 }
@@ -844,52 +908,51 @@ async function stone(g) {
 }
 
 // ---------- 4. UȘA LUI TENNEȘȘEE ----------
-function door(reply, dead) {
-  S.dr = S.dr || { tries: 0 }; let code = '';
-  const intro = say([['ten', '«S-s-stai! Eu sunt Tenneșșee, pârșul de pază al lui Mișșișșippi. *cască* Ușa asta se deschide doar cu NUMĂRUL PREFERAT al lui Mișșișșippi.»'],
-    ['ten', '«Un indiciu? Hmm... e un număr cu DOUĂ BURȚI. Și seamănă cu un om de zăpadă. *cască iar*»']]);
+const ROMAJI = { 'ミ': 'mi', 'シ': 'și', 'ピ': 'pi', 'ツ': 'țu', 'ビ': 'bi', 'ン': 'n', 'ッ': '' };
+// cum se citește o încercare (ッ dublează consoana următoare)
+function readKana(w) { return [...w].map((c, i) => c === 'ッ' ? (ROMAJI[w[i + 1]] || ' ')[0] : ROMAJI[c]).join(''); }
+function door(reply, asleep) {
+  S.dr = S.dr || { tries: 0 };
+  const tiles = shuffle([...PAROLA, ...KANA_CAPCANE]), word = [];
+  const intro = say([['ten', '«S-s-stai! Eu sunt Tenneșșee, pârșul de pază al lui Mișșișșippi. *cască* Ușa asta are o parolă secretă: NUMELE stăpânului meu, scris în KATAKANA!»'],
+    ['ten', '«Dar atenție: printre literele bune am amestecat și câteva capcane. *cască iar*»']]);
   show({
     title: 'Ușa din deal',
-    text: [doorScene(false, dead), reply || intro, '<div class="keyshow" id="ks">&nbsp;</div>'],
+    text: [doorScene(false, asleep), reply || intro, `<div class="kslots" id="ks"></div>`],
     after: c => {
-      const pad = document.createElement('div'); pad.className = 'keypad';
-      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '⌫', 'OK'].forEach(k => {
-        const b = document.createElement('button'); b.textContent = k; if (k === 'OK' || k === '⌫') b.className = 'alt';
-        b.onclick = () => {
-          if (k === 'OK') { if (code) tryCode(code); return; }
-          SFX.beep();
-          code = k === '⌫' ? code.slice(0, -1) : (code + k).slice(-2);
-          document.getElementById('ks').innerHTML = code || '&nbsp;';
-        };
-        pad.appendChild(b);
-      });
-      c.appendChild(pad);
-      if (dead) setTimeout(() => { if (S.stage === 'door' && card.querySelector('#ks')) { card.querySelector('.scene').outerHTML = doorScene(false, false); } }, 2200);
+      const ks = c.querySelector('#ks'), kt = document.createElement('div'); kt.className = 'ktiles';
+      const draw = () => {
+        ks.innerHTML = [...PAROLA].map((_, i) => `<span>${word[i] !== undefined ? tiles[word[i]] : ''}</span>`).join('');
+        kt.querySelectorAll('button[data-i]').forEach(b => b.disabled = word.includes(+b.dataset.i));
+      };
+      const add = (t, cls, f, i) => { const b = document.createElement('button'); b.textContent = t; if (cls) b.className = cls; if (i !== undefined) b.dataset.i = i; b.onclick = f; kt.appendChild(b); };
+      tiles.forEach((k, i) => add(k, '', () => { if (word.length < PAROLA.length) { SFX.beep(); word.push(i); draw(); } }, i));
+      add('⌫', 'alt', () => { SFX.beep(); word.pop(); draw(); });
+      add('OK', 'alt', () => { if (word.length === PAROLA.length) tryWord(word.map(i => tiles[i]).join('')); else SFX.wrong(); });
+      c.appendChild(kt); draw();
+      if (asleep) setTimeout(() => { if (S.stage === 'door' && card.querySelector('#ks')) card.querySelector('.scene').outerHTML = doorScene(false, false); }, 2400);
     },
   });
 }
-function tryCode(code) {
-  const n = String(+code);
-  if (n === NUMAR_PREFERAT) return doorOpen();
+function tryWord(w) {
+  if (w === PAROLA) return doorOpen();
   S.dr.tries++; save(); SFX.wrong();
-  const faint = Math.random() < .5;
-  let r = {
-    1: '«Unu? Unu e slab ca un bețișor. N-are nicio burtă!»',
-    0: '«Zero are o singură burtă, mare și rotundă. Mișșișșippi vrea DOUĂ.»',
-    6: '«Șase are o singură burtă, jos. Mai trebuie una!»',
-    9: '«Nouă are o singură burtă, sus. Mai trebuie una!»',
-    3: '«Trei arată ca două burți tăiate pe jumătate. Aproape!»',
-  }[n] || pick([`«${n}? Nu. Nu e ăla. Gândește-te la un om de zăpadă!»`, `«${n}? Hmm, ${n} nu are două burți.»`]);
-  if (S.dr.tries >= 3) r += ' «Psst... e câte picioare are un păianjen!»';
-  if (faint) { SFX.snore(); r = `<p>Tenneșșee cască... cască mai tare... și adoarme buștean! Zzz... (Doarme ca un pârș, la propriu.) ... Hopa! S-a trezit.</p>${say([['ten', r]])}`; }
-  else r = say([['ten', r]]);
-  door(r, faint);
+  const read = readKana(w), lines = [['ten', `«${w}? Asta se citește „${read[0].toUpperCase() + read.slice(1)}”! Nu e numele stăpânului meu!»`]];
+  lines.push(['ten', w.includes('ツ') ? '«Și ai pus ツ, adică TSU mare! Uită-te bine la liniuțe: シ și ツ seamănă, dar nu sunt la fel.»'
+    : w.includes('ビ') ? '«Și ai pus ビ, adică BI. Stăpânul meu are PI, cu cerculeț: ピ!»'
+    : w.includes('ン') ? '«Și ai pus ン, adică N. În numele stăpânului meu nu e niciun N!»'
+    : '«Literele sunt bune, dar sunt amestecate!»']);
+  if (S.dr.tries >= 2) lines.push(['ten', '«Psst... se citește: mi – shi – shi – tsu mic – pi.»']);
+  const asleep = Math.random() < .5;
+  let r = say(lines);
+  if (asleep) { SFX.snore(); r = `<p>Tenneșșee cască... cască mai tare... și adoarme buștean! Zzz... (Doarme ca un pârș, la propriu.) ... Hopa! S-a trezit.</p>${r}`; }
+  door(r, asleep);
 }
 async function doorOpen() {
   SFX.good(); SFX.snore();
   show({
     title: 'Ușa se deschide!',
-    text: [doorScene(true, true), say([['ten', `«${NUMAR_PREFERAT}! Da! Cum ai ghicit?!»`]]),
+    text: [doorScene(true, true), say([['ten', `«${PAROLA}! Mi-shi-shi-p-pi! Corect! Cum ai știut?!»`]]),
       'Tenneșșee e atât de ușurat că se ghemuiește și adoarme pe loc. Zzz...',
       'Ușa scârțâie și se deschide. Înăuntru e întuneric... Doi ochi roșii se aprind. CLANC... CLANC...'],
     buttons: [{ t: 'Intră!', f: startBoss, c: 'wide' }],
@@ -1012,7 +1075,7 @@ async function turn(k) {
   if (b.hp <= 0) {
     await wait(1100);
     b.hp = 8; SFX.heal(); leaves(10);
-    lines.push(`Detectivul e la pământ!... Dar ce-i asta? Timi și Tomi sar dintr-un tufiș și îți aruncă o poțiune! «Nu te lăsa, detective!» «...detective!» <b>+8</b>`);
+    lines.push(`Detectivul e la pământ!... Dar ce-i asta? Mișși și Șșippi sar dintr-un tufiș și îți aruncă o poțiune! «Nu te lăsa, detective!» «...detective!» <b>+8</b>`);
     save(); bars(); log(lines);
   }
   if (!b.angry && b.bhp <= BOSSHP / 2) {
@@ -1036,19 +1099,22 @@ async function victory() {
   show({ text: [BURST, '<h1 class="center">BUUUUM!</h1>'] });
   await wait(2000);
   show({
-    text: [`<div class="runbox"><svg class="runner" id="runner" viewBox="0 0 120 150">${raccoon(0, 0, 120, { messy: true })}</svg></div>`,
-      `<p>Din fum iese un raton <b>CIUFULIT</b>, cu blana zbârlită și mustățile strâmbe. E chiar el, ${RATON}!</p>`,
-      say([['mis', `«Bine, bine, m-ai bătut de data asta, detective ${NAME()}! Dar tot nu mă prinzi!»`]])],
+    text: [`<div id="shadow">${BOSS_SHADOW}</div>`,
+      '<p>Din robotul stricat iese... o umbră. Nu se vede bine cine e. Doar doi ochi galbeni, o pălărie, o coadă cu dungi... și un zâmbet foarte șmecher.</p>',
+      say([['mis', `«Heh-heh-heh. Ai stricat robotul meu preferat, detective ${NAME()}. Impresionant.»`],
+        ['mis', '«Joci aproape ca Unchiul Pufu. Aproape.»'],
+        ['mis', '«Dar eu sunt MIȘȘIȘȘIPPI. Șeful cel mare. Și pe mine nu mă prinde nimeni!»']])],
     buttons: [{ t: 'Prinde-l!', f: catchHim, c: 'wide' }],
   });
   busy = false;
 }
 async function catchHim() {
   card.querySelector('button').disabled = true;
-  SFX.whoosh(); document.getElementById('runner').classList.add('go');
-  await wait(2300);
+  SFX.boom(); flashScreen('#cfcad8'); bigText('PUF!');
+  document.getElementById('shadow').classList.add('vanish');
+  await wait(1600);
   S.stage = 'end'; save();
-  end('Prea târziu! Ratonul a zbughit-o, lăsând în urmă doar urme de lăbuțe... și un cufăr!');
+  end('O bombă cu fum! Când se risipește fumul, umbra a dispărut. Au rămas doar urme de lăbuțe... și un cufăr.');
 }
 
 // ---------- 6. CUFĂRAȘUL ----------
@@ -1083,7 +1149,7 @@ function openChest() {
       `<div class="loot leg" style="--r:#e08a00;animation-delay:1.6s"><svg viewBox="0 0 44 44"><rect x="8" y="6" width="28" height="32" rx="3" fill="#fffaf0" stroke="#2b2118" stroke-width="3" transform="rotate(6 22 22)"/><text x="22" y="29" text-anchor="middle" font-size="14" font-weight="bold" fill="#6b3fa0">8888</text></svg><div><small>Legendar</small>Bilețelul secret al lui Mișșișșippi</div></div>`,
       `<div class="code" style="animation-delay:2.2s;animation-fill-mode:both">${COD_LACAT}</div>`,
       `<div class="later" style="animation-delay:2.6s"><p class="center"><b>Acesta e codul pentru lacăt! Bravo, detective ${NAME()}!</b></p>
-<div class="note"><p>Pe bilețel, cu scris de raton: «Și mie îmi place cifra 8. Are două burți. — M.» ${PAW_ICON.replace('<svg', '<svg style="width:26px;height:31px;fill:#5b3a1e;vertical-align:middle"')}</p></div></div>`],
+<div class="note"><p>Pe bilețel, cu scris de raton: «Și mie îmi place cifra 8. Are două burți. P.S. Unchiul Pufu ar fi mândru de tine. Data viitoare... poate mă prinzi ca el. — M.» ${PAW_ICON.replace('<svg', '<svg style="width:26px;height:31px;fill:#5b3a1e;vertical-align:middle"')}</p></div></div>`],
     buttons: [{ t: 'Mai multe confetti!', f: () => { SFX.win(); confetti(); }, c: 'wide' }],
   });
 }
