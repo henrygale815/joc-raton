@@ -16,3 +16,6 @@ Totul e într-un singur fișier: `index.html` (fără dependențe, merge pe iPad
 - `NUME_ACCEPTATE`, `COD_LACAT` (acum `8888`), `RATON`.
 
 Progresul se salvează în localStorage; butonul „↺ de la început” resetează.
+
+## Cod QR
+`qr/qr-joc.png` (simplu) și `qr/qr-joc-cu-text.png` („Scanează-mă, detective!”) duc la https://henrygale815.github.io/joc-raton/. 1800 px, 300 DPI (≈15 cm), corecție de erori H, deci merge și printat mic (min. ~3 cm).
