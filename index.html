@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Urmele lui Mișșișșippi</title>
+<style>
+:root{--card:#fdf6e3;--ink:#2b2118;--accent:#f4a259;--accent-d:#b9733a;--blue:#8ec5e8;--blue-d:#4f8db5;--good:#5fb36a;--bad:#e05a47;--muted:#7a6a58}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(circle at 50% 0,#2f4a63,#14202c) fixed;font-family:"Trebuchet MS","Avenir Next",system-ui,sans-serif;color:var(--ink);display:flex;justify-content:center;padding:16px;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#app{width:100%;max-width:720px}
+#stickers{display:flex;gap:12px;justify-content:center;margin:4px 0 14px}
+.st{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:32px;filter:grayscale(1);opacity:.3;transition:.5s}
+.st.on{filter:none;opacity:1;background:rgba(244,162,89,.35);transform:scale(1.08)}
+.card{background:var(--card);border-radius:26px;padding:24px;box-shadow:0 12px 34px rgba(0,0,0,.45);animation:pop .35s ease}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+h1{font-size:30px;margin:0 0 6px}
+p{font-size:22px;line-height:1.45;margin:10px 0}
+.flash{font-size:19px;color:var(--muted);font-style:italic}
+.say{background:#fff;border-radius:16px;padding:12px 16px;border-left:6px solid var(--accent)}
+.big{font-size:84px;text-align:center;margin:6px 0;line-height:1.1}
+.tracks{font-size:22px;background:#efe3c8;border-radius:14px;padding:10px 14px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.btns.one{grid-template-columns:1fr}
+.btns.three{grid-template-columns:1fr 1fr 1fr}
+button{font:inherit;font-size:21px;font-weight:bold;padding:16px 12px;border:0;border-radius:18px;background:var(--accent);color:var(--ink);box-shadow:0 5px 0 var(--accent-d);cursor:pointer;min-height:68px;touch-action:manipulation}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 var(--accent-d)}
+button.alt{background:var(--blue);box-shadow:0 5px 0 var(--blue-d)}
+button:disabled{opacity:.45}
+button.wide{grid-column:1/-1}
+button.spiral{grid-column:1/-1;font-size:26px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.4);background:linear-gradient(90deg,#ff5f6d,#ffc371,#5fe08a,#47b5ff,#b06bff,#ff5f6d);background-size:300% 100%;box-shadow:0 5px 0 #6b3fa0;animation:rainbow 3s linear infinite,wobble .5s ease-in-out infinite}
+button.spiral .sp{display:inline-block;animation:spin 1.2s linear infinite}
+@keyframes rainbow{to{background-position:300% 0}}
+@keyframes wobble{0%,100%{transform:rotate(-1.5deg)}50%{transform:rotate(1.5deg) scale(1.02)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+input{font:inherit;font-size:28px;width:100%;padding:14px 16px;border-radius:16px;border:3px solid var(--accent);margin-top:8px;text-align:center;-webkit-user-select:text;user-select:text}
+.qa{background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0;font-size:20px}
+.qa b{display:block;margin-bottom:4px}
+.chests{display:flex;justify-content:space-around;font-size:70px}
+.bar{height:22px;border-radius:12px;background:#e2d6bd;overflow:hidden;margin:4px 0 10px}
+.bar>i{display:block;height:100%;transition:width .5s}
+.hp-label{font-size:18px;font-weight:bold;display:flex;justify-content:space-between}
+#boss{display:block;margin:0 auto;width:220px;height:220px;animation:bob 2s ease-in-out infinite}
+#boss.hit{animation:shake .4s}
+#boss.attack{animation:lunge .5s}
+@keyframes bob{50%{transform:translateY(-6px)}}
+@keyframes shake{20%{transform:translateX(-12px) rotate(-4deg)}40%{transform:translateX(12px) rotate(4deg)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+@keyframes lunge{50%{transform:scale(1.15) translateY(10px)}}
+.card.ouch{animation:ouch .4s}
+@keyframes ouch{30%{background:#ffd2c9}}
+#log{min-height:96px}
+.boom{font-size:160px;text-align:center;animation:boom 1s ease-out}
+@keyframes boom{0%{transform:scale(.2);opacity:0}40%{transform:scale(1.4);opacity:1}100%{transform:scale(1)}}
+.run{font-size:90px;animation:run 2.4s ease-in forwards;display:inline-block}
+@keyframes run{0%{transform:translateX(0)}20%{transform:translateX(-20px) rotate(-10deg)}100%{transform:translateX(900px) rotate(20deg)}}
+.chest{font-size:120px;text-align:center;cursor:pointer}
+.chest.tap{animation:shake .35s}
+.code{font-size:88px;font-weight:bold;letter-spacing:18px;text-align:center;color:#6b3fa0;background:#fff;border-radius:20px;padding:10px 0 10px 18px;margin:10px 0;animation:boom .8s ease-out}
+.confetti{position:fixed;top:-20px;font-size:28px;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+footer{text-align:center;margin-top:18px}
+footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35);font-size:15px;min-height:0;padding:6px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stickers"></div>
+  <div class="card" id="card"></div>
+  <footer><button id="reset">↺ de la început</button></footer>
+</div>
+<script>
+// ====== SETĂRI ======
+const NUME_ACCEPTATE = ['david', 'davi'];
+const COD_LACAT = '8888';
+const RATON = 'Credibilul Raton Mișșișșippi';
+// ====================
+
+const STICKERS = [['maze', '🗺️'], ['statui', '🪙'], ['usi', '🚪'], ['boss', '🏆']];
+let S = fresh();
+function fresh() { return { stage: 'intro', name: 'David', stickers: [], liar: Math.random() < .5 ? 'Tic' : 'Tac' }; }
+function save() { try { localStorage.setItem('misi-joc', JSON.stringify(S)); } catch (e) {} }
+function load() { try { const x = JSON.parse(localStorage.getItem('misi-joc')); if (x && x.stage) S = Object.assign(fresh(), x); } catch (e) {} }
+
+const card = document.getElementById('card');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+// ---------- sunete ----------
+let AC;
+function ac() { if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } if (AC && AC.state === 'suspended') AC.resume(); return AC; }
+function tone(f, d = .12, type = 'sine', vol = .2, delay = 0, slide) {
+  const a = ac(); if (!a) return;
+  const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain();
+  o.type = type; o.frequency.setValueAtTime(f, t);
+  if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + d);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + d + .02);
+}
+function noise(d = .4, vol = .4) {
+  const a = ac(); if (!a) return;
+  const b = a.createBuffer(1, a.sampleRate * d, a.sampleRate), data = b.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+  const s = a.createBufferSource(), g = a.createGain(); s.buffer = b; g.gain.value = vol;
+  s.connect(g).connect(a.destination); s.start();
+}
+const SFX = {
+  click: () => tone(600, .06, 'square', .08),
+  step: () => { tone(140, .08, 'triangle', .3); tone(110, .08, 'triangle', .3, .15); },
+  wrong: () => tone(300, .35, 'sawtooth', .12, 0, 120),
+  good: () => [523, 659, 784, 1046].forEach((f, i) => tone(f, .18, 'triangle', .2, i * .1)),
+  boing: () => tone(200, .4, 'sine', .3, 0, 700),
+  hit: () => { noise(.15, .3); tone(90, .15, 'square', .2); },
+  ouch: () => tone(500, .25, 'square', .1, 0, 200),
+  heal: () => [400, 600, 800].forEach((f, i) => tone(f, .2, 'sine', .15, i * .08)),
+  laser: () => tone(1500, .3, 'sawtooth', .08, 0, 200),
+  boom: () => { noise(1.2, .6); tone(60, 1, 'sine', .5, 0, 30); },
+  win: () => [523, 523, 523, 659, 784, 659, 784, 1046].forEach((f, i) => tone(f, .22, 'triangle', .22, i * .14)),
+};
+
+// ---------- afișare ----------
+function renderStickers() {
+  document.getElementById('stickers').innerHTML = STICKERS.map(([k, e]) =>
+    `<div class="st ${S.stickers.includes(k) ? 'on' : ''}">${e}</div>`).join('');
+}
+function giveSticker(k) { if (!S.stickers.includes(k)) S.stickers.push(k); save(); renderStickers(); }
+
+// show({flash, emoji, title, text:[...], buttons:[{t,f,c}], cols, after})
+function show(o) {
+  card.innerHTML = '';
+  card.style.animation = 'none'; card.offsetHeight; card.style.animation = '';
+  let h = '';
+  if (o.flash) h += `<p class="flash">${o.flash}</p>`;
+  if (o.emoji) h += `<div class="big">${o.emoji}</div>`;
+  if (o.title) h += `<h1>${o.title}</h1>`;
+  (o.text || []).forEach(t => h += t.startsWith('<') ? t : `<p>${t}</p>`);
+  card.innerHTML = h;
+  if (o.buttons) {
+    const box = document.createElement('div');
+    box.className = 'btns' + (o.cols ? ' ' + o.cols : '');
+    o.buttons.forEach(b => {
+      const el = document.createElement('button');
+      el.innerHTML = b.t; if (b.c) el.className = b.c; if (b.dis) el.disabled = true;
+      el.onclick = () => { SFX.click(); b.f(); };
+      box.appendChild(el);
+    });
+    card.appendChild(box);
+  }
+  if (o.after) o.after(card);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function go(stage) { S.stage = stage; save(); SCENES[stage](); }
+
+// ---------- 0. INTRO ----------
+function intro() {
+  show({
+    emoji: '🔍🐾',
+    title: 'Urmele lui Mișșișșippi',
+    text: [`Ai găsit un indiciu! <b>${RATON}</b> a trecut pe aici... și a lăsat urme peste tot.`,
+      'Urmele duc spre un labirint ciudat. La intrare stă un paznic.'],
+    buttons: [{ t: '🚶 Mergi la intrare', f: () => go('guard'), c: 'wide' }],
+  });
+}
+
+// ---------- 1. PAZNICUL ----------
+const VEDETE = ['spiderman', 'batman', 'superman', 'pikachu', 'mario', 'sonic', 'elsa', 'harrypotter', 'ironman', 'hulk'];
+function guard(msg) {
+  show({
+    emoji: '🦉',
+    title: 'Paznicul Huhurezu',
+    text: [msg || `<div class="say">«Huu-huu! STAI! Eu sunt Huhurezu, paznicul Labirintului Încâlcit. Las să intre doar <b>detectivi adevărați</b>. Cum te cheamă?»</div>`],
+    after: c => {
+      const inp = document.createElement('input');
+      inp.placeholder = 'numele tău'; inp.autocomplete = 'off'; inp.setAttribute('autocorrect', 'off'); inp.spellcheck = false;
+      c.appendChild(inp);
+      const box = document.createElement('div'); box.className = 'btns one';
+      const b = document.createElement('button'); b.textContent = '🙋 Mă prezint';
+      box.appendChild(b); c.appendChild(box);
+      const send = () => { SFX.click(); checkName(inp.value); };
+      b.onclick = send; inp.onkeydown = e => { if (e.key === 'Enter') send(); };
+    },
+  });
+}
+function checkName(raw) {
+  const n = raw.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+  const X = esc(raw.trim());
+  if (NUME_ACCEPTATE.includes(n)) {
+    S.name = n === 'davi' ? 'Davi' : 'David'; save(); SFX.good();
+    return show({
+      emoji: '🦉✨',
+      text: [`<div class="say">«${S.name.toUpperCase()}! Detectivul ${S.name}! Te-am recunoscut după privirea de detectiv. Poftim, intră!»</div>`,
+        'Huhurezu se dă la o parte. Pe jos se văd urme proaspete de lăbuțe... 🐾'],
+      buttons: [{ t: '🌿 Intră în labirint', f: () => { S.moves = 0; go('maze'); }, c: 'wide' }],
+    });
+  }
+  SFX.wrong();
+  let r;
+  if (!n) r = '«Nu ai zis nimic! Nici măcar o bufniță nu poate auzi un nume invizibil.»';
+  else if (n.includes('missis') || n.includes('misis') || n.includes('raton')) r = `«Ha! ${RATON} a încercat trucul ăsta azi-dimineață. Cu mustață falsă. Nu ține!»`;
+  else if (n.includes('huhu') || n.includes('bufni')) r = '«Eu sunt Huhurezu! Nu poți fi tu eu. Doar dacă ai pene... ai pene?»';
+  else if (n === 'mama' || n === 'tata') r = `«${X}? Hmm... ești cam scund ca să fii ${X}. Spune-mi numele TĂU.»`;
+  else if (VEDETE.includes(n)) r = `«${X}? ${X} a trecut pe aici ieri și era mult mai... ${pick(['verde', 'zburător', 'mustăcios', 'înalt'])}. Nu ești tu.»`;
+  else r = pick([
+    `«${X}? Nu te recunosc. Intră doar detectivi adevărați!»`,
+    `Huhurezu răsfoiește un carnețel... «${X}... ${X}... nu, nu ești pe lista mea de detectivi.»`,
+    `«Huu-huu! ${X} sună a nume de spion! Spune-mi numele tău ADEVĂRAT.»`,
+    `«${X}?! Huhurezu se scarpină sub aripă. Nu, nu cred. Mai încearcă.»`,
+  ]);
+  guard(`<div class="say">${r}</div>`);
+}
+
+// ---------- 2. LABIRINTUL ----------
+const DIRS = [['stanga', '⬅️ Stânga', 'stânga'], ['dreapta', '➡️ Dreapta', 'dreapta'], ['inainte', '⬆️ Înainte', 'înainte'], ['inapoi', '⬇️ Înapoi', 'înapoi']];
+const ROOM_TXT = [
+  'Ești în Labirintul Încâlcit. Pereții sunt din frunze. Pe jos e o șosetă cu dungi. 🧦',
+  'Ajungi într-o cameră nouă. Pereții sunt din frunze. Pe jos e o șosetă cu dungi... hmm.',
+  'Încă o cameră. Frunze. Șosetă cu dungi. Parcă semăna cu cealaltă?',
+  'Stai puțin! ȘOSETA ASTA ai mai văzut-o! Te învârți în cerc! 🧦🌀',
+  'Iar șoseta. 🧦 Tu te uiți la șosetă. Șoseta se uită la tine.',
+];
+const ROOM_LATER = [
+  'Șoseta cu dungi pare să-ți facă cu ochiul. 🧦😉',
+  'Aceeași cameră. Aceleași frunze. Aceeași șosetă. Ce plictiseală de labirint!',
+  'Șoseta e tot aici. Probabil e a lui Mișșișșippi.',
+];
+function maze(flash) {
+  const m = S.moves || 0;
+  const prev = S.track;
+  S.track = pick(DIRS.filter(d => d[0] !== prev))[0];
+  save();
+  const tr = DIRS.find(d => d[0] === S.track);
+  const txt = [m < ROOM_TXT.length ? ROOM_TXT[m] : pick(ROOM_LATER),
+    `<p class="tracks">🐾 Urme de lăbuțe duc spre <b>${tr[2].toUpperCase()}</b>.</p>`];
+  if (m >= 5) txt.push('Ceva tremură în colțul camerei... o direcție pe care n-ai mai văzut-o niciodată!');
+  const buttons = DIRS.map(d => ({ t: d[1], f: () => moveMaze(d) }));
+  if (m >= 5) buttons.push({ t: '<span class="sp">🌀</span> Ștânga <span class="sp">🌀</span>', f: exitMaze, c: 'spiral' });
+  show({ flash, text: txt, buttons });
+}
+function moveMaze(d) {
+  SFX.step();
+  S.moves = (S.moves || 0) + 1;
+  const followed = d[0] === S.track;
+  const flash = followed
+    ? `Urmezi urmele lui Mișșișșippi spre ${d[2]}... și ajungi exact de unde ai plecat! Ratonul ăsta e prea credibil.`
+    : `Mergi spre ${d[2]}... și mergi... și mergi...`;
+  maze(flash);
+}
+function exitMaze() {
+  SFX.boing(); giveSticker('maze');
+  show({
+    emoji: '🌀➡️🌳',
+    title: 'Ai ieșit!',
+    text: ['Te învârți pe ștânga ca un titirez și... HOP! Ești afară din labirint!',
+      'Urmele lui Mișșișșippi continuă printr-o grădină cu două statui ciudate.'],
+    buttons: [{ t: '🗿 Mergi la statui', f: () => { S.cards = []; go('statues'); }, c: 'wide' }],
+  });
+}
+
+// ---------- 3. STATUILE TIC ȘI TAC ----------
+const QUIZ = [
+  ['Câte picioare are un păianjen?', '8', '3'],
+  ['Ce culoare are o banană coaptă?', 'Galbenă', 'Albastră cu buline'],
+  ['Ce zice vaca?', 'Muuu', 'Cucurigu'],
+  ['Cât fac 4 + 4?', '8', '44'],
+  ['Unde trăiesc peștii?', 'În apă', 'În frigider'],
+  ['Câte roți are o bicicletă?', 'Două', 'Paisprezece'],
+  ['Ce animal are trompă?', 'Elefantul', 'Melcul'],
+  ['Ce e mai mare: Soarele sau o minge?', 'Soarele', 'Mingea, evident'],
+];
+const honest = () => S.liar === 'Tic' ? 'Tac' : 'Tic';
+function statues(msg) {
+  S.cards = S.cards || [];
+  const shown = S.cards.map(i => {
+    const [q, t, f] = QUIZ[i];
+    const tic = S.liar === 'Tic' ? f : t, tac = S.liar === 'Tac' ? f : t;
+    return `<div class="qa"><b>❓ ${q}</b>🗿 Tic: «${tic}» &nbsp; 🗿 Tac: «${tac}»</div>`;
+  }).join('');
+  const left = QUIZ.map((_, i) => i).filter(i => !S.cards.includes(i));
+  show({
+    emoji: '🗿 🗿',
+    title: 'Statuile Tic și Tac',
+    text: [`<div class="say">«Noi suntem Tic și Tac, statui fermecate. Unul dintre noi spune MEREU adevărul. Celălalt MEREU minte. Ca să primești ce a ascuns ${RATON}, ghicește întâi <b>cine minte</b>. Ne poți pune întrebări din cutia cu cartonașe de quiz!»</div>`, shown, msg || ''],
+    buttons: [
+      { t: '🃏 Trage un cartonaș', f: () => { S.cards.push(pick(left)); save(); SFX.step(); statues(); }, c: 'alt wide', dis: !left.length },
+      { t: 'Tic minte!', f: () => guessLiar('Tic'), dis: !S.cards.length },
+      { t: 'Tac minte!', f: () => guessLiar('Tac'), dis: !S.cards.length },
+    ],
+  });
+}
+function guessLiar(who) {
+  if (who !== S.liar) {
+    SFX.wrong();
+    return statues(`<div class="say">${who} se supără: «EU?! Eu spun doar adevărul! Mai citește o dată ce am răspuns!»</div>`);
+  }
+  SFX.good();
+  chests(`<div class="say">${S.liar} se înroșește (cât se poate înroși o statuie): «Of, m-ai prins! Eu sunt mincinosul.»</div>`);
+}
+function chests(msg) {
+  S.stage = 'chests'; save();
+  show({
+    text: [msg || '',
+      '<p>Acum fiecare statuie îți spune ceva despre cele trei cufere:</p>',
+      `<div class="qa">🗿 <b>${honest()}:</b> «Comoara NU e în cufărul roșu.»</div>`,
+      `<div class="qa">🗿 <b>${S.liar}:</b> «Comoara E în cufărul verde.»</div>`,
+      '<div class="chests"><span>🟥</span><span>🟦</span><span>🟩</span></div>',
+      '<p>Ce cufăr deschizi?</p>'],
+    cols: 'three',
+    buttons: [
+      { t: '🟥 Roșu', f: () => { SFX.wrong(); chests(`<div class="say">🧦 Doar o șosetă cu dungi. Iar ea?! ${honest()} oftează: «Ți-am zis că nu e în roșu.»</div>`); } },
+      { t: '🟦 Albastru', f: gotToken },
+      { t: '🟩 Verde', f: () => { SFX.wrong(); chests(`<div class="say">👞 Un pantof vechi și mirositor. ${S.liar} chicotește: «Hi-hi! Doar ți-am zis că eu mint!»</div>`); } },
+    ],
+  });
+}
+function gotToken() {
+  SFX.good(); giveSticker('statui');
+  show({
+    emoji: '🟦➡️🪙',
+    title: 'Jetonul Întrebării!',
+    text: ['În cufărul albastru strălucește un jeton de aur. Pe el scrie: <b>«Valabil pentru O SINGURĂ întrebare.»</b>',
+      `<div class="say">Tic și Tac, în cor: «O să ai nevoie de el la Ușile Broscoilor. Gândește-te bine înainte să-l folosești!»</div>`],
+    buttons: [{ t: '🐸 Mergi mai departe', f: () => go('gate'), c: 'wide' }],
+  });
+}
+
+// ---------- 4. UȘILE BROSCOILOR ----------
+function gate() {
+  show({
+    emoji: '🐸 🟩🚪 🟪🚪 🐸',
+    title: 'Ușile Broscoilor',
+    text: ['Urmele duc la două uși: una <b>verde</b> și una <b>mov</b>. În fața lor stau doi broscoi gemeni, Oac și Oc.',
+      `<div class="say">Oac: «Una dintre uși duce la ascunzătoarea lui ${RATON}. Cealaltă duce în Pivnița cu Murături. 🥒 Unul dintre noi spune MEREU adevărul, celălalt MEREU minte. Nu-ți spunem cine e cine!»</div>`,
+      '<div class="say">Oc (în șoaptă, e timid): «...și cu jetonul ăla poți să-i pui lui Oac o singură întrebare.»</div>'],
+    buttons: [{ t: '🪙 Folosesc jetonul', f: askMenu, c: 'wide' }],
+  });
+}
+function askMenu(msg) {
+  show({
+    emoji: '🪙',
+    text: [msg || '<p>Ce întrebare îi pui lui <b>Oac</b>? Ai una singură!</p>'],
+    cols: 'one',
+    buttons: [
+      { t: '«Oac, tu ești mincinosul?»', c: 'alt', f: () => answer('«Nu!» zice Oac. Și Oc adaugă repede: «Nici eu!»',
+        'Hmm... dacă Oac spune adevărul, ar zice «nu». Dar dacă minte... tot «nu» ar zice! N-ai aflat nimic.', false) },
+      { t: '«Oac, care ușă e cea bună?»', c: 'alt', f: () => answer('«Ușa verde!» zice Oac, zâmbind larg.',
+        'Bine... dar Oac spune adevărul sau minte? Nu știi!', true) },
+      { t: '«Oac, cât fac 2 + 2?»', c: 'alt', f: () => answer('«Cinci! Ba nu... șapte!» zice Oac.',
+        'Aha, Oac e MINCINOSUL! Dar... ți-ai folosit singura întrebare și tot nu știi ce ușă e bună. 😬', true) },
+      { t: '«Oac, ce ușă mi-ar arăta Oc?»', c: 'alt', f: () => answer('Oac se gândește... «Oc ți-ar arăta ușa verde.»',
+        'Hmm! Gândește-te bine: pe ce ușă intri?', true, true) },
+    ],
+  });
+}
+function answer(said, thought, canGo, smart) {
+  SFX.step();
+  S.smart = !!smart; save();
+  const buttons = [];
+  if (canGo) buttons.push({ t: '🟩 Intru pe ușa verde', f: pickles }, { t: '🟪 Intru pe ușa mov', f: rightDoor });
+  buttons.push({ t: '🤔 Mă mai gândesc', c: 'alt wide', f: () => askMenu('<div class="say">Broscoii se înduioșează și îți dau jetonul înapoi. «Mai încearcă!» 🪙</div><p>Ce întrebare îi pui lui <b>Oac</b>?</p>') });
+  show({ emoji: '🐸💬', text: [`<div class="say">${said}</div>`, thought], buttons });
+}
+function pickles() {
+  SFX.wrong();
+  show({
+    emoji: '🥒🥒🥒',
+    title: 'Pivnița cu Murături!',
+    text: ['Miroase a castraveți acri și a varză. Niciun raton pe aici. Ieși repede înapoi!',
+      '<div class="say">Broscoii râd: «Oac-oac! Hai, îți mai dăm un jeton.»</div>'],
+    buttons: [{ t: '🪙 Încerc din nou', f: () => askMenu(), c: 'wide' }],
+  });
+}
+function rightDoor() {
+  SFX.good(); giveSticker('usi');
+  show({
+    emoji: '🟪🚪✨',
+    title: S.smart ? 'GENIAL!' : 'Ai nimerit!',
+    text: [S.smart ? 'Ai pus întrebarea perfectă! Ușa mov se deschide.' : 'Ușa mov se deschide! Ai avut și puțin noroc...',
+      `<div class="say"><b>Secretul broscoilor:</b> dacă întrebi «ce ușă mi-ar arăta celălalt?», primești MEREU ușa greșită. Mincinosul minte despre adevăr. Cel sincer spune adevărul despre minciună. Așa că intri pe cealaltă! ${S.smart ? '' : 'Ține minte pentru data viitoare.'}</div>`,
+      'Dincolo de ușă se aude un zgomot metalic... CLANC... CLANC...'],
+    buttons: [{ t: '😮 Intră!', f: () => { S.hp = 10; S.bossHp = 14; S.potions = 3; go('boss'); }, c: 'wide' }],
+  });
+}
+
+// ---------- 5. MECHA-MIȘȘIȘȘIPPI ----------
+const BOSS_SVG = `<svg id="boss" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#2b2118" stroke-width="3" stroke-linejoin="round">
+    <path d="M150 150 q40 -10 38 -50" fill="none" stroke="#6b737c" stroke-width="14"/>
+    <path d="M150 150 q40 -10 38 -50" fill="none" stroke="#2b2118" stroke-width="14" stroke-dasharray="8 10"/>
+    <g transform="translate(188 96)"><rect x="-22" y="-4" width="44" height="8" rx="4" fill="#c9d1d9"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".4s" repeatCount="indefinite"/></rect></g>
+    <rect x="62" y="168" width="22" height="24" rx="4" fill="#6b737c"/><rect x="116" y="168" width="22" height="24" rx="4" fill="#6b737c"/>
+    <rect x="22" y="112" width="24" height="46" rx="8" fill="#8a949e"/><rect x="154" y="112" width="24" height="46" rx="8" fill="#8a949e"/>
+    <path d="M22 158 l4 10 l6 -8 l6 8 l6 -10" fill="#f4a259"/><path d="M154 158 l4 10 l6 -8 l6 8 l6 -10" fill="#f4a259"/>
+    <rect x="44" y="104" width="112" height="68" rx="14" fill="#9aa5b1"/>
+    <rect x="80" y="118" width="40" height="28" rx="8" fill="#1d2b3a"/>
+    <circle cx="92" cy="132" r="3" fill="#fff" stroke="none"/><circle cx="108" cy="132" r="3" fill="#fff" stroke="none"/>
+    <circle cx="56" cy="114" r="3" fill="#6b737c"/><circle cx="144" cy="114" r="3" fill="#6b737c"/><circle cx="56" cy="162" r="3" fill="#6b737c"/><circle cx="144" cy="162" r="3" fill="#6b737c"/>
+    <line x1="100" y1="34" x2="100" y2="14"/><circle cx="100" cy="12" r="6" fill="#e05a47"><animate attributeName="fill" values="#e05a47;#ffd166;#e05a47" dur="1s" repeatCount="indefinite"/></circle>
+    <path d="M48 52 L58 18 L80 40 Z" fill="#9aa5b1"/><path d="M152 52 L142 18 L120 40 Z" fill="#9aa5b1"/>
+    <path d="M57 42 L61 28 L70 38 Z" fill="#2b2118"/><path d="M143 42 L139 28 L130 38 Z" fill="#2b2118"/>
+    <rect x="44" y="34" width="112" height="70" rx="20" fill="#b8c1ca"/>
+    <path d="M46 56 Q100 44 154 56 L150 78 Q100 86 50 78 Z" fill="#2b2118"/>
+    <circle cx="76" cy="66" r="10" fill="#ff3b30" stroke="#ffd166"><animate attributeName="r" values="9;11;9" dur="1.2s" repeatCount="indefinite"/></circle>
+    <circle cx="124" cy="66" r="10" fill="#ff3b30" stroke="#ffd166"><animate attributeName="r" values="9;11;9" dur="1.2s" repeatCount="indefinite"/></circle>
+    <rect x="84" y="82" width="32" height="16" rx="6" fill="#eef1f4"/><ellipse cx="100" cy="86" rx="6" ry="4" fill="#2b2118"/>
+    <line x1="92" y1="96" x2="108" y2="96"/>
+  </g>
+</svg>`;
+const ACTIONS = [
+  { t: '🦘 Sari', dmg: 2, txt: ['Sari sus și aterizezi drept pe capul robotului. BONG!', 'Faci o săritură de cangur și îi tragi o lovitură în antenă!'] },
+  { t: '💨 Ferește-te', dmg: 1, dodge: true, txt: ['Te ferești ca un ninja, iar robotul se lovește singur de perete. BUF!', 'Te strecori printre picioarele robotului. Se împiedică!'] },
+  { t: '🛡️ Blochează', dmg: 1, block: true, txt: ['Ridici capacul de oală. CLANG! Laserul ricoșează și îl nimerește chiar pe robot!', 'Te aperi cu capacul de oală. Robotul își lovește pumnul de el. AU!'] },
+  { t: '🪶 Gâdilă', dmg: 3, txt: ['Îl gâdili la subsuoara mecanică: «HA-HA-HA-EROARE-HA-HA!»', 'Îl gâdili la tălpile de metal. Robotul se strâmbă de râs și scapă un șurub!'] },
+  { t: '🧪 Poțiune', heal: 4, txt: ['Bei poțiunea. Are gust de căpșuni și curaj! +4 ❤️'] },
+];
+const BOSS_ATT = ['trage cu LASERUL DIN OCHELARI 🔴', 'învârte COADA-ELICE 🌀', 'aruncă cu RACHETE DE GUNOI 🥫🍌', 'scoate un ȚIPĂT METALIC: «MIȘ-ȘIȘ-ȘIPPIII!» 📢'];
+let busy = false;
+function boss() {
+  show({
+    title: 'MECHA-MIȘȘIȘȘIPPI 3000',
+    text: [BOSS_SVG, '<div id="bars"></div>', `<div id="log"><p>Din întuneric se aprind doi ochi roșii. Un robot uriaș cu mască de raton! Cine o fi înăuntru?...</p></div>`],
+    buttons: ACTIONS.map((a, i) => ({ t: a.t, f: () => turn(i), c: i === 4 ? 'alt wide' : '' })),
+    after: () => { bars(); buttonsState(); },
+  });
+}
+function bars() {
+  const b = S.bossHp / 14 * 100, p = S.hp / 10 * 100;
+  document.getElementById('bars').innerHTML =
+    `<div class="hp-label"><span>🤖 Mecha-Mișșișșippi</span><span>${S.bossHp} / 14</span></div><div class="bar"><i style="width:${b}%;background:var(--bad)"></i></div>` +
+    `<div class="hp-label"><span>🕵️ Detectivul ${esc(S.name)}</span><span>${'❤️'.repeat(Math.ceil(S.hp / 2))} ${S.hp} / 10</span></div><div class="bar"><i style="width:${p}%;background:var(--good)"></i></div>`;
+}
+function buttonsState() {
+  const bs = card.querySelectorAll('.btns button');
+  bs.forEach((b, i) => { b.disabled = busy || (i === 4 && (S.potions <= 0 || S.hp >= 10)); });
+  bs[4].innerHTML = `🧪 Poțiune (${S.potions} rămase)`;
+}
+function log(html) { document.getElementById('log').innerHTML = html; }
+function anim(cls) { const el = document.getElementById('boss'); el.classList.remove('hit', 'attack'); el.offsetWidth; el.classList.add(cls); }
+async function turn(i) {
+  if (busy) return;
+  busy = true; buttonsState();
+  const a = ACTIONS[i];
+  if (a.heal) {
+    S.potions--; S.hp = Math.min(10, S.hp + a.heal); SFX.heal();
+    log(`<p>${pick(a.txt)}</p>`);
+  } else {
+    S.bossHp = Math.max(0, S.bossHp - a.dmg); SFX.hit(); anim('hit');
+    log(`<p>${pick(a.txt)} <b>−${a.dmg}</b></p>`);
+  }
+  save(); bars();
+  if (S.bossHp <= 0) { await wait(900); return victory(); }
+  await wait(1100);
+  const att = pick(BOSS_ATT);
+  anim('attack'); SFX.laser();
+  let res;
+  if (a.dodge) res = 'dar tu ești deja în altă parte. Ratează! 😎';
+  else if (a.block) res = 'dar capacul de oală te apără. Nimic! 🛡️';
+  else if (Math.random() < .55 && S.hp > 2) {
+    const d = Math.min(Math.random() < .5 ? 1 : 2, S.hp - 2);
+    S.hp -= d; SFX.ouch(); card.classList.remove('ouch'); card.offsetWidth; card.classList.add('ouch');
+    res = `și te nimerește puțin. <b>−${d}</b> 😖`;
+  } else res = pick(['dar ratează de un fir de păr!', 'dar se încurcă în propriile cabluri!', 'dar alunecă pe o coajă de banană!']);
+  document.getElementById('log').innerHTML += `<p>🤖 Robotul ${att}... ${res}</p>`;
+  save(); bars();
+  busy = false; buttonsState();
+}
+async function victory() {
+  busy = true;
+  log('<p>Robotul scârțâie... scoate scântei... ochii roșii clipesc nebunește... «EROARE! EROARE! PREA MULT GÂDILAT!»</p>');
+  anim('hit'); SFX.laser();
+  await wait(1600);
+  SFX.boom();
+  show({ text: ['<div class="boom">💥</div>', '<h1 style="text-align:center">BUUUUM!</h1>'] });
+  await wait(1800);
+  show({
+    text: ['<div class="big">💨</div>',
+      `<p>Din fum iese un raton <b>CIUFULIT</b>, cu blana zbârlită și mustățile strâmbe. E chiar el, ${RATON}!</p>`,
+      `<div class="say">«Bine, bine, m-ai bătut de data asta, detective ${esc(S.name)}! Dar tot nu mă prinzi!»</div>`,
+      '<div style="overflow:hidden"><span class="run">🦝</span></div>'],
+  });
+  await wait(2800);
+  busy = false;
+  S.stage = 'end'; save();
+  end();
+}
+
+// ---------- 6. CUFĂRAȘUL ----------
+function end() {
+  let taps = 0;
+  show({
+    text: ['<p>În grabă, ratonul a lăsat în urmă un cufăraș ferecat!</p>', '<div class="chest" id="chest">🧰</div>', '<p style="text-align:center"><b>Atinge-l de 3 ori ca să-l deschizi!</b></p>'],
+    after: () => {
+      const ch = document.getElementById('chest');
+      ch.onclick = () => {
+        taps++; SFX.hit(); ch.classList.remove('tap'); ch.offsetWidth; ch.classList.add('tap');
+        if (taps >= 3) openChest();
+      };
+    },
+  });
+}
+function openChest() {
+  SFX.win(); giveSticker('boss'); confetti();
+  show({
+    emoji: '🔓✨',
+    title: `Bravo, detective ${esc(S.name)}!`,
+    text: ['Înăuntru e un bilețel pe care scrie:',
+      `<div class="code">${COD_LACAT}</div>`,
+      '<p style="text-align:center"><b>Acesta e codul pentru lacăt! 🔒</b></p>',
+      `<div class="say">Și dedesubt, cu scris de raton: «Și mie îmi place cifra 8. Are două burți. — M.»</div>`],
+    buttons: [{ t: '🎉 Mai multe confetti!', f: () => { SFX.win(); confetti(); }, c: 'wide' }],
+  });
+}
+function confetti() {
+  const em = ['🎉', '⭐', '🎊', '8️⃣', '🐾', '✨'];
+  for (let i = 0; i < 40; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti'; c.textContent = pick(em);
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.animationDuration = 2 + Math.random() * 2.5 + 's';
+    c.style.animationDelay = Math.random() * .8 + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5500);
+  }
+}
+
+// ---------- pornire ----------
+const SCENES = { intro, guard: () => guard(), maze: () => maze(), statues: () => statues(), chests: () => chests(), gate, boss, end };
+document.getElementById('reset').onclick = () => {
+  if (confirm('Începi jocul de la început?')) { S = fresh(); save(); renderStickers(); go('intro'); }
+};
+load(); renderStickers();
+(SCENES[S.stage] || intro)();
+</script>
+</body>
+</html>
