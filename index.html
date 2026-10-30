@@ -108,10 +108,7 @@ input{font:inherit;font-size:28px;width:100%;padding:14px 16px;border-radius:16p
 @keyframes ripple{from{transform:scale(.4);opacity:1}to{transform:scale(2.4);opacity:0}}
 #me{transition:transform .4s cubic-bezier(.4,1.8,.6,1)}
 /* tastatura */
-.kslots{display:flex;justify-content:center;gap:8px;margin:12px 0}
-.kslots span{width:56px;height:66px;border-radius:12px;background:#fff;border:3px dashed var(--accent-d);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:bold}
-.ktiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.ktiles button{min-height:64px;font-size:34px;padding:6px}
+button.kana{font-size:34px;letter-spacing:3px;padding:10px}
 .keyshow{font-size:46px;font-weight:bold;letter-spacing:10px;text-align:center;background:#1d2b3a;color:#7cfc9a;border-radius:14px;padding:6px;min-height:72px;font-family:"Courier New",monospace}
 .keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .keypad button{min-height:62px;font-size:28px;padding:8px}
@@ -174,6 +171,12 @@ body.dark #dark{opacity:.94}
 @keyframes boom{0%{transform:scale(.2);opacity:0}40%{transform:scale(1.4);opacity:1}100%{transform:scale(1)}}
 .puff{transform-box:fill-box;transform-origin:center;animation:puff 3s ease-in-out infinite alternate}
 @keyframes puff{to{transform:translate(8px,-10px) scale(1.25)}}
+.brow{animation:brow 2.4s ease-in-out infinite}
+@keyframes brow{0%,55%,100%{transform:none}65%,85%{transform:translateY(-4px)}}
+.spark{transform-box:fill-box;transform-origin:center;animation:sparkle .35s ease-in-out infinite alternate}
+@keyframes sparkle{from{transform:translate(224px,133px) scale(.6)}to{transform:translate(224px,133px) scale(1.3)}}
+.glint{animation:glint 2.6s ease-in-out infinite}
+@keyframes glint{0%,70%,100%{opacity:0}80%,90%{opacity:1}}
 .vanish{animation:vanish 1s ease-in forwards}
 @keyframes vanish{to{opacity:0;transform:scale(.3) rotate(20deg)}}
 .runbox{overflow:hidden;height:170px;position:relative}
@@ -216,8 +219,9 @@ footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35)
 // ====== SETĂRI ======
 const NUME_ACCEPTATE = ['david', 'davi'];
 const COD_LACAT = '8888';
-const PAROLA = 'ミシシッピ';        // Mișșișșippi în katakana
-const KANA_CAPCANE = ['ツ', 'ビ', 'ン']; // litere-capcană amestecate printre cele bune
+const PAROLA = 'ミッシッシッピ';     // Mi-șși-șși-ppi, în katakana
+// variante greșite dintre care se aleg 4 (amestecate, cu ツ / ビ / ン, sau râul ミシシッピ)
+const PAROLE_GRESITE = ['ピッシッシッミ', 'ミッシッシッビ', 'ミッツッシッピ', 'ミシシッピ', 'シッミッシッピ', 'ミッシンシッピ'];
 const RATON = 'Credibilul Raton Mișșișșippi';
 // ====================
 
@@ -508,22 +512,54 @@ const BOSS_SVG = `<svg id="boss" viewBox="0 0 200 200" xmlns="http://www.w3.org/
     <text x="100" y="166" text-anchor="middle" font-size="15" font-weight="bold" fill="#2b2118" stroke="none">メカ</text>
   </g>
 </svg>`;
-const BOSS_SHADOW = `<svg class="scene" viewBox="0 0 300 200"><rect width="300" height="200" fill="#26222f"/>
-${[[30, 170, 40], [90, 185, 34], [210, 186, 38], [270, 168, 42], [20, 110, 26], [282, 100, 28], [150, 196, 30]].map(([x, y, r], i) => `<circle class="puff" cx="${x}" cy="${y}" r="${r}" fill="#8a8794" opacity=".55" style="animation-delay:${i * .4}s"/>`).join('')}
-<g transform="translate(90 16)" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-<path d="M28 74 Q60 62 92 74 L114 176 Q60 188 6 176 Z" fill="#3b1f4f"/>
-<g class="rac"><g class="tail"><path d="M88 158 q40 0 34 -52" fill="none" stroke="#000" stroke-width="22"/><path d="M88 158 q40 0 34 -52" fill="none" stroke="#2c2c35" stroke-width="16" stroke-dasharray="7 7" stroke-linecap="butt"/></g></g>
-<ellipse cx="60" cy="132" rx="32" ry="36" fill="#15151b"/>
-<path d="M24 60 L28 26 L54 44 Z" fill="#15151b"/><path d="M96 60 L92 26 L66 44 Z" fill="#15151b"/>
-<ellipse cx="60" cy="74" rx="41" ry="33" fill="#15151b"/>
-<path d="M30 68 Q44 60 56 70 Q44 74 30 68 Z" fill="#ffd400" stroke="none"><animate attributeName="opacity" values="1;1;0;1;1" keyTimes="0;.9;.93;.96;1" dur="4s" repeatCount="indefinite"/></path>
-<path d="M90 64 Q76 58 64 70 Q76 74 90 64 Z" fill="#ffd400" stroke="none"><animate attributeName="opacity" values="1;1;0;1;1" keyTimes="0;.9;.93;.96;1" dur="4s" repeatCount="indefinite"/></path>
-<path d="M28 58 L54 64 M66 62 L92 52" stroke="#4a4a55" stroke-width="5"/>
-<path d="M40 88 Q62 102 84 84 Q62 94 40 88 Z" fill="#fff" stroke-width="2"/><rect x="66" y="89" width="7" height="6" fill="#ffd166" stroke="none"/>
-<path d="M14 48 Q60 32 106 46 Q100 54 60 50 Q22 56 14 48 Z" fill="#0b0b10"/>
-<path d="M34 46 Q36 12 60 10 Q84 12 86 44 Q60 39 34 46 Z" fill="#0b0b10"/><path d="M35 38 Q60 33 85 37 L86 44 Q60 39 34 46 Z" fill="#6b3fa0" stroke="none"/>
-<path d="M40 84 L18 80 M40 88 L20 92 M84 82 L104 76 M84 86 L104 90" stroke="#55555f" stroke-width="1.5"/>
-</g></svg>`;
+const BOSS_REVEAL = `<svg class="scene" viewBox="0 0 300 230">
+<defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd59a"/><stop offset=".55" stop-color="#f6a9b6"/><stop offset="1" stop-color="#b59ae0"/></linearGradient></defs>
+<rect width="300" height="230" fill="url(#dusk)"/>
+<path d="M118 0 H182 L258 230 H42 Z" fill="#fff8e0" opacity=".35"/>
+<ellipse cx="150" cy="212" rx="96" ry="14" fill="#fff8e0" opacity=".7"/>
+<g stroke="#2b2118" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<g transform="rotate(-14 40 196)"><rect x="18" y="178" width="46" height="30" rx="8" fill="#9aa5b1"/><circle cx="32" cy="192" r="6" fill="#7a3a3a"/><circle cx="50" cy="192" r="6" fill="#7a3a3a"/></g>
+<path d="M258 206 q-6 -10 4 -14 q10 -4 4 -14 q-6 -10 4 -14" fill="none" stroke="#6b737c" stroke-width="4"/>
+<circle cx="76" cy="214" r="4" fill="#c9d1d9"/><circle cx="236" cy="216" r="4" fill="#c9d1d9"/>
+<g class="rac"><g class="tail"><path d="M184 184 q50 -4 42 -64" fill="none" stroke="#2b2118" stroke-width="22"/><path d="M184 184 q50 -4 42 -64" fill="none" stroke="#cfcfd4" stroke-width="16"/><path d="M184 184 q50 -4 42 -64" fill="none" stroke="#3a3a40" stroke-width="16" stroke-dasharray="7 7" stroke-linecap="butt"/></g></g>
+<rect x="124" y="184" width="16" height="22" fill="#a3a3aa"/><rect x="160" y="184" width="16" height="22" fill="#a3a3aa"/>
+<ellipse cx="130" cy="208" rx="15" ry="7" fill="#3a3a40"/><ellipse cx="170" cy="208" rx="15" ry="7" fill="#3a3a40"/>
+<path d="M114 104 Q150 94 186 104 L204 194 Q150 204 96 194 Z" fill="#dcb46f"/>
+<path d="M150 132 V198" fill="none"/>
+<path d="M126 102 L150 134 L140 104 Z" fill="#b98f4c"/><path d="M174 102 L150 134 L160 104 Z" fill="#b98f4c"/>
+<path d="M103 148 Q150 157 197 148 L199 161 Q150 170 101 161 Z" fill="#8a6a3a"/><rect x="142" y="150" width="16" height="14" rx="3" fill="#ffd166"/>
+<circle cx="140" cy="122" r="3" fill="#6b4f2a"/><circle cx="160" cy="122" r="3" fill="#6b4f2a"/><circle cx="140" cy="178" r="3" fill="#6b4f2a"/><circle cx="160" cy="178" r="3" fill="#6b4f2a"/>
+<path d="M106 176 h24 v7 h-24 Z M170 176 h24 v7 h-24 Z" fill="#b98f4c"/>
+<path d="M182 108 Q206 118 212 144 L198 150 Q192 130 176 120 Z" fill="#dcb46f"/>
+<circle cx="214" cy="164" r="15" fill="#6c7aa8"/><path d="M222 151 q6 -8 2 -16" fill="none"/>
+<use href="#paw" x="207" y="156" width="14" height="17" fill="#fff" stroke="none"/>
+<polygon class="spark" points="${starPoints(5, 8, 3)}" transform="translate(224 133)" fill="#ffd166" stroke="#e07a2a" stroke-width="1.5"/>
+<ellipse cx="204" cy="152" rx="9" ry="8" fill="#a3a3aa"/>
+<path d="M118 108 Q94 92 102 60 L117 62 Q113 86 130 100 Z" fill="#dcb46f"/>
+<path d="M120 100 L110 74 L136 92 Z" fill="#c9a160"/><path d="M180 100 L190 74 L164 92 Z" fill="#c9a160"/>
+<path d="M118 58 L120 32 L140 46 Z" fill="#b4b4bb"/><path d="M182 58 L180 32 L160 46 Z" fill="#b4b4bb"/>
+<ellipse cx="150" cy="74" rx="37" ry="30" fill="#b4b4bb"/>
+<path d="M144 48 Q150 46 156 48 L154 62 H146 Z" fill="#3a3a40" stroke="none"/>
+<path d="M115 76 Q121 63 136 65 Q146 67 150 73 Q154 67 164 65 Q179 63 185 76 Q179 88 164 84 Q156 82 150 84 Q144 82 136 84 Q121 88 115 76 Z" fill="#2b2118"/>
+<ellipse cx="136" cy="72" rx="6.5" ry="5.5" fill="#fff" stroke="none"/><ellipse cx="164" cy="72" rx="6.5" ry="5.5" fill="#fff" stroke="none"/>
+<circle cx="139" cy="73" r="3.2" fill="#111" stroke="none"/><circle cx="167" cy="73" r="3.2" fill="#111" stroke="none"/>
+<path d="M128.5 71 Q136 64 143.5 71 Z M156.5 71 Q164 64 171.5 71 Z" fill="#2b2118" stroke="none"/>
+<path class="brow" d="M125 58 Q135 48 146 55" fill="none" stroke="#111" stroke-width="6"/><path d="M155 62 Q165 59 176 62" fill="none" stroke="#111" stroke-width="6"/>
+<ellipse cx="150" cy="93" rx="16" ry="11" fill="#f2efe8"/>
+<g><rect x="123" y="78" width="23" height="12" rx="6" fill="#1d2b3a"/><rect x="154" y="78" width="23" height="12" rx="6" fill="#1d2b3a"/><path d="M146 82 Q150 79 154 82" fill="none"/>
+<path class="glint" d="M128 81 l5 6 M159 81 l5 6" stroke="#fff" stroke-width="2"/></g>
+<ellipse cx="150" cy="91" rx="5" ry="3.5" fill="#2b2118"/>
+<path d="M139 98 Q152 104 163 94" fill="none"/><path d="M163 94 l3 -2" fill="none"/>
+<path d="M134 92 L114 88 M134 96 L116 100 M166 92 L186 86 M166 96 L184 100" stroke-width="1.5"/>
+<g transform="rotate(-10 150 42)"><ellipse cx="150" cy="47" rx="52" ry="9" fill="#6b4a3a"/>
+<path d="M122 47 Q122 14 150 12 Q178 14 178 47 Q150 41 122 47 Z" fill="#7d5846"/>
+<path d="M123 39 Q150 34 177 39 L178 47 Q150 41 122 47 Z" fill="#e05a47" stroke="none"/><path d="M150 14 Q146 22 150 30" fill="none" stroke-width="2"/>
+<path d="M170 38 q14 -20 24 -12 q-8 4 -22 14 Z" fill="#5fb36a" stroke-width="2"/></g>
+<ellipse cx="111" cy="57" rx="10" ry="8" fill="#a3a3aa"/>
+</g>
+${[[40, 226, 30], [100, 232, 26], [200, 232, 28], [262, 224, 32], [14, 150, 20], [288, 140, 22]].map(([x, y, r], i) => `<circle class="puff" cx="${x}" cy="${y}" r="${r}" fill="#fff" opacity=".7" style="animation-delay:${i * .4}s"/>`).join('')}
+<path class="glint" d="M196 66 l3 -9 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 Z" fill="#fff"/>
+</svg>`;
 const CAN = '<svg viewBox="0 0 30 36"><rect x="4" y="4" width="22" height="28" rx="4" fill="#c9d1d9" stroke="#2b2118" stroke-width="3"/><rect x="4" y="12" width="22" height="10" fill="#e05a47"/></svg>';
 const PEEL = '<svg viewBox="0 0 36 36"><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#2b2118" stroke-width="8" stroke-linecap="round"/><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#ffd84d" stroke-width="5" stroke-linecap="round"/></svg>';
 const FIST = '<svg viewBox="0 0 60 60"><g stroke="#2b2118" stroke-width="3"><rect x="8" y="12" width="44" height="38" rx="12" fill="#9aa5b1"/><path d="M19 12 V28 M30 12 V28 M41 12 V28" fill="none"/><rect x="2" y="22" width="14" height="18" rx="5" fill="#b8c1ca"/></g></svg>';
@@ -912,37 +948,27 @@ const ROMAJI = { 'ミ': 'mi', 'シ': 'și', 'ピ': 'pi', 'ツ': 'țu', 'ビ': 'b
 // cum se citește o încercare (ッ dublează consoana următoare)
 function readKana(w) { return [...w].map((c, i) => c === 'ッ' ? (ROMAJI[w[i + 1]] || ' ')[0] : ROMAJI[c]).join(''); }
 function door(reply, asleep) {
-  S.dr = S.dr || { tries: 0 };
-  const tiles = shuffle([...PAROLA, ...KANA_CAPCANE]), word = [];
-  const intro = say([['ten', '«S-s-stai! Eu sunt Tenneșșee, pârșul de pază al lui Mișșișșippi. *cască* Ușa asta are o parolă secretă: NUMELE stăpânului meu, scris în KATAKANA!»'],
-    ['ten', '«Dar atenție: printre literele bune am amestecat și câteva capcane. *cască iar*»']]);
+  if (!S.dr || !S.dr.opts) { S.dr = { tries: 0, tried: [], opts: shuffle([PAROLA, ...shuffle(PAROLE_GRESITE).slice(0, 4)]) }; save(); }
+  const intro = say([['ten', '«S-s-stai! Eu sunt Tenneșșee, pârșul de pază al lui Mișșișșippi. Ușa asta are o parolă secretă: NUMELE stăpânului meu, scris în KATAKANA!»'],
+    ['ten', '«Doar că eu... *cască*... am scris pe ușă mai multe variante și nu mai știu care e cea bună. Alege tu!»']]);
   show({
     title: 'Ușa din deal',
-    text: [doorScene(false, asleep), reply || intro, `<div class="kslots" id="ks"></div>`],
-    after: c => {
-      const ks = c.querySelector('#ks'), kt = document.createElement('div'); kt.className = 'ktiles';
-      const draw = () => {
-        ks.innerHTML = [...PAROLA].map((_, i) => `<span>${word[i] !== undefined ? tiles[word[i]] : ''}</span>`).join('');
-        kt.querySelectorAll('button[data-i]').forEach(b => b.disabled = word.includes(+b.dataset.i));
-      };
-      const add = (t, cls, f, i) => { const b = document.createElement('button'); b.textContent = t; if (cls) b.className = cls; if (i !== undefined) b.dataset.i = i; b.onclick = f; kt.appendChild(b); };
-      tiles.forEach((k, i) => add(k, '', () => { if (word.length < PAROLA.length) { SFX.beep(); word.push(i); draw(); } }, i));
-      add('⌫', 'alt', () => { SFX.beep(); word.pop(); draw(); });
-      add('OK', 'alt', () => { if (word.length === PAROLA.length) tryWord(word.map(i => tiles[i]).join('')); else SFX.wrong(); });
-      c.appendChild(kt); draw();
-      if (asleep) setTimeout(() => { if (S.stage === 'door' && card.querySelector('#ks')) card.querySelector('.scene').outerHTML = doorScene(false, false); }, 2400);
-    },
+    text: [doorScene(false, asleep), reply || intro],
+    cols: 'one',
+    buttons: S.dr.opts.map(w => ({ t: w, c: 'kana', dis: S.dr.tried.includes(w), f: () => tryWord(w) })),
+    after: () => { if (asleep) setTimeout(() => { if (S.stage === 'door' && card.querySelector('button.kana')) card.querySelector('.scene').outerHTML = doorScene(false, false); }, 2400); },
   });
 }
 function tryWord(w) {
   if (w === PAROLA) return doorOpen();
-  S.dr.tries++; save(); SFX.wrong();
+  S.dr.tries++; S.dr.tried.push(w); save(); SFX.wrong();
   const read = readKana(w), lines = [['ten', `«${w}? Asta se citește „${read[0].toUpperCase() + read.slice(1)}”! Nu e numele stăpânului meu!»`]];
-  lines.push(['ten', w.includes('ツ') ? '«Și ai pus ツ, adică TSU mare! Uită-te bine la liniuțe: シ și ツ seamănă, dar nu sunt la fel.»'
-    : w.includes('ビ') ? '«Și ai pus ビ, adică BI. Stăpânul meu are PI, cu cerculeț: ピ!»'
-    : w.includes('ン') ? '«Și ai pus ン, adică N. În numele stăpânului meu nu e niciun N!»'
+  lines.push(['ten', w === 'ミシシッピ' ? '«Asta e Mișișippi, râul din America! Stăpânul meu e mai special: are ȘȘ dublu. Caută ッ mici!»'
+    : w.includes('ツ') ? '«Aici e un ツ, adică TSU mare! Uită-te bine la liniuțe: シ și ツ seamănă, dar nu sunt la fel.»'
+    : w.includes('ビ') ? '«Aici e un ビ, adică BI. Stăpânul meu are PI, cu cerculeț: ピ!»'
+    : w.includes('ン') ? '«Aici e un ン, adică N. În numele stăpânului meu nu e niciun N!»'
     : '«Literele sunt bune, dar sunt amestecate!»']);
-  if (S.dr.tries >= 2) lines.push(['ten', '«Psst... se citește: mi – shi – shi – tsu mic – pi.»']);
+  if (S.dr.tries >= 2) lines.push(['ten', '«Psst... se citește: mi – șși – șși – ppi. Fiecare ȘȘ are un ッ mic în față!»']);
   const asleep = Math.random() < .5;
   let r = say(lines);
   if (asleep) { SFX.snore(); r = `<p>Tenneșșee cască... cască mai tare... și adoarme buștean! Zzz... (Doarme ca un pârș, la propriu.) ... Hopa! S-a trezit.</p>${r}`; }
@@ -952,7 +978,7 @@ async function doorOpen() {
   SFX.good(); SFX.snore();
   show({
     title: 'Ușa se deschide!',
-    text: [doorScene(true, true), say([['ten', `«${PAROLA}! Mi-shi-shi-p-pi! Corect! Cum ai știut?!»`]]),
+    text: [doorScene(true, true), say([['ten', `«${PAROLA}! Mi-șși-șși-ppi! Corect! Cum ai știut?!»`]]),
       'Tenneșșee e atât de ușurat că se ghemuiește și adoarme pe loc. Zzz...',
       'Ușa scârțâie și se deschide. Înăuntru e întuneric... Doi ochi roșii se aprind. CLANC... CLANC...'],
     buttons: [{ t: 'Intră!', f: startBoss, c: 'wide' }],
@@ -1099,11 +1125,10 @@ async function victory() {
   show({ text: [BURST, '<h1 class="center">BUUUUM!</h1>'] });
   await wait(2000);
   show({
-    text: [`<div id="shadow">${BOSS_SHADOW}</div>`,
-      '<p>Din robotul stricat iese... o umbră. Nu se vede bine cine e. Doar doi ochi galbeni, o pălărie, o coadă cu dungi... și un zâmbet foarte șmecher.</p>',
-      say([['mis', `«Heh-heh-heh. Ai stricat robotul meu preferat, detective ${NAME()}. Impresionant.»`],
-        ['mis', '«Joci aproape ca Unchiul Pufu. Aproape.»'],
-        ['mis', '«Dar eu sunt MIȘȘIȘȘIPPI. Șeful cel mare. Și pe mine nu mă prinde nimeni!»']])],
+    text: [`<div id="shadow">${BOSS_REVEAL}</div>`,
+      '<p>Din robotul stricat iese, printr-un nor de fum... cineva. Pălărie, ochelari de soare, guler ridicat. Te privește pe deasupra ochelarilor și ridică o sprânceană.</p>',
+      say([['mis', `«Heh-heh. Nu-i rău, detective ${NAME()}. Nu-i rău deloc.»`], ['mis', '«Mi-ai stricat robotul preferat... dar recunosc, a fost un meci frumos.»'],
+        ['mis', '«Eu sunt MIȘȘIȘȘIPPI. Șeful cel mare. Și pe mine nu mă prinde nimeni... încă.»']])],
     buttons: [{ t: 'Prinde-l!', f: catchHim, c: 'wide' }],
   });
   busy = false;
@@ -1114,7 +1139,7 @@ async function catchHim() {
   document.getElementById('shadow').classList.add('vanish');
   await wait(1600);
   S.stage = 'end'; save();
-  end('O bombă cu fum! Când se risipește fumul, umbra a dispărut. Au rămas doar urme de lăbuțe... și un cufăr.');
+  end('Își face cu ochiul, aruncă bomba cu fum și... PUF! Când se risipește fumul, a dispărut. Au rămas doar urme de lăbuțe... și un cufăr.');
 }
 
 // ---------- 6. CUFĂRAȘUL ----------
@@ -1149,7 +1174,7 @@ function openChest() {
       `<div class="loot leg" style="--r:#e08a00;animation-delay:1.6s"><svg viewBox="0 0 44 44"><rect x="8" y="6" width="28" height="32" rx="3" fill="#fffaf0" stroke="#2b2118" stroke-width="3" transform="rotate(6 22 22)"/><text x="22" y="29" text-anchor="middle" font-size="14" font-weight="bold" fill="#6b3fa0">8888</text></svg><div><small>Legendar</small>Bilețelul secret al lui Mișșișșippi</div></div>`,
       `<div class="code" style="animation-delay:2.2s;animation-fill-mode:both">${COD_LACAT}</div>`,
       `<div class="later" style="animation-delay:2.6s"><p class="center"><b>Acesta e codul pentru lacăt! Bravo, detective ${NAME()}!</b></p>
-<div class="note"><p>Pe bilețel, cu scris de raton: «Și mie îmi place cifra 8. Are două burți. P.S. Unchiul Pufu ar fi mândru de tine. Data viitoare... poate mă prinzi ca el. — M.» ${PAW_ICON.replace('<svg', '<svg style="width:26px;height:31px;fill:#5b3a1e;vertical-align:middle"')}</p></div></div>`],
+<div class="note"><p>Pe bilețel, cu scris de raton: «Și mie îmi place cifra 8. Are două burți. — M.» ${PAW_ICON.replace('<svg', '<svg style="width:26px;height:31px;fill:#5b3a1e;vertical-align:middle"')}</p></div></div>`],
     buttons: [{ t: 'Mai multe confetti!', f: () => { SFX.win(); confetti(); }, c: 'wide' }],
   });
 }
