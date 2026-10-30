@@ -4,24 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#14202c">
 <title>Urmele lui Mișșișșippi</title>
 <style>
-:root{--card:#fdf6e3;--ink:#2b2118;--accent:#f4a259;--accent-d:#b9733a;--blue:#8ec5e8;--blue-d:#4f8db5;--good:#5fb36a;--bad:#e05a47;--muted:#7a6a58}
+:root{--card:#fdf6e3;--ink:#2b2118;--accent:#f4a259;--accent-d:#b9733a;--blue:#8ec5e8;--blue-d:#4f8db5;--good:#5fb36a;--bad:#e05a47;--muted:#7a6a58;--purple:#6b3fa0;--hand:"Noteworthy","Chalkboard SE","Comic Sans MS","Comic Neue",cursive}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
-body{background:radial-gradient(circle at 50% 0,#2f4a63,#14202c) fixed;font-family:"Trebuchet MS","Avenir Next",system-ui,sans-serif;color:var(--ink);display:flex;justify-content:center;padding:16px;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-#app{width:100%;max-width:720px}
+body{background:radial-gradient(circle at 50% 0,#2f4a63,#14202c) fixed;font-family:"Trebuchet MS","Avenir Next",system-ui,sans-serif;color:var(--ink);display:flex;justify-content:center;padding:16px;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+#paws{position:fixed;inset:0;pointer-events:none;opacity:.08;transition:opacity 1.2s;overflow:hidden}
+body.pawsy #paws{opacity:.3}
+#paws svg{position:absolute;width:24px;height:29px;fill:#f6e7c8;opacity:0;animation:pawWalk 12s infinite}
+@keyframes pawWalk{0%{opacity:0}2%{opacity:1}40%{opacity:1}50%{opacity:0}100%{opacity:0}}
+#app{position:relative;width:100%;max-width:720px}
 #stickers{display:flex;gap:12px;justify-content:center;margin:4px 0 14px}
-.st{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:32px;filter:grayscale(1);opacity:.3;transition:.5s}
+.st{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;filter:grayscale(1);opacity:.3;transition:.5s}
+.st svg{width:38px;height:38px}
 .st.on{filter:none;opacity:1;background:rgba(244,162,89,.35);transform:scale(1.08)}
-.card{background:var(--card);border-radius:26px;padding:24px;box-shadow:0 12px 34px rgba(0,0,0,.45);animation:pop .35s ease}
+.card{position:relative;background:var(--card);border-radius:26px;padding:24px;box-shadow:0 12px 34px rgba(0,0,0,.45);animation:pop .35s ease}
 @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
 h1{font-size:30px;margin:0 0 6px}
 p{font-size:22px;line-height:1.45;margin:10px 0}
+.center{text-align:center}
+.hand{font-family:var(--hand)}
 .flash{font-size:19px;color:var(--muted);font-style:italic}
-.say{background:#fff;border-radius:16px;padding:12px 16px;border-left:6px solid var(--accent)}
-.big{font-size:84px;text-align:center;margin:6px 0;line-height:1.1}
+.say{background:#fff;border-radius:16px;padding:12px 16px;border-left:6px solid var(--accent);margin:10px 0}
+.say p{margin:6px 0;font-size:21px}
+.say b.timi{color:#2f6fb5}.say b.tomi{color:#c26a1b}.say b.ten{color:#8a4f8a}.say b.mis{color:var(--purple)}
 .tracks{font-size:22px;background:#efe3c8;border-radius:14px;padding:10px 14px}
+.scene{display:block;width:100%;height:auto;margin:4px 0 8px;border-radius:18px}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .btns.one{grid-template-columns:1fr}
 .btns.three{grid-template-columns:1fr 1fr 1fr}
@@ -30,41 +40,131 @@ button:active{transform:translateY(4px);box-shadow:0 1px 0 var(--accent-d)}
 button.alt{background:var(--blue);box-shadow:0 5px 0 var(--blue-d)}
 button:disabled{opacity:.45}
 button.wide{grid-column:1/-1}
-button.spiral{grid-column:1/-1;font-size:26px;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.4);background:linear-gradient(90deg,#ff5f6d,#ffc371,#5fe08a,#47b5ff,#b06bff,#ff5f6d);background-size:300% 100%;box-shadow:0 5px 0 #6b3fa0;animation:rainbow 3s linear infinite,wobble .5s ease-in-out infinite}
-button.spiral .sp{display:inline-block;animation:spin 1.2s linear infinite}
+button.spiral{grid-column:1/-1;font-size:28px;color:#fff;letter-spacing:2px;text-shadow:0 2px 3px rgba(0,0,0,.4);background:linear-gradient(90deg,#ff5f6d,#ffc371,#5fe08a,#47b5ff,#b06bff,#ff5f6d);background-size:300% 100%;box-shadow:0 5px 0 #6b3fa0;animation:rainbow 3s linear infinite,wobble .5s ease-in-out infinite}
+button.spiral svg{width:30px;height:30px;vertical-align:middle;animation:spin 1.2s linear infinite}
+button.jug{background:linear-gradient(90deg,#ff5fd2,#b06bff,#47b5ff);color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.4);box-shadow:0 5px 0 #6b3fa0;font-size:24px;letter-spacing:1px}
+button.jug.ready{animation:wobble .5s ease-in-out infinite}
+button.jug:disabled{animation:none}
 @keyframes rainbow{to{background-position:300% 0}}
 @keyframes wobble{0%,100%{transform:rotate(-1.5deg)}50%{transform:rotate(1.5deg) scale(1.02)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 input{font:inherit;font-size:28px;width:100%;padding:14px 16px;border-radius:16px;border:3px solid var(--accent);margin-top:8px;text-align:center;-webkit-user-select:text;user-select:text}
-.qa{background:#fff;border-radius:14px;padding:10px 14px;margin:8px 0;font-size:20px}
-.qa b{display:block;margin-bottom:4px}
-.chests{display:flex;justify-content:space-around;font-size:70px}
+/* scrisoarea */
+.env{display:block;width:100%;max-width:360px;margin:0 auto;animation:wiggle 1.6s ease-in-out infinite}
+@keyframes wiggle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg) translateY(-4px)}}
+.letter{position:relative;background:#fffaf0 repeating-linear-gradient(transparent 0 37px,#eadfc8 37px 39px);font-family:var(--hand);padding:14px 22px 18px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.18);transform:rotate(-.6deg);margin:6px 0}
+.letter p{font-size:21px;line-height:39px;margin:0}
+.letter .ink{color:var(--purple);font-weight:bold;animation:inkIn .9s}
+.letter .huge{font-size:46px;line-height:64px;text-align:center}
+@keyframes inkIn{from{opacity:0;filter:blur(4px)}to{opacity:1;filter:none}}
+.letter input{font-family:var(--hand);border:0;border-bottom:3px dashed var(--accent-d);border-radius:0;background:transparent;margin:0 0 6px;padding:4px;font-size:30px}
+.sign{text-align:right}
+.sign svg{width:28px;height:34px;fill:#5b3a1e;vertical-align:middle}
+/* cufere */
+.chests{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.chestbtn{background:#fff;border-radius:18px;padding:30px 6px 10px;text-align:center;font-weight:bold;font-size:19px;box-shadow:0 5px 0 #d8c9a8;cursor:pointer}
+.chestbtn:active{transform:translateY(4px);box-shadow:0 1px 0 #d8c9a8}
+.chestbtn.off{opacity:.4;pointer-events:none}
+.chestsvg{display:block;width:100%;height:auto;overflow:visible}
+.chestsvg .lid{transform-box:fill-box;transform-origin:50% 100%;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.chestsvg .contents{opacity:0;transition:opacity .5s .25s,transform .6s .25s}
+.chestsvg.open .lid{transform:translate(-22px,-34px) rotate(-24deg)}
+.chestsvg.open .contents{opacity:1;transform:translateY(-12px)}
+.chestsvg.tap{animation:shake .35s}
+.bigchest{width:60%;max-width:260px;margin:30px auto 0;cursor:pointer}
+/* râul */
+#river .stone{cursor:pointer;transform-box:fill-box;transform-origin:center}
+#river .stone.done ellipse{fill:#8fbf6a}
+#river .stone.sink{animation:sink .6s}
+@keyframes sink{40%{transform:translateY(8px) scale(.9)}}
+#river .ripple{fill:none;stroke:#fff;stroke-width:4;transform-box:fill-box;transform-origin:center;animation:ripple .8s forwards;pointer-events:none}
+@keyframes ripple{from{transform:scale(.4);opacity:1}to{transform:scale(2.4);opacity:0}}
+#me{transition:transform .4s cubic-bezier(.4,1.8,.6,1)}
+/* tastatura */
+.keyshow{font-size:46px;font-weight:bold;letter-spacing:10px;text-align:center;background:#1d2b3a;color:#7cfc9a;border-radius:14px;padding:6px;min-height:72px;font-family:"Courier New",monospace}
+.keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.keypad button{min-height:62px;font-size:28px;padding:8px}
+/* lupta */
 .bar{height:22px;border-radius:12px;background:#e2d6bd;overflow:hidden;margin:4px 0 10px}
 .bar>i{display:block;height:100%;transition:width .5s}
 .hp-label{font-size:18px;font-weight:bold;display:flex;justify-content:space-between}
+.arena{position:relative;height:226px}
 #boss{display:block;margin:0 auto;width:220px;height:220px;animation:bob 2s ease-in-out infinite}
+#boss.angry{filter:drop-shadow(0 0 14px #ff3b30);animation-duration:.8s}
 #boss.hit{animation:shake .4s}
 #boss.attack{animation:lunge .5s}
+#boss.spin{animation:spin360 .8s}
 @keyframes bob{50%{transform:translateY(-6px)}}
 @keyframes shake{20%{transform:translateX(-12px) rotate(-4deg)}40%{transform:translateX(12px) rotate(4deg)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
 @keyframes lunge{50%{transform:scale(1.15) translateY(10px)}}
+@keyframes spin360{to{transform:rotate(360deg) scale(1.1)}}
+.warn{background:#fff3cd;border:3px solid #e0a800;border-radius:16px;padding:10px 14px;font-size:20px;margin:8px 0;animation:pulse 1.2s ease-in-out infinite}
+.warn small{display:block;color:var(--muted);font-size:17px;margin-top:4px}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(224,168,0,.25)}}
+#log{min-height:96px}
+#log p{font-size:20px;margin:6px 0}
+.fxt{position:absolute;top:30%;transform:translateX(-50%);font-size:34px;font-weight:900;white-space:nowrap;text-shadow:0 3px 0 #fff,0 0 8px #fff;pointer-events:none;animation:floatUp 1.3s ease-out forwards;z-index:3}
+@keyframes floatUp{from{opacity:0;margin-top:20px}15%{opacity:1}to{opacity:0;margin-top:-80px}}
+.beam{position:absolute;top:72px;width:12px;height:0;border-radius:6px;background:linear-gradient(#ff3b30,#ffd166);box-shadow:0 0 18px 4px #ff3b30;transform-origin:top center;animation:beam .7s ease-out forwards;z-index:2}
+.beam.mega{width:26px;background:linear-gradient(#b06bff,#ff5fd2);box-shadow:0 0 30px 8px #b06bff}
+@keyframes beam{0%{height:0;opacity:1}55%{height:440px;opacity:1}100%{height:440px;opacity:0}}
+.proj{position:absolute;top:110px;left:calc(50% - 18px);width:36px;height:36px;z-index:2;animation:fly .8s ease-in forwards}
+.proj svg{width:100%;height:100%}
+@keyframes fly{to{transform:translate(var(--dx),330px) rotate(600deg);opacity:.3}}
+.proj.back{animation:flyback 1s ease-in-out forwards}
+@keyframes flyback{50%{transform:translate(var(--dx),200px) rotate(300deg)}100%{transform:translate(0,-10px) rotate(700deg);opacity:0}}
+.proj.fist{width:64px;height:64px;left:calc(50% - 32px);top:90px;animation:punch .7s ease-in forwards}
+.proj.fist.back{animation:punchback 1s ease-in-out forwards}
+@keyframes punch{to{transform:translateY(160px) scale(3.4);opacity:.5}}
+@keyframes punchback{45%{transform:translateY(120px) scale(2.6)}100%{transform:translateY(-20px) scale(.6);opacity:0}}
+.sweep{position:absolute;bottom:4px;left:-45%;width:45%;height:30px;border-radius:15px;background:repeating-linear-gradient(90deg,#6b737c 0 14px,#2b2118 14px 24px);animation:sweep .75s ease-in forwards;z-index:2}
+@keyframes sweep{to{left:105%}}
+.scream{position:absolute;top:38%;left:0;right:0;text-align:center;font-size:36px;font-weight:900;color:#e05a47;text-shadow:0 3px 0 #fff;animation:scream .9s;z-index:2}
+@keyframes scream{0%,100%{transform:scale(.6)}20%,60%{transform:scale(1.15) rotate(-3deg)}40%,80%{transform:scale(1.1) rotate(3deg)}}
 .card.ouch{animation:ouch .4s}
 @keyframes ouch{30%{background:#ffd2c9}}
-#log{min-height:96px}
-.boom{font-size:160px;text-align:center;animation:boom 1s ease-out}
+/* efecte pe tot ecranul */
+.card.quake{animation:quake .25s infinite}
+@keyframes quake{25%{transform:translate(-7px,3px) rotate(-1deg)}75%{transform:translate(7px,-3px) rotate(1deg)}}
+.card.fall{animation:fallaway 1.1s ease-in forwards}
+@keyframes fallaway{to{transform:translateY(130vh) rotate(25deg)}}
+.card.spin{animation:spinout 1s ease-in-out}
+@keyframes spinout{50%{transform:rotate(360deg) scale(.5)}100%{transform:rotate(720deg) scale(1)}}
+#dark{position:fixed;inset:0;background:#05080c;opacity:0;pointer-events:none;transition:opacity .6s;z-index:9}
+body.dark #dark{opacity:.94}
+#over{position:fixed;inset:0;pointer-events:none;z-index:10;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.bigtxt{position:absolute;font-size:68px;font-weight:900;color:#fff;text-align:center;text-shadow:0 5px 0 #6b3fa0,0 0 24px rgba(0,0,0,.6);animation:boom 1.4s ease-out forwards}
+.bigtxt.fallt{animation:falltxt 1.5s ease-in forwards}
+@keyframes falltxt{from{transform:translateY(-45vh) rotate(-6deg)}to{transform:translateY(60vh) rotate(8deg)}}
+.flashov{position:fixed;inset:0;pointer-events:none;z-index:11;animation:flashov .5s forwards}
+@keyframes flashov{from{opacity:.9}to{opacity:0}}
+.leaf{position:fixed;top:-20px;width:18px;height:11px;border-radius:50% 0;pointer-events:none;z-index:12;animation:fall linear forwards}
+.burst{display:block;width:280px;height:280px;margin:0 auto;animation:boom 1s ease-out}
 @keyframes boom{0%{transform:scale(.2);opacity:0}40%{transform:scale(1.4);opacity:1}100%{transform:scale(1)}}
-.run{font-size:90px;animation:run 2.4s ease-in forwards;display:inline-block}
-@keyframes run{0%{transform:translateX(0)}20%{transform:translateX(-20px) rotate(-10deg)}100%{transform:translateX(900px) rotate(20deg)}}
-.chest{font-size:120px;text-align:center;cursor:pointer}
-.chest.tap{animation:shake .35s}
-.code{font-size:88px;font-weight:bold;letter-spacing:18px;text-align:center;color:#6b3fa0;background:#fff;border-radius:20px;padding:10px 0 10px 18px;margin:10px 0;animation:boom .8s ease-out}
-.confetti{position:fixed;top:-20px;font-size:28px;pointer-events:none;animation:fall linear forwards}
+.runbox{overflow:hidden;height:170px;position:relative}
+.runner{position:absolute;left:calc(50% - 65px);width:130px}
+.runner.go{animation:run 2.4s ease-in forwards}
+@keyframes run{0%{transform:translateX(0)}20%{transform:translateX(-30px) rotate(-10deg)}100%{transform:translateX(900px) rotate(20deg)}}
+.note{background:#fffaf0;border-radius:10px;padding:12px 16px;box-shadow:0 4px 14px rgba(0,0,0,.18);transform:rotate(1deg);font-family:var(--hand)}
+.code{font-size:88px;font-weight:bold;letter-spacing:18px;text-align:center;color:var(--purple);background:#fff;border-radius:20px;padding:10px 0 10px 18px;margin:10px 0;animation:boom .8s ease-out;font-family:"Trebuchet MS",sans-serif}
+.confetti{position:fixed;top:-20px;font-size:28px;pointer-events:none;animation:fall linear forwards;z-index:12}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
 footer{text-align:center;margin-top:18px}
 footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35);font-size:15px;min-height:0;padding:6px}
+@media (max-width:480px){.card{padding:18px}p{font-size:20px}button{font-size:19px}.code{font-size:64px;letter-spacing:10px}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="paw" viewBox="0 0 40 48"><ellipse cx="20" cy="33" rx="10.5" ry="11.5"/><ellipse cx="5.5" cy="21" rx="3.4" ry="6.5" transform="rotate(-35 5.5 21)"/><ellipse cx="12" cy="11" rx="3.4" ry="7.5" transform="rotate(-14 12 11)"/><ellipse cx="20" cy="7.5" rx="3.4" ry="7.5"/><ellipse cx="28" cy="11" rx="3.4" ry="7.5" transform="rotate(14 28 11)"/><ellipse cx="34.5" cy="21" rx="3.4" ry="6.5" transform="rotate(35 34.5 21)"/></symbol>
+    <symbol id="sock" viewBox="0 0 40 54"><g stroke="#2b2118" stroke-width="2.5" stroke-linejoin="round"><path d="M10 2 H28 V30 Q28 36 34 40 Q40 46 34 50 Q28 53 20 48 L8 40 Q4 37 6 30 Z" fill="#fff"/><path d="M10 9 H28 M10 17 H28 M10 25 H28" stroke="#e05a47" stroke-width="4"/></g></symbol>
+    <linearGradient id="rb" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ff5f6d"/><stop offset=".3" stop-color="#ffc371"/><stop offset=".55" stop-color="#5fe08a"/><stop offset=".8" stop-color="#47b5ff"/><stop offset="1" stop-color="#b06bff"/></linearGradient>
+  </defs>
+</svg>
+<div id="paws"></div>
+<div id="dark"></div>
+<div id="over"></div>
 <div id="app">
   <div id="stickers"></div>
   <div class="card" id="card"></div>
@@ -74,19 +174,23 @@ footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35)
 // ====== SETĂRI ======
 const NUME_ACCEPTATE = ['david', 'davi'];
 const COD_LACAT = '8888';
+const NUMAR_PREFERAT = '8';
 const RATON = 'Credibilul Raton Mișșișșippi';
 // ====================
 
-const STICKERS = [['maze', '🗺️'], ['statui', '🪙'], ['usi', '🚪'], ['boss', '🏆']];
+const SAVE_KEY = 'misi-joc-v2';
 let S = fresh();
-function fresh() { return { stage: 'intro', name: 'David', stickers: [], liar: Math.random() < .5 ? 'Tic' : 'Tac' }; }
-function save() { try { localStorage.setItem('misi-joc', JSON.stringify(S)); } catch (e) {} }
-function load() { try { const x = JSON.parse(localStorage.getItem('misi-joc')); if (x && x.stage) S = Object.assign(fresh(), x); } catch (e) {} }
+function fresh() { return { stage: 'intro', name: 'David', stickers: [] }; }
+function save() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) {} }
+function load() { try { const x = JSON.parse(localStorage.getItem(SAVE_KEY)); if (x && x.stage) S = Object.assign(fresh(), x); } catch (e) {} }
 
 const card = document.getElementById('card');
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const pick = a => a[Math.floor(Math.random() * a.length)];
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const wait = ms => new Promise(r => setTimeout(r, ms));
+const NAME = () => esc(S.name);
 
 // ---------- sunete ----------
 let AC;
@@ -99,291 +203,216 @@ function tone(f, d = .12, type = 'sine', vol = .2, delay = 0, slide) {
   g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
   o.connect(g).connect(a.destination); o.start(t); o.stop(t + d + .02);
 }
-function noise(d = .4, vol = .4) {
+function noise(d = .3, vol = .3, type = 'lowpass', f0 = 1000, f1 = 0, delay = 0) {
   const a = ac(); if (!a) return;
-  const b = a.createBuffer(1, a.sampleRate * d, a.sampleRate), data = b.getChannelData(0);
-  for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
-  const s = a.createBufferSource(), g = a.createGain(); s.buffer = b; g.gain.value = vol;
-  s.connect(g).connect(a.destination); s.start();
+  const b = a.createBuffer(1, Math.floor(a.sampleRate * d), a.sampleRate), x = b.getChannelData(0);
+  for (let i = 0; i < x.length; i++) x[i] = Math.random() * 2 - 1;
+  const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain(), t = a.currentTime + delay;
+  s.buffer = b; f.type = type; f.frequency.setValueAtTime(f0, t); if (f1) f.frequency.exponentialRampToValueAtTime(f1, t + d);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+  s.connect(f).connect(g).connect(a.destination); s.start(t);
 }
 const SFX = {
   click: () => tone(600, .06, 'square', .08),
-  step: () => { tone(140, .08, 'triangle', .3); tone(110, .08, 'triangle', .3, .15); },
+  crunch: () => { noise(.09, .35, 'bandpass', 2600); noise(.09, .35, 'bandpass', 2000, 0, .17); },
+  paper: () => { noise(.18, .25, 'highpass', 3000); noise(.14, .2, 'highpass', 4000, 0, .2); },
   wrong: () => tone(300, .35, 'sawtooth', .12, 0, 120),
   good: () => [523, 659, 784, 1046].forEach((f, i) => tone(f, .18, 'triangle', .2, i * .1)),
-  boing: () => tone(200, .4, 'sine', .3, 0, 700),
-  hit: () => { noise(.15, .3); tone(90, .15, 'square', .2); },
+  boing: () => tone(200, .5, 'sine', .3, 0, 900),
+  clack: () => { tone(160, .1, 'square', .3); noise(.15, .5, 'highpass', 1500); },
+  whistle: () => tone(1500, 1.4, 'sine', .22, 0, 160),
+  thud: () => { tone(110, .4, 'sine', .7, 0, 35); noise(.35, .6, 'lowpass', 700, 80); },
+  rustle: () => { noise(.5, .3, 'bandpass', 3000, 1200); },
+  chatter: () => { for (let i = 0; i < 6; i++) tone(900 + Math.random() * 700, .06, 'triangle', .12, i * .08); },
+  hop: () => tone(320, .16, 'sine', .25, 0, 760),
+  splash: () => { noise(.7, .55, 'lowpass', 3500, 250); tone(500, .2, 'sine', .15, 0, 150); },
+  creak: () => { tone(95, 1.1, 'sawtooth', .07, 0, 60); tone(140, .8, 'sawtooth', .04, .2, 90); },
+  faint: () => tone(800, .9, 'triangle', .15, 0, 110),
+  beep: () => tone(1000, .05, 'square', .06),
+  alarm: () => { tone(880, .13, 'square', .07); tone(660, .13, 'square', .07, .16); tone(880, .13, 'square', .07, .32); },
+  hit: () => { noise(.15, .4, 'lowpass', 2000); tone(90, .15, 'square', .2); },
   ouch: () => tone(500, .25, 'square', .1, 0, 200),
   heal: () => [400, 600, 800].forEach((f, i) => tone(f, .2, 'sine', .15, i * .08)),
-  laser: () => tone(1500, .3, 'sawtooth', .08, 0, 200),
-  boom: () => { noise(1.2, .6); tone(60, 1, 'sine', .5, 0, 30); },
+  laser: () => tone(1600, .45, 'sawtooth', .09, 0, 180),
+  whoosh: () => noise(.45, .35, 'bandpass', 500, 3500),
+  whir: () => { tone(110, .8, 'sawtooth', .1, 0, 330); noise(.8, .15, 'bandpass', 800, 2000); },
+  scream: () => { [0, .15, .3].forEach(d => tone(700, .25, 'sawtooth', .08, d, 1300)); },
+  counter: () => { tone(900, .08, 'square', .1); [784, 1046, 1318].forEach((f, i) => tone(f, .15, 'triangle', .18, .08 + i * .07)); },
+  jug: () => { noise(.6, .6, 'lowpass', 3000, 100); tone(70, .7, 'square', .3, 0, 30); [300, 500, 800, 1200].forEach((f, i) => tone(f, .12, 'square', .1, .1 + i * .06)); },
+  boom: () => { noise(1.4, .7, 'lowpass', 2500, 60); tone(60, 1.2, 'sine', .6, 0, 25); },
   win: () => [523, 523, 523, 659, 784, 659, 784, 1046].forEach((f, i) => tone(f, .22, 'triangle', .22, i * .14)),
 };
 
-// ---------- afișare ----------
-function renderStickers() {
-  document.getElementById('stickers').innerHTML = STICKERS.map(([k, e]) =>
-    `<div class="st ${S.stickers.includes(k) ? 'on' : ''}">${e}</div>`).join('');
+// ---------- desene ----------
+const SPIRAL = (() => { let d = ''; for (let a = 0; a <= 6 * Math.PI; a += .3) { const r = 2 + a * 1.25; d += (d ? 'L' : 'M') + (Math.cos(a) * r).toFixed(1) + ' ' + (Math.sin(a) * r).toFixed(1); } return d; })();
+const SPIRAL_ICON = `<svg viewBox="-28 -28 56 56"><path d="${SPIRAL}" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/></svg>`;
+const PAW_ICON = '<svg viewBox="0 0 40 48"><use href="#paw"/></svg>';
+function pawAt(x, y, rot, s = 1, fill = '#5b3a1e', op = 1) {
+  const w = 18 * s, h = 22 * s;
+  return `<use href="#paw" x="${(x - w / 2).toFixed(1)}" y="${(y - h / 2).toFixed(1)}" width="${w}" height="${h}" fill="${fill}" opacity="${op}" transform="rotate(${rot} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
 }
-function giveSticker(k) { if (!S.stickers.includes(k)) S.stickers.push(k); save(); renderStickers(); }
-
-// show({flash, emoji, title, text:[...], buttons:[{t,f,c}], cols, after})
-function show(o) {
-  card.innerHTML = '';
-  card.style.animation = 'none'; card.offsetHeight; card.style.animation = '';
-  let h = '';
-  if (o.flash) h += `<p class="flash">${o.flash}</p>`;
-  if (o.emoji) h += `<div class="big">${o.emoji}</div>`;
-  if (o.title) h += `<h1>${o.title}</h1>`;
-  (o.text || []).forEach(t => h += t.startsWith('<') ? t : `<p>${t}</p>`);
-  card.innerHTML = h;
-  if (o.buttons) {
-    const box = document.createElement('div');
-    box.className = 'btns' + (o.cols ? ' ' + o.cols : '');
-    o.buttons.forEach(b => {
-      const el = document.createElement('button');
-      el.innerHTML = b.t; if (b.c) el.className = b.c; if (b.dis) el.disabled = true;
-      el.onclick = () => { SFX.click(); b.f(); };
-      box.appendChild(el);
-    });
-    card.appendChild(box);
+// o dâră de urme pe o linie, alternând stânga/dreapta
+function trail(x0, y0, dx, dy, n, step, o = {}) {
+  let s = ''; const rot = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+  for (let i = 0; i < n; i++) {
+    const side = i % 2 ? 1 : -1;
+    s += pawAt(x0 + dx * step * i - dy * 6 * side, y0 + dy * step * i + dx * 6 * side, rot, o.s || .8, o.fill, o.op);
   }
-  if (o.after) o.after(card);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  return s;
 }
-function go(stage) { S.stage = stage; save(); SCENES[stage](); }
+function raccoon(x, y, w, o = {}) {
+  const fur = o.messy ? '#9d9da4' : '#b4b4bb', body = '#a3a3aa', dk = '#2b2118', mid = '#3a3a40';
+  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 120 150" overflow="visible"><g stroke="${dk}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M84 132 q36 -2 30 -46" fill="none" stroke="${dk}" stroke-width="21"/>
+<path d="M84 132 q36 -2 30 -46" fill="none" stroke="#cfcfd4" stroke-width="16"/>
+<path d="M84 132 q36 -2 30 -46" fill="none" stroke="${mid}" stroke-width="16" stroke-dasharray="7 7" stroke-linecap="butt"/>
+<ellipse cx="60" cy="112" rx="32" ry="32" fill="${body}"/>
+<ellipse cx="60" cy="118" rx="19" ry="22" fill="#ece7dc" stroke="none"/>
+${o.apron ? `<path d="M37 98 H83 L80 134 Q60 142 40 134 Z" fill="${o.apron}"/><path d="M60 106 q9 7 0 18 q-9 -11 0 -18z" fill="#7cc36b" stroke-width="2"/>` : ''}
+<ellipse cx="31" cy="110" rx="8" ry="13" fill="${body}" transform="rotate(20 31 110)"/>
+<ellipse cx="89" cy="110" rx="8" ry="13" fill="${body}" transform="rotate(-20 89 110)"/>
+<ellipse cx="44" cy="143" rx="11" ry="6" fill="${mid}"/><ellipse cx="76" cy="143" rx="11" ry="6" fill="${mid}"/>
+<path d="M24 44 L28 10 L54 28 Z" fill="${fur}"/><path d="M96 44 L92 10 L66 28 Z" fill="${fur}"/>
+<path d="M30 36 L32 19 L45 28 Z" fill="${mid}" stroke="none"/><path d="M90 36 L88 19 L75 28 Z" fill="${mid}" stroke="none"/>
+${o.messy ? `<path d="M24 36 l-10 -10 l13 1 l-3 -14 l12 8 l5 -15 l7 13 l9 -13 l3 14 l12 -9 l-2 14 l13 -3 l-9 11" fill="${fur}"/>` : ''}
+<ellipse cx="60" cy="56" rx="41" ry="33" fill="${fur}"/>
+<path d="M52 24 Q60 21 68 24 L64 46 L56 46 Z" fill="${mid}" stroke="none"/>
+<path d="M26 50 Q38 36 54 45" fill="none" stroke="#fff" stroke-width="6"/><path d="M94 50 Q82 36 66 45" fill="none" stroke="#fff" stroke-width="6"/>
+<path d="M21 58 Q28 46 45 49 Q55 52 60 59 Q65 52 75 49 Q92 46 99 58 Q93 72 76 68 Q66 66 60 68 Q54 66 44 68 Q27 72 21 58 Z" fill="${dk}"/>
+<circle cx="43" cy="58" r="7" fill="#fff" stroke="none"/><circle cx="77" cy="58" r="7" fill="#fff" stroke="none"/>
+<circle cx="44" cy="59" r="4" fill="#111" stroke="none"/><circle cx="78" cy="59" r="4" fill="#111" stroke="none"/>
+<circle cx="45.5" cy="57.5" r="1.5" fill="#fff" stroke="none"/><circle cx="79.5" cy="57.5" r="1.5" fill="#fff" stroke="none"/>
+<ellipse cx="60" cy="75" rx="17" ry="12" fill="#f2efe8"/>
+<ellipse cx="60" cy="69" rx="6" ry="4.5" fill="${dk}"/>
+<path d="M53 78 Q60 84 67 78" fill="none"/>
+<path d="M40 74 L20 ${o.messy ? 64 : 70} M40 78 L22 ${o.messy ? 88 : 80} M80 74 L98 ${o.messy ? 80 : 70} M80 78 L100 ${o.messy ? 72 : 80}" stroke-width="1.5"/>
+${o.messy ? '<circle cx="34" cy="42" r="4" fill="#555" stroke="none"/><circle cx="86" cy="86" r="5" fill="#555" stroke="none"/><circle cx="70" cy="34" r="3" fill="#555" stroke="none"/>' : ''}
+</g></svg>`;
+}
+function opossum(x, y, w, dead) {
+  const g = `<g stroke="#2b2118" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M34 128 Q2 132 6 100 Q9 84 22 90" fill="none" stroke="#e7a1a8" stroke-width="7"/>
+<ellipse cx="60" cy="112" rx="30" ry="30" fill="#bdb9b1"/>
+<ellipse cx="60" cy="118" rx="17" ry="19" fill="#e2ddd3" stroke="none"/>
+<ellipse cx="44" cy="141" rx="9" ry="5" fill="#f2b6bd"/><ellipse cx="76" cy="141" rx="9" ry="5" fill="#f2b6bd"/>
+<ellipse cx="34" cy="108" rx="7" ry="12" fill="#bdb9b1" transform="rotate(20 34 108)"/><ellipse cx="86" cy="108" rx="7" ry="12" fill="#bdb9b1" transform="rotate(-20 86 108)"/>
+<circle cx="32" cy="30" r="13" fill="#2b2118"/><circle cx="88" cy="30" r="13" fill="#2b2118"/>
+<circle cx="33" cy="31" r="6" fill="#e7a1a8" stroke="none"/><circle cx="87" cy="31" r="6" fill="#e7a1a8" stroke="none"/>
+<path d="M30 52 Q32 22 60 22 Q88 22 90 52 Q84 70 68 84 Q62 96 60 96 Q58 96 52 84 Q36 70 30 52 Z" fill="#f4f1ea"/>
+<path d="M42 28 Q60 21 78 28 Q70 40 60 40 Q50 40 42 28Z" fill="#cfcac0" stroke="none"/>
+${dead ? '<path d="M41 45 l9 9 M50 45 l-9 9 M70 45 l9 9 M79 45 l-9 9" stroke-width="3"/><path d="M63 96 q3 11 9 4" fill="#ff8fa3"/>'
+    : '<circle cx="46" cy="50" r="5" fill="#111"/><circle cx="74" cy="50" r="5" fill="#111"/><circle cx="47.5" cy="48.5" r="1.5" fill="#fff" stroke="none"/><circle cx="75.5" cy="48.5" r="1.5" fill="#fff" stroke="none"/>'}
+<ellipse cx="60" cy="94" rx="6" ry="4.5" fill="#e98ca0"/>
+<path d="M50 84 L30 80 M50 88 L32 92 M70 84 L90 80 M70 88 L88 92" stroke-width="1.5"/>
+</g>`;
+  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 120 150" overflow="visible">${dead ? `<g transform="rotate(170 60 84)">${g}</g>` : g}</svg>`;
+}
+const ENVELOPE = `<svg class="env" viewBox="0 0 220 150"><g stroke="#2b2118" stroke-width="3" stroke-linejoin="round">
+<rect x="10" y="18" width="200" height="122" rx="8" fill="#f5e6c8"/>
+<path d="M10 140 L88 80 M210 140 L132 80" fill="none"/>
+<path d="M10 26 L110 94 L210 26" fill="#efdcb5"/>
+<circle cx="110" cy="92" r="21" fill="#c0392b"/>
+</g>${pawAt(110, 92, 0, 1.3, '#f6c6bf')}
+${pawAt(40, 120, -30, .7, '#8a6a4a', .5)}${pawAt(176, 46, 20, .7, '#8a6a4a', .5)}${pawAt(186, 116, 40, .7, '#8a6a4a', .5)}
+<text x="58" y="50" font-family="Noteworthy,Chalkboard SE,Comic Sans MS,cursive" font-size="15" fill="#c0392b" transform="rotate(-8 58 50)" font-weight="bold">STRICT SECRET!</text></svg>`;
 
-// ---------- 0. INTRO ----------
-function intro() {
-  show({
-    emoji: '🔍🐾',
-    title: 'Urmele lui Mișșișșippi',
-    text: [`Ai găsit un indiciu! <b>${RATON}</b> a trecut pe aici... și a lăsat urme peste tot.`,
-      'Urmele duc spre un labirint ciudat. La intrare stă un paznic.'],
-    buttons: [{ t: '🚶 Mergi la intrare', f: () => go('guard'), c: 'wide' }],
-  });
-}
-
-// ---------- 1. PAZNICUL ----------
-const VEDETE = ['spiderman', 'batman', 'superman', 'pikachu', 'mario', 'sonic', 'elsa', 'harrypotter', 'ironman', 'hulk'];
-function guard(msg) {
-  show({
-    emoji: '🦉',
-    title: 'Paznicul Huhurezu',
-    text: [msg || `<div class="say">«Huu-huu! STAI! Eu sunt Huhurezu, paznicul Labirintului Încâlcit. Las să intre doar <b>detectivi adevărați</b>. Cum te cheamă?»</div>`],
-    after: c => {
-      const inp = document.createElement('input');
-      inp.placeholder = 'numele tău'; inp.autocomplete = 'off'; inp.setAttribute('autocorrect', 'off'); inp.spellcheck = false;
-      c.appendChild(inp);
-      const box = document.createElement('div'); box.className = 'btns one';
-      const b = document.createElement('button'); b.textContent = '🙋 Mă prezint';
-      box.appendChild(b); c.appendChild(box);
-      const send = () => { SFX.click(); checkName(inp.value); };
-      b.onclick = send; inp.onkeydown = e => { if (e.key === 'Enter') send(); };
-    },
-  });
-}
-function checkName(raw) {
-  const n = raw.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z]/g, '');
-  const X = esc(raw.trim());
-  if (NUME_ACCEPTATE.includes(n)) {
-    S.name = n === 'davi' ? 'Davi' : 'David'; save(); SFX.good();
-    return show({
-      emoji: '🦉✨',
-      text: [`<div class="say">«${S.name.toUpperCase()}! Detectivul ${S.name}! Te-am recunoscut după privirea de detectiv. Poftim, intră!»</div>`,
-        'Huhurezu se dă la o parte. Pe jos se văd urme proaspete de lăbuțe... 🐾'],
-      buttons: [{ t: '🌿 Intră în labirint', f: () => { S.moves = 0; go('maze'); }, c: 'wide' }],
-    });
+function mazeScene(track, spiral) {
+  const C = 60, hedge = [], open = new Set(['2,2', '2,1', '2,0', '2,3', '2,4', '1,2', '0,2', '3,2', '4,2']);
+  for (let y = 0; y < 5; y++) for (let x = 0; x < 5; x++) {
+    if (open.has(x + ',' + y)) continue;
+    if ((Math.abs(x - 2) <= 1 && Math.abs(y - 2) <= 1) || Math.random() < .78) hedge.push([x, y]);
   }
-  SFX.wrong();
-  let r;
-  if (!n) r = '«Nu ai zis nimic! Nici măcar o bufniță nu poate auzi un nume invizibil.»';
-  else if (n.includes('missis') || n.includes('misis') || n.includes('raton')) r = `«Ha! ${RATON} a încercat trucul ăsta azi-dimineață. Cu mustață falsă. Nu ține!»`;
-  else if (n.includes('huhu') || n.includes('bufni')) r = '«Eu sunt Huhurezu! Nu poți fi tu eu. Doar dacă ai pene... ai pene?»';
-  else if (n === 'mama' || n === 'tata') r = `«${X}? Hmm... ești cam scund ca să fii ${X}. Spune-mi numele TĂU.»`;
-  else if (VEDETE.includes(n)) r = `«${X}? ${X} a trecut pe aici ieri și era mult mai... ${pick(['verde', 'zburător', 'mustăcios', 'înalt'])}. Nu ești tu.»`;
-  else r = pick([
-    `«${X}? Nu te recunosc. Intră doar detectivi adevărați!»`,
-    `Huhurezu răsfoiește un carnețel... «${X}... ${X}... nu, nu ești pe lista mea de detectivi.»`,
-    `«Huu-huu! ${X} sună a nume de spion! Spune-mi numele tău ADEVĂRAT.»`,
-    `«${X}?! Huhurezu se scarpină sub aripă. Nu, nu cred. Mai încearcă.»`,
-  ]);
-  guard(`<div class="say">${r}</div>`);
+  let s = '<svg class="scene" viewBox="0 0 300 300"><rect width="300" height="300" fill="#dcc89c"/>';
+  for (let i = 0; i < 80; i++) s += `<circle cx="${(Math.random() * 300).toFixed(0)}" cy="${(Math.random() * 300).toFixed(0)}" r="${(1 + Math.random() * 1.6).toFixed(1)}" fill="#bea676"/>`;
+  hedge.forEach(([x, y]) => s += `<rect x="${x * C + 3}" y="${y * C + 7}" width="${C}" height="${C}" rx="14" fill="rgba(50,35,10,.28)"/>`);
+  hedge.forEach(([x, y]) => {
+    s += `<rect x="${x * C}" y="${y * C}" width="${C}" height="${C}" rx="14" fill="#3e8a3a"/>`;
+    for (let i = 0; i < 6; i++) s += `<circle cx="${x * C + 10 + Math.random() * 40}" cy="${y * C + 10 + Math.random() * 40}" r="${6 + Math.random() * 7}" fill="${pick(['#4f9e45', '#357a31', '#5aab4e', '#2f6e2c'])}"/>`;
+  });
+  const D = { inainte: [0, -1], inapoi: [0, 1], stanga: [-1, 0], dreapta: [1, 0] };
+  const others = Object.keys(D).filter(k => k !== track);
+  // urme vechi, șterse, peste tot
+  others.forEach(k => s += trail(150 + D[k][0] * 26, 150 + D[k][1] * 26, D[k][0], D[k][1], 6, 21, { op: .22, s: .7 }));
+  // urme proaspete spre direcția bună
+  s += trail(150 + D[track][0] * 24, 150 + D[track][1] * 24, D[track][0], D[track][1], 7, 19, { fill: '#4a2a10' });
+  // șoseta
+  const sk = D[pick(others)];
+  const sx = 150 + sk[0] * 92 + sk[1] * 14, sy = 150 + sk[1] * 92 + sk[0] * 14;
+  s += `<use href="#sock" x="${sx - 13}" y="${sy - 17}" width="26" height="34" transform="rotate(${rnd(-60, 60)} ${sx} ${sy})"/>`;
+  if (spiral) s += `<circle cx="90" cy="90" r="29" fill="#fff6d8" stroke="#2b2118" stroke-width="3"/><g transform="translate(90 90)"><path d="${SPIRAL}" fill="none" stroke="url(#rb)" stroke-width="5" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.4s" repeatCount="indefinite"/></path></g>`;
+  s += '<g transform="translate(150 150)"><circle r="14" fill="rgba(200,230,255,.75)" stroke="#2b2118" stroke-width="5"><animate attributeName="r" values="13;16;13" dur="1.4s" repeatCount="indefinite"/></circle><line x1="11" y1="11" x2="24" y2="24" stroke="#2b2118" stroke-width="8" stroke-linecap="round"/></g>';
+  return s + '</svg>';
 }
 
-// ---------- 2. LABIRINTUL ----------
-const DIRS = [['stanga', '⬅️ Stânga', 'stânga'], ['dreapta', '➡️ Dreapta', 'dreapta'], ['inainte', '⬆️ Înainte', 'înainte'], ['inapoi', '⬇️ Înapoi', 'înapoi']];
-const ROOM_TXT = [
-  'Ești în Labirintul Încâlcit. Pereții sunt din frunze. Pe jos e o șosetă cu dungi. 🧦',
-  'Ajungi într-o cameră nouă. Pereții sunt din frunze. Pe jos e o șosetă cu dungi... hmm.',
-  'Încă o cameră. Frunze. Șosetă cu dungi. Parcă semăna cu cealaltă?',
-  'Stai puțin! ȘOSETA ASTA ai mai văzut-o! Te învârți în cerc! 🧦🌀',
-  'Iar șoseta. 🧦 Tu te uiți la șosetă. Șoseta se uită la tine.',
-];
-const ROOM_LATER = [
-  'Șoseta cu dungi pare să-ți facă cu ochiul. 🧦😉',
-  'Aceeași cameră. Aceleași frunze. Aceeași șosetă. Ce plictiseală de labirint!',
-  'Șoseta e tot aici. Probabil e a lui Mișșișșippi.',
-];
-function maze(flash) {
-  const m = S.moves || 0;
-  const prev = S.track;
-  S.track = pick(DIRS.filter(d => d[0] !== prev))[0];
-  save();
-  const tr = DIRS.find(d => d[0] === S.track);
-  const txt = [m < ROOM_TXT.length ? ROOM_TXT[m] : pick(ROOM_LATER),
-    `<p class="tracks">🐾 Urme de lăbuțe duc spre <b>${tr[2].toUpperCase()}</b>.</p>`];
-  if (m >= 5) txt.push('Ceva tremură în colțul camerei... o direcție pe care n-ai mai văzut-o niciodată!');
-  const buttons = DIRS.map(d => ({ t: d[1], f: () => moveMaze(d) }));
-  if (m >= 5) buttons.push({ t: '<span class="sp">🌀</span> Ștânga <span class="sp">🌀</span>', f: exitMaze, c: 'spiral' });
-  show({ flash, text: txt, buttons });
+function chestSVG(color, contents = '', id = '') {
+  return `<svg class="chestsvg" ${id ? `id="${id}"` : ''} viewBox="0 0 120 110"><g stroke="#2b2118" stroke-width="3" stroke-linejoin="round">
+<rect x="10" y="48" width="100" height="56" rx="6" fill="${color}"/>
+<rect x="12" y="50" width="96" height="9" fill="rgba(0,0,0,.22)" stroke="none"/>
+<rect x="22" y="48" width="11" height="56" fill="#e2b33c"/><rect x="87" y="48" width="11" height="56" fill="#e2b33c"/>
+<rect x="49" y="56" width="22" height="24" rx="4" fill="#e2b33c"/><circle cx="60" cy="66" r="3.5" fill="#2b2118"/><path d="M60 68 v6"/>
+<g class="lid"><path d="M10 50 V34 Q10 12 60 12 Q110 12 110 34 V50 Z" fill="${color}"/><path d="M22 50 V17.5 Q27 16 33 15 V50Z M87 15 Q93 16 98 17.5 V50 H87Z" fill="#e2b33c"/><path d="M14 30 Q60 18 106 30" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="4"/></g>
+<g class="contents">${contents}</g>
+</g></svg>`;
 }
-function moveMaze(d) {
-  SFX.step();
-  S.moves = (S.moves || 0) + 1;
-  const followed = d[0] === S.track;
-  const flash = followed
-    ? `Urmezi urmele lui Mișșișșippi spre ${d[2]}... și ajungi exact de unde ai plecat! Ratonul ăsta e prea credibil.`
-    : `Mergi spre ${d[2]}... și mergi... și mergi...`;
-  maze(flash);
-}
-function exitMaze() {
-  SFX.boing(); giveSticker('maze');
-  show({
-    emoji: '🌀➡️🌳',
-    title: 'Ai ieșit!',
-    text: ['Te învârți pe ștânga ca un titirez și... HOP! Ești afară din labirint!',
-      'Urmele lui Mișșișșippi continuă printr-o grădină cu două statui ciudate.'],
-    buttons: [{ t: '🗿 Mergi la statui', f: () => { S.cards = []; go('statues'); }, c: 'wide' }],
-  });
+const IN_SOCK = '<use href="#sock" x="44" y="16" width="32" height="42" transform="rotate(-20 60 37)"/>';
+const IN_BOOT = '<path d="M44 14 h22 v24 q16 2 20 12 v6 h-42 z" fill="#8b5a2b"/><path d="M44 50 h42" stroke-width="4"/><path d="M52 6 q4 -6 0 -10 M62 6 q4 -6 0 -10" fill="none" stroke="#5fb36a" stroke-width="2.5"/>';
+const IN_MAP = '<g transform="rotate(-8 60 34)"><rect x="34" y="12" width="52" height="40" rx="3" fill="#f1deb0"/><path d="M40 40 q10 -14 20 -6 t20 -14" fill="none" stroke="#b5462f" stroke-width="2.5" stroke-dasharray="1 5"/><path d="M74 18 l8 8 M82 18 l-8 8" stroke="#c0392b" stroke-width="3.5"/></g>';
+const IN_NOTE = '<rect x="38" y="10" width="44" height="44" rx="4" fill="#fffaf0" transform="rotate(6 60 32)"/><text x="60" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#6b3fa0" stroke="none">?</text>';
+
+function mapScene() {
+  return `<svg class="scene" viewBox="0 0 400 250">
+<path d="M14 18 Q100 6 200 16 Q300 6 388 20 Q396 120 386 232 Q300 244 200 234 Q100 246 12 230 Q4 120 14 18Z" fill="#f1deb0" stroke="#a87b45" stroke-width="4"/>
+<path d="M190 20 Q168 80 198 130 Q226 180 204 232" stroke="#6aaedc" stroke-width="36" fill="none"/>
+<g fill="#9aa0a6" stroke="#2b2118" stroke-width="2"><ellipse cx="186" cy="126" rx="9" ry="6"/><ellipse cx="200" cy="138" rx="9" ry="6"/><ellipse cx="212" cy="126" rx="9" ry="6"/></g>
+<path d="M45 125 L70 100 L95 125 V158 H45Z" fill="#e8b878" stroke="#5b3a1e" stroke-width="3"/><path d="M38 128 L70 95 L102 128" fill="none" stroke="#3e8a3a" stroke-width="8" stroke-linecap="round"/><rect x="63" y="136" width="14" height="22" fill="#8b5a2b"/>
+<path d="M300 150 Q330 104 362 150 Z" fill="#6fae4f" stroke="#2b2118" stroke-width="3"/><circle cx="331" cy="140" r="9" fill="#8b5a2b" stroke="#2b2118" stroke-width="2"/>
+<path d="M100 145 Q150 152 198 132 Q250 110 318 120" fill="none" stroke="#b5462f" stroke-width="4" stroke-dasharray="1 11" stroke-linecap="round"/>
+<path d="M316 98 l22 22 M338 98 l-22 22" stroke="#c0392b" stroke-width="7" stroke-linecap="round"/>
+${pawAt(130, 150, 80, .55, '#5b3a1e', .7)}${pawAt(150, 146, 100, .55, '#5b3a1e', .7)}${pawAt(250, 116, 70, .55, '#5b3a1e', .7)}${pawAt(272, 116, 90, .55, '#5b3a1e', .7)}
+<g font-family="Noteworthy,Chalkboard SE,Comic Sans MS,cursive" font-size="16" fill="#5b3a1e" text-anchor="middle" font-weight="bold">
+<text x="70" y="184">Timi și Tomi</text><text x="200" y="58" transform="rotate(-70 200 58)" fill="#2f6fb5">Râul cu Pietre</text><text x="330" y="178">Ascunzătoarea</text></g>
+<g transform="translate(355 215)" stroke="#5b3a1e" stroke-width="2"><path d="M0 -16 L4 0 L0 16 L-4 0Z" fill="#c0392b"/><path d="M-16 0 L0 4 L16 0 L0 -4Z" fill="#f1deb0"/></g>
+</svg>`;
 }
 
-// ---------- 3. STATUILE TIC ȘI TAC ----------
-const QUIZ = [
-  ['Câte picioare are un păianjen?', '8', '3'],
-  ['Ce culoare are o banană coaptă?', 'Galbenă', 'Albastră cu buline'],
-  ['Ce zice vaca?', 'Muuu', 'Cucurigu'],
-  ['Cât fac 4 + 4?', '8', '44'],
-  ['Unde trăiesc peștii?', 'În apă', 'În frigider'],
-  ['Câte roți are o bicicletă?', 'Două', 'Paisprezece'],
-  ['Ce animal are trompă?', 'Elefantul', 'Melcul'],
-  ['Ce e mai mare: Soarele sau o minge?', 'Soarele', 'Mingea, evident'],
-];
-const honest = () => S.liar === 'Tic' ? 'Tac' : 'Tic';
-function statues(msg) {
-  S.cards = S.cards || [];
-  const shown = S.cards.map(i => {
-    const [q, t, f] = QUIZ[i];
-    const tic = S.liar === 'Tic' ? f : t, tac = S.liar === 'Tac' ? f : t;
-    return `<div class="qa"><b>❓ ${q}</b>🗿 Tic: «${tic}» &nbsp; 🗿 Tac: «${tac}»</div>`;
-  }).join('');
-  const left = QUIZ.map((_, i) => i).filter(i => !S.cards.includes(i));
-  show({
-    emoji: '🗿 🗿',
-    title: 'Statuile Tic și Tac',
-    text: [`<div class="say">«Noi suntem Tic și Tac, statui fermecate. Unul dintre noi spune MEREU adevărul. Celălalt MEREU minte. Ca să primești ce a ascuns ${RATON}, ghicește întâi <b>cine minte</b>. Ne poți pune întrebări din cutia cu cartonașe de quiz!»</div>`, shown, msg || ''],
-    buttons: [
-      { t: '🃏 Trage un cartonaș', f: () => { S.cards.push(pick(left)); save(); SFX.step(); statues(); }, c: 'alt wide', dis: !left.length },
-      { t: 'Tic minte!', f: () => guessLiar('Tic'), dis: !S.cards.length },
-      { t: 'Tac minte!', f: () => guessLiar('Tac'), dis: !S.cards.length },
-    ],
-  });
-}
-function guessLiar(who) {
-  if (who !== S.liar) {
-    SFX.wrong();
-    return statues(`<div class="say">${who} se supără: «EU?! Eu spun doar adevărul! Mai citește o dată ce am răspuns!»</div>`);
+function riverScene() {
+  const R = S.rv;
+  let s = `<svg class="scene" id="river" viewBox="0 0 400 430"><rect width="400" height="430" fill="#4a90c8"/>`;
+  for (let y = 90; y < 370; y += 34) {
+    let d = `M-80 ${y}`; for (let x = -80; x < 440; x += 40) d += ' q10 -7 20 0 t20 0';
+    s += `<path d="${d}" fill="none" stroke="#8cc4ec" stroke-width="3" opacity=".55"><animateTransform attributeName="transform" type="translate" from="0 0" to="40 0" dur="${(2 + (y % 3)).toFixed(1)}s" repeatCount="indefinite"/></path>`;
   }
-  SFX.good();
-  chests(`<div class="say">${S.liar} se înroșește (cât se poate înroși o statuie): «Of, m-ai prins! Eu sunt mincinosul.»</div>`);
-}
-function chests(msg) {
-  S.stage = 'chests'; save();
-  show({
-    text: [msg || '',
-      '<p>Acum fiecare statuie îți spune ceva despre cele trei cufere:</p>',
-      `<div class="qa">🗿 <b>${honest()}:</b> «Comoara NU e în cufărul roșu.»</div>`,
-      `<div class="qa">🗿 <b>${S.liar}:</b> «Comoara E în cufărul verde.»</div>`,
-      '<div class="chests"><span>🟥</span><span>🟦</span><span>🟩</span></div>',
-      '<p>Ce cufăr deschizi?</p>'],
-    cols: 'three',
-    buttons: [
-      { t: '🟥 Roșu', f: () => { SFX.wrong(); chests(`<div class="say">🧦 Doar o șosetă cu dungi. Iar ea?! ${honest()} oftează: «Ți-am zis că nu e în roșu.»</div>`); } },
-      { t: '🟦 Albastru', f: gotToken },
-      { t: '🟩 Verde', f: () => { SFX.wrong(); chests(`<div class="say">👞 Un pantof vechi și mirositor. ${S.liar} chicotește: «Hi-hi! Doar ți-am zis că eu mint!»</div>`); } },
-    ],
+  s += `<path d="M0 0 H400 V60 Q300 76 200 62 Q100 50 0 68Z" fill="#7cbf5a" stroke="#2b2118" stroke-width="3"/>
+<path d="M0 430 V372 Q100 356 200 368 Q300 380 400 362 V430Z" fill="#7cbf5a" stroke="#2b2118" stroke-width="3"/>`;
+  s += opossum(330, -6, 46, false);
+  s += trail(40, 398, 1, 0, 6, 26, { op: .45, s: .7 });
+  R.pos.forEach(([x, y], i) => {
+    const n = i + 1;
+    s += `<g class="stone${n < R.next ? ' done' : ''}" data-n="${n}"><ellipse cx="${x}" cy="${y + 5}" rx="32" ry="25" fill="#2e6a99"/><ellipse cx="${x}" cy="${y}" rx="31" ry="24" fill="#a3a9ae" stroke="#2b2118" stroke-width="3"/>
+<text x="${x}" y="${y + 10}" text-anchor="middle" font-size="29" font-weight="bold" fill="#2b2118" font-family="Trebuchet MS,sans-serif">${n}</text></g>`;
   });
-}
-function gotToken() {
-  SFX.good(); giveSticker('statui');
-  show({
-    emoji: '🟦➡️🪙',
-    title: 'Jetonul Întrebării!',
-    text: ['În cufărul albastru strălucește un jeton de aur. Pe el scrie: <b>«Valabil pentru O SINGURĂ întrebare.»</b>',
-      `<div class="say">Tic și Tac, în cor: «O să ai nevoie de el la Ușile Broscoilor. Gândește-te bine înainte să-l folosești!»</div>`],
-    buttons: [{ t: '🐸 Mergi mai departe', f: () => go('gate'), c: 'wide' }],
-  });
+  const [mx, my] = R.next > 1 ? R.pos[R.next - 2] : [200, 398];
+  s += `<g id="me" style="transform:translate(${mx}px,${my - 26}px)" pointer-events="none"><circle r="13" fill="rgba(200,230,255,.85)" stroke="#2b2118" stroke-width="5"/><line x1="10" y1="10" x2="22" y2="22" stroke="#2b2118" stroke-width="7" stroke-linecap="round"/></g>`;
+  return s + '</svg>';
 }
 
-// ---------- 4. UȘILE BROSCOILOR ----------
-function gate() {
-  show({
-    emoji: '🐸 🟩🚪 🟪🚪 🐸',
-    title: 'Ușile Broscoilor',
-    text: ['Urmele duc la două uși: una <b>verde</b> și una <b>mov</b>. În fața lor stau doi broscoi gemeni, Oac și Oc.',
-      `<div class="say">Oac: «Una dintre uși duce la ascunzătoarea lui ${RATON}. Cealaltă duce în Pivnița cu Murături. 🥒 Unul dintre noi spune MEREU adevărul, celălalt MEREU minte. Nu-ți spunem cine e cine!»</div>`,
-      '<div class="say">Oc (în șoaptă, e timid): «...și cu jetonul ăla poți să-i pui lui Oac o singură întrebare.»</div>'],
-    buttons: [{ t: '🪙 Folosesc jetonul', f: askMenu, c: 'wide' }],
-  });
-}
-function askMenu(msg) {
-  show({
-    emoji: '🪙',
-    text: [msg || '<p>Ce întrebare îi pui lui <b>Oac</b>? Ai una singură!</p>'],
-    cols: 'one',
-    buttons: [
-      { t: '«Oac, tu ești mincinosul?»', c: 'alt', f: () => answer('«Nu!» zice Oac. Și Oc adaugă repede: «Nici eu!»',
-        'Hmm... dacă Oac spune adevărul, ar zice «nu». Dar dacă minte... tot «nu» ar zice! N-ai aflat nimic.', false) },
-      { t: '«Oac, care ușă e cea bună?»', c: 'alt', f: () => answer('«Ușa verde!» zice Oac, zâmbind larg.',
-        'Bine... dar Oac spune adevărul sau minte? Nu știi!', true) },
-      { t: '«Oac, cât fac 2 + 2?»', c: 'alt', f: () => answer('«Cinci! Ba nu... șapte!» zice Oac.',
-        'Aha, Oac e MINCINOSUL! Dar... ți-ai folosit singura întrebare și tot nu știi ce ușă e bună. 😬', true) },
-      { t: '«Oac, ce ușă mi-ar arăta Oc?»', c: 'alt', f: () => answer('Oac se gândește... «Oc ți-ar arăta ușa verde.»',
-        'Hmm! Gândește-te bine: pe ce ușă intri?', true, true) },
-    ],
-  });
-}
-function answer(said, thought, canGo, smart) {
-  SFX.step();
-  S.smart = !!smart; save();
-  const buttons = [];
-  if (canGo) buttons.push({ t: '🟩 Intru pe ușa verde', f: pickles }, { t: '🟪 Intru pe ușa mov', f: rightDoor });
-  buttons.push({ t: '🤔 Mă mai gândesc', c: 'alt wide', f: () => askMenu('<div class="say">Broscoii se înduioșează și îți dau jetonul înapoi. «Mai încearcă!» 🪙</div><p>Ce întrebare îi pui lui <b>Oac</b>?</p>') });
-  show({ emoji: '🐸💬', text: [`<div class="say">${said}</div>`, thought], buttons });
-}
-function pickles() {
-  SFX.wrong();
-  show({
-    emoji: '🥒🥒🥒',
-    title: 'Pivnița cu Murături!',
-    text: ['Miroase a castraveți acri și a varză. Niciun raton pe aici. Ieși repede înapoi!',
-      '<div class="say">Broscoii râd: «Oac-oac! Hai, îți mai dăm un jeton.»</div>'],
-    buttons: [{ t: '🪙 Încerc din nou', f: () => askMenu(), c: 'wide' }],
-  });
-}
-function rightDoor() {
-  SFX.good(); giveSticker('usi');
-  show({
-    emoji: '🟪🚪✨',
-    title: S.smart ? 'GENIAL!' : 'Ai nimerit!',
-    text: [S.smart ? 'Ai pus întrebarea perfectă! Ușa mov se deschide.' : 'Ușa mov se deschide! Ai avut și puțin noroc...',
-      `<div class="say"><b>Secretul broscoilor:</b> dacă întrebi «ce ușă mi-ar arăta celălalt?», primești MEREU ușa greșită. Mincinosul minte despre adevăr. Cel sincer spune adevărul despre minciună. Așa că intri pe cealaltă! ${S.smart ? '' : 'Ține minte pentru data viitoare.'}</div>`,
-      'Dincolo de ușă se aude un zgomot metalic... CLANC... CLANC...'],
-    buttons: [{ t: '😮 Intră!', f: () => { S.hp = 10; S.bossHp = 14; S.potions = 3; go('boss'); }, c: 'wide' }],
-  });
+function doorScene(open, dead) {
+  return `<svg class="scene" viewBox="0 0 400 260"><rect width="400" height="260" fill="#a8d8f2"/>
+<circle cx="350" cy="44" r="22" fill="#ffd166"/>
+<path d="M0 260 V130 Q200 10 400 130 V260Z" fill="#6fae4f" stroke="#2b2118" stroke-width="3"/>
+<circle cx="230" cy="160" r="64" fill="#5b3a1e" stroke="#2b2118" stroke-width="3"/>
+<circle cx="230" cy="160" r="56" fill="#140d08"/>
+${open ? '<circle cx="214" cy="150" r="6" fill="#ff3b30"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="246" cy="150" r="6" fill="#ff3b30"><animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/></circle><path d="M174 160 A56 56 0 0 1 190 120 L182 160Z" fill="#a0652e" stroke="#2b2118" stroke-width="3"/>'
+    : '<g stroke="#2b2118" stroke-width="3"><circle cx="230" cy="160" r="56" fill="#a0652e"/><path d="M202 112 V214 M230 104 V216 M258 112 V214" stroke-width="2.5"/><circle cx="262" cy="166" r="6" fill="#e2b33c"/></g>'}
+<rect x="0" y="222" width="400" height="38" fill="#5c9a40"/>
+<g stroke="#2b2118" stroke-width="3"><rect x="316" y="122" width="48" height="66" rx="6" fill="#8a949e"/><rect x="323" y="130" width="34" height="16" rx="3" fill="#1d2b3a"/></g>
+<text x="340" y="143" text-anchor="middle" font-size="13" font-weight="bold" fill="#7cfc9a" font-family="Courier New,monospace">${open ? 'OK' : '?'}</text>
+<g fill="#c9d1d9" stroke="#2b2118" stroke-width="1.5">${[0, 1, 2].map(r => [0, 1, 2].map(c => `<rect x="${324 + c * 11}" y="${152 + r * 11}" width="8" height="8" rx="2"/>`).join('')).join('')}</g>
+${pawAt(160, 240, 80, .6, '#3d2a14', .6)}${pawAt(182, 236, 100, .6, '#3d2a14', .6)}
+${opossum(36, dead ? 100 : 82, 104, dead)}
+</svg>`;
 }
 
-// ---------- 5. MECHA-MIȘȘIȘȘIPPI ----------
 const BOSS_SVG = `<svg id="boss" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <g stroke="#2b2118" stroke-width="3" stroke-linejoin="round">
     <path d="M150 150 q40 -10 38 -50" fill="none" stroke="#6b737c" stroke-width="14"/>
@@ -407,108 +436,586 @@ const BOSS_SVG = `<svg id="boss" viewBox="0 0 200 200" xmlns="http://www.w3.org/
     <line x1="92" y1="96" x2="108" y2="96"/>
   </g>
 </svg>`;
-const ACTIONS = [
-  { t: '🦘 Sari', dmg: 2, txt: ['Sari sus și aterizezi drept pe capul robotului. BONG!', 'Faci o săritură de cangur și îi tragi o lovitură în antenă!'] },
-  { t: '💨 Ferește-te', dmg: 1, dodge: true, txt: ['Te ferești ca un ninja, iar robotul se lovește singur de perete. BUF!', 'Te strecori printre picioarele robotului. Se împiedică!'] },
-  { t: '🛡️ Blochează', dmg: 1, block: true, txt: ['Ridici capacul de oală. CLANG! Laserul ricoșează și îl nimerește chiar pe robot!', 'Te aperi cu capacul de oală. Robotul își lovește pumnul de el. AU!'] },
-  { t: '🪶 Gâdilă', dmg: 3, txt: ['Îl gâdili la subsuoara mecanică: «HA-HA-HA-EROARE-HA-HA!»', 'Îl gâdili la tălpile de metal. Robotul se strâmbă de râs și scapă un șurub!'] },
-  { t: '🧪 Poțiune', heal: 4, txt: ['Bei poțiunea. Are gust de căpșuni și curaj! +4 ❤️'] },
+const CAN = '<svg viewBox="0 0 30 36"><rect x="4" y="4" width="22" height="28" rx="4" fill="#c9d1d9" stroke="#2b2118" stroke-width="3"/><rect x="4" y="12" width="22" height="10" fill="#e05a47"/></svg>';
+const PEEL = '<svg viewBox="0 0 36 36"><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#2b2118" stroke-width="8" stroke-linecap="round"/><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#ffd84d" stroke-width="5" stroke-linecap="round"/></svg>';
+const FIST = '<svg viewBox="0 0 60 60"><g stroke="#2b2118" stroke-width="3"><rect x="8" y="12" width="44" height="38" rx="12" fill="#9aa5b1"/><path d="M19 12 V28 M30 12 V28 M41 12 V28" fill="none"/><rect x="2" y="22" width="14" height="18" rx="5" fill="#b8c1ca"/></g></svg>';
+function starPoints(n, r1, r2) { let p = []; for (let i = 0; i < n * 2; i++) { const r = i % 2 ? r2 : r1, a = Math.PI * i / n; p.push((Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1)); } return p.join(' '); }
+const BURST = `<svg class="burst" viewBox="-110 -110 220 220"><polygon points="${starPoints(14, 105, 60)}" fill="#ff8c42" stroke="#2b2118" stroke-width="4"><animateTransform attributeName="transform" type="rotate" from="0" to="40" dur="2s" fill="freeze"/></polygon><polygon points="${starPoints(11, 72, 40)}" fill="#ffd166"/><polygon points="${starPoints(9, 40, 22)}" fill="#fff6c2"/></svg>`;
+
+const ICON = {
+  maze: '<svg viewBox="0 0 40 40"><rect x="3" y="14" width="34" height="22" rx="8" fill="#3e8a3a"/><circle cx="11" cy="15" r="7" fill="#4f9e45"/><circle cx="21" cy="11" r="8" fill="#5aab4e"/><circle cx="31" cy="15" r="6" fill="#4f9e45"/></svg>',
+  harta: '<svg viewBox="0 0 40 40"><rect x="5" y="8" width="30" height="24" rx="3" fill="#f1deb0" stroke="#a87b45" stroke-width="2"/><path d="M10 26 q8 -10 14 -4 t8 -10" fill="none" stroke="#b5462f" stroke-width="2" stroke-dasharray="1 4"/><path d="M26 11 l6 6 M32 11 l-6 6" stroke="#c0392b" stroke-width="3"/></svg>',
+  rau: '<svg viewBox="0 0 40 40"><rect x="2" y="4" width="36" height="32" rx="9" fill="#4a90c8"/><path d="M5 12 q4 -3 8 0 t8 0 M19 30 q4 -3 8 0 t8 0" fill="none" stroke="#8cc4ec" stroke-width="2"/><g fill="#a3a9ae" stroke="#2b2118" stroke-width="1.5"><ellipse cx="10" cy="28" rx="6" ry="4.5"/><ellipse cx="20" cy="19" rx="6" ry="4.5"/><ellipse cx="30" cy="11" rx="6" ry="4.5"/></g></svg>',
+  boss: '<svg viewBox="0 0 40 40"><path d="M11 6 H29 V16 Q29 26 20 27 Q11 26 11 16Z" fill="#ffc83d" stroke="#2b2118" stroke-width="2"/><path d="M11 9 H5 Q5 18 12 19 M29 9 H35 Q35 18 28 19" fill="none" stroke="#2b2118" stroke-width="2"/><rect x="17" y="27" width="6" height="5" fill="#ffc83d"/><rect x="12" y="32" width="16" height="5" rx="2" fill="#8b5a2b"/></svg>',
+};
+const STICKERS = ['maze', 'harta', 'rau', 'boss'];
+
+// ---------- afișare ----------
+function renderStickers() {
+  document.getElementById('stickers').innerHTML = STICKERS.map(k => `<div class="st ${S.stickers.includes(k) ? 'on' : ''}">${ICON[k]}</div>`).join('');
+}
+function giveSticker(k) { if (!S.stickers.includes(k)) S.stickers.push(k); save(); renderStickers(); }
+
+// show({flash, title, text:[...], buttons:[{t,f,c,dis}], cols, after})
+function show(o) {
+  card.className = 'card';
+  card.style.animation = 'none'; card.offsetHeight; card.style.animation = '';
+  let h = '';
+  if (o.flash) h += `<p class="flash">${o.flash}</p>`;
+  if (o.title) h += `<h1>${o.title}</h1>`;
+  (o.text || []).forEach(t => h += t.startsWith('<') ? t : `<p>${t}</p>`);
+  card.innerHTML = h;
+  if (o.buttons) {
+    const box = document.createElement('div');
+    box.className = 'btns' + (o.cols ? ' ' + o.cols : '');
+    o.buttons.forEach(b => {
+      const el = document.createElement('button');
+      el.innerHTML = b.t; if (b.c) el.className = b.c; if (b.dis) el.disabled = true;
+      el.onclick = () => { SFX.click(); b.f(); };
+      box.appendChild(el);
+    });
+    card.appendChild(box);
+  }
+  if (o.after) o.after(card);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function go(stage) { S.stage = stage; save(); setPaws(); SCENES[stage](); }
+function setPaws() { document.body.classList.toggle('pawsy', ['intro', 'letter', 'maze'].includes(S.stage)); }
+const say = (lines) => `<div class="say">${lines.map(([w, t]) => `<p><b class="${w}">${{ timi: 'Timi', tomi: 'Tomi', ten: 'Tenneșșee', mis: 'Mișșișșippi' }[w]}:</b> ${t}</p>`).join('')}</div>`;
+
+// efecte
+function bigText(txt, cls = '', ms = 1400) { const d = document.createElement('div'); d.className = 'bigtxt ' + cls; d.innerHTML = txt; document.getElementById('over').appendChild(d); setTimeout(() => d.remove(), ms); }
+function flashScreen(color) { const d = document.createElement('div'); d.className = 'flashov'; d.style.background = color; document.body.appendChild(d); setTimeout(() => d.remove(), 600); }
+function retrigger(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+function leaves(n = 26) {
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement('div'); c.className = 'leaf';
+    c.style.background = pick(['#4f9e45', '#357a31', '#7cc36b']);
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.animationDuration = 1.5 + Math.random() * 2 + 's';
+    c.style.animationDelay = Math.random() * .4 + 's';
+    document.body.appendChild(c); setTimeout(() => c.remove(), 4500);
+  }
+}
+function pawLayer() {
+  const L = document.getElementById('paws'); L.innerHTML = '';
+  const W = innerWidth, H = innerHeight, NS = 'http://www.w3.org/2000/svg';
+  for (let t = 0; t < 6; t++) {
+    const e = t % 4;
+    let x = e === 1 ? -20 : e === 3 ? W + 20 : Math.random() * W, y = e === 0 ? H + 20 : e === 2 ? -20 : Math.random() * H;
+    let ang = [-Math.PI / 2, 0, Math.PI / 2, Math.PI][e] + (Math.random() - .5) * .9;
+    for (let i = 0; i < 70; i++) {
+      ang += (Math.random() - .5) * .3;
+      x += Math.cos(ang) * 34; y += Math.sin(ang) * 34;
+      if (x < -40 || x > W + 40 || y < -40 || y > H + 40) break;
+      const side = i % 2 ? 1 : -1, el = document.createElementNS(NS, 'svg');
+      el.setAttribute('viewBox', '0 0 40 48'); el.innerHTML = '<use href="#paw"/>';
+      el.style.left = (x - Math.sin(ang) * 9 * side - 12) + 'px'; el.style.top = (y + Math.cos(ang) * 9 * side - 14) + 'px';
+      el.style.transform = `rotate(${(ang * 180 / Math.PI + 90).toFixed(0)}deg)`;
+      el.style.animationDelay = (t * 2 + i * .2).toFixed(2) + 's';
+      L.appendChild(el);
+    }
+  }
+}
+
+// ---------- 0. SCRISOAREA ----------
+function intro() {
+  show({
+    title: 'Un mesaj secret!',
+    text: [ENVELOPE, '<p>Cineva a lăsat aici o scrisoare. Plicul e plin de urme de lăbuțe și miroase a... raton.</p>'],
+    buttons: [{ t: 'Deschide scrisoarea', f: () => { SFX.paper(); go('letter'); }, c: 'wide' }],
+  });
+}
+const VEDETE = ['spiderman', 'batman', 'superman', 'pikachu', 'mario', 'sonic', 'elsa', 'harrypotter', 'ironman', 'hulk'];
+function letter(reply) {
+  show({
+    text: [`<div class="letter">
+<p>Salutare!</p>
+<p>Aici e <b>${RATON}</b>.</p>
+<p>Am auzit că mă caută un DETECTIV. Ha! Pe Mișșișșippi nu-l prinde nimeni!</p>
+<p>Dar stai... cine citește scrisoarea mea? Scrie-ți numele aici jos și îți trimit... ăăă... o gogoașă. Da. O gogoașă. NU e nicio capcană. Sigur-sigur.</p>
+${reply ? `<p class="ink">${reply}</p>` : ''}
+<input id="nume" placeholder="numele tău" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
+<p class="sign">— M. ${PAW_ICON}</p></div>`],
+    buttons: [{ t: 'Semnez scrisoarea', f: () => checkName(document.getElementById('nume').value), c: 'wide' }],
+    after: c => { const inp = c.querySelector('#nume'); inp.onkeydown = e => { if (e.key === 'Enter') { SFX.click(); checkName(inp.value); } }; },
+  });
+}
+function checkName(raw) {
+  const n = raw.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z]/g, '');
+  const X = esc(raw.trim());
+  if (NUME_ACCEPTATE.includes(n)) { S.name = n === 'davi' ? 'Davi' : 'David'; save(); return trapped(); }
+  SFX.wrong();
+  let r;
+  if (!n) r = 'Ai uitat să scrii! Cerneala mea fermecată nu poate citi nume invizibile.';
+  else if (/mis+i|misi|raton/.test(n)) r = 'Hei! EU sunt Mișșișșippi! Tu nu poți fi eu. Ai coadă cu dungi? Vezi? Scrie numele TĂU.';
+  else if (['mama', 'tata', 'mami', 'tati', 'buni', 'bunica', 'bunicul'].includes(n)) r = `${X}? Lui ${X} i-am trimis deja o scrisoare. Asta e pentru tine! Cum te cheamă pe TINE?`;
+  else if (VEDETE.includes(n)) r = `${X}?! ${X} mi-a scris ieri și avea un scris mult mai... ${pick(['verde', 'zburător', 'mustăcios', 'electric'])}. Nu ești tu!`;
+  else r = pick([
+    `${X}? Nu te știu. Scrisoarea asta e doar pentru un anumit DETECTIV...`,
+    `${X}... ${X}... Mișșișșippi răsfoiește lista. Nu, nu ești pe lista mea!`,
+    `${X} sună a nume de spion! Scrie-ți numele ADEVĂRAT!`,
+    `${X}?! Cerneala de pe scrisoare se încrețește de neîncredere. Mai încearcă!`,
+  ]);
+  letter(r);
+}
+function trapped() {
+  SFX.clack();
+  show({
+    text: [`<div class="letter"><p class="ink huge">${NAME().toUpperCase()}?!</p>
+<p>DETECTIVUL ${NAME().toUpperCase()}! Pe tine te așteptam!</p>
+<p class="ink">Ai căzut în CAPCANA MEA! HA-HA-HA-HA!</p>
+<p>P.S. Nu era nicio gogoașă.</p><p class="sign">— M. ${PAW_ICON}</p></div>`],
+    buttons: [{ t: 'Ce capcană?!', f: trapFall, c: 'wide' }],
+  });
+}
+async function trapFall() {
+  card.querySelector('button').disabled = true;
+  SFX.clack(); bigText('CLIC!', '', 900);
+  card.classList.add('quake'); await wait(900);
+  card.classList.remove('quake'); card.classList.add('fall');
+  SFX.whistle(); document.body.classList.add('dark');
+  await wait(400); bigText('AAAAAAA!', 'fallt', 1500);
+  await wait(1300);
+  SFX.thud(); SFX.rustle(); leaves();
+  document.body.classList.remove('dark');
+  S.moves = 0; S.stage = 'maze'; save(); setPaws();
+  maze('BUF! Ai aterizat într-un tufiș moale. De sus se aude vocea lui Mișșișșippi: «Ha-ha! Din Labirintul Încâlcit nu iese nimeni! Ieșirea e doar prin... ups. Nu-ți spun!»');
+}
+
+// ---------- 1. LABIRINTUL ----------
+const DIRS = [['stanga', '← Stânga', 'stânga'], ['dreapta', '→ Dreapta', 'dreapta'], ['inainte', '↑ Înainte', 'înainte'], ['inapoi', '↓ Înapoi', 'înapoi']];
+const ROOM_TXT = [
+  'Ești în <b>Labirintul Încâlcit</b>: garduri vii mai înalte decât un om mare, cărări de pietriș... și, pe jos, o șosetă cu dungi.',
+  'Mergi printre tufișuri până la altă răscruce. Pe cărare e o șosetă cu dungi... hmm.',
+  'Încă o răscruce. Frunze, frunze, frunze. Și... o șosetă cu dungi?',
+  'Stai puțin! ȘOSETA ASTA ai mai văzut-o! Te învârți în cerc!',
+  'Iar șoseta. Tu te uiți la șosetă. Șoseta se uită la tine.',
 ];
-const BOSS_ATT = ['trage cu LASERUL DIN OCHELARI 🔴', 'învârte COADA-ELICE 🌀', 'aruncă cu RACHETE DE GUNOI 🥫🍌', 'scoate un ȚIPĂT METALIC: «MIȘ-ȘIȘ-ȘIPPIII!» 📢'];
+const ROOM_LATER = [
+  'Șoseta cu dungi pare să-ți facă cu ochiul.',
+  'Aceleași tufișuri. Aceeași șosetă. Ce labirint încâlcit!',
+  'Șoseta e tot aici. Sigur e a lui Mișșișșippi. Miroase a raton.',
+];
+function maze(flash) {
+  const m = S.moves || 0, prev = S.track;
+  S.track = pick(DIRS.filter(d => d[0] !== prev))[0];
+  save();
+  const tr = DIRS.find(d => d[0] === S.track), open = m >= 5;
+  const txt = [mazeScene(S.track, open), m < ROOM_TXT.length ? ROOM_TXT[m] : pick(ROOM_LATER),
+    `<p class="tracks">Urme proaspete de lăbuțe duc spre <b>${tr[2].toUpperCase()}</b>.</p>`];
+  if (open) txt.push('Ce-i asta? În colțul dintre Stânga și Înainte s-a deschis o cărare învârtită ca un melc. O direcție pe care n-ai mai văzut-o niciodată!');
+  const buttons = DIRS.map(d => ({ t: d[1], f: () => moveMaze(d) }));
+  if (open) buttons.push({ t: `${SPIRAL_ICON} ȘTÂNGA ${SPIRAL_ICON}`, f: exitMaze, c: 'spiral' });
+  show({ flash, text: txt, buttons });
+}
+function moveMaze(d) {
+  SFX.crunch();
+  S.moves = (S.moves || 0) + 1;
+  const flash = d[0] === S.track
+    ? `Urmezi urmele lui Mișșișșippi spre ${d[2]}... și ajungi exact de unde ai plecat! Ratonul ăsta e prea credibil.`
+    : `Mergi spre ${d[2]}... și mergi... și mergi... printre tufișuri.`;
+  maze(flash);
+}
+async function exitMaze() {
+  SFX.boing(); card.classList.add('spin'); await wait(1000);
+  giveSticker('maze'); SFX.good(); leaves(14);
+  S.stage = 'out'; save(); setPaws(); outMaze();
+}
+function outMaze() {
+  show({
+    title: 'Ai ieșit!',
+    text: [`<svg class="scene" viewBox="0 0 300 150"><rect width="300" height="150" fill="#bfe3f5"/><rect y="104" width="300" height="46" fill="#7cbf5a"/>
+<path d="M190 104 L230 70 L270 104 V130 H190Z" fill="#e8b878" stroke="#2b2118" stroke-width="3"/><path d="M182 106 L230 64 L278 106" fill="none" stroke="#3e8a3a" stroke-width="9" stroke-linecap="round"/>
+${raccoon(110, 60, 52, { apron: '#5aa9e6' })}${raccoon(150, 60, 52, { apron: '#f4a259' })}${trail(14, 128, 1, 0, 5, 22, { op: .6, s: .7 })}</svg>`,
+      'Te învârți pe ȘTÂNGA ca un titirez și... HOP! Ai ieșit din labirint!',
+      'Urmele lui Mișșișșippi duc spre o căsuță cu acoperiș verde. În fața ei se joacă doi ratoni mici, identici.'],
+    buttons: [{ t: 'Mergi la căsuță', f: () => go('twins'), c: 'wide' }],
+  });
+}
+
+// ---------- 2. TIMI ȘI TOMI ----------
+const TWINS_SVG = (mood = '') => `<svg class="scene" viewBox="0 0 300 170"><rect width="300" height="170" fill="#e9f5dc"/><rect y="138" width="300" height="32" fill="#9ccc7a"/>
+${raccoon(50, 6, 100, { apron: '#5aa9e6' })}${raccoon(160, 6, 100, { apron: '#f4a259' })}
+<g font-size="17" font-weight="bold" text-anchor="middle" font-family="Trebuchet MS,sans-serif"><text x="100" y="166" fill="#2f6fb5">Timi</text><text x="210" y="166" fill="#c26a1b">Tomi</text></g>${mood}</svg>`;
+// [întrebare, corect, greșit, greșit]
+const QUIZ = [
+  ['Câte picioare are un păianjen?', '8', '6', '100'],
+  ['Ce zice vaca?', 'Muuu', 'Cucurigu', 'Miau'],
+  ['Cât fac 3 + 2?', '5', '32', '7'],
+  ['Ce culoare are o banană coaptă?', 'Galbenă', 'Albastră', 'Mov cu buline'],
+  ['Unde trăiesc peștii?', 'În apă', 'În copaci', 'În frigider'],
+  ['Câte roți are o bicicletă?', '2', '4', '14'],
+  ['Ce animal are trompă?', 'Elefantul', 'Melcul', 'Pinguinul'],
+  ['Ce număr vine după 9?', '10', '8', '90'],
+  ['Cât fac 5 + 5?', '10', '55', '0'],
+  ['Ce formă are o minge?', 'Rotundă', 'Pătrată', 'Ca o banană'],
+  ['Câte urechi are un raton?', '2', '3', '5'],
+  ['Cât fac 4 + 4?', '8', '44', '9'],
+];
+// [întrebare, adevăr, minciună]
+const ASK = [
+  ['Câte picioare are o pisică?', 'Patru', 'Nouăsprezece'],
+  ['Ce culoare are iarba?', 'Verde', 'Roz cu sclipici'],
+  ['Cât fac 1 + 1?', 'Doi', 'Unsprezece'],
+  ['Ce zice câinele?', 'Ham-ham', 'Mac-mac'],
+  ['Unde e luna noaptea?', 'Pe cer', 'În buzunarul meu'],
+  ['Cum e zăpada?', 'Rece', 'Fierbinte ca ciorba'],
+  ['Câte cozi are un raton?', 'Una', 'Șapte'],
+  ['Ce mănâncă iepurașii?', 'Morcovi', 'Pietre'],
+];
+const COLORS = { rosu: ['#d64541', 'ROȘU', 'Roșu'], albastru: ['#3f7fd0', 'ALBASTRU', 'Albastru'], verde: ['#3f9a4f', 'VERDE', 'Verde'] };
+function twins() {
+  SFX.chatter();
+  show({
+    title: 'Timi și Tomi',
+    text: [TWINS_SVG(), say([
+      ['timi', '«Bună ziua, bună ziua! Noi suntem Timi și Tomi, nepoții lui Mișșișșippi!»'], ['tomi', '«...Mișșișșippi!»'],
+      ['timi', '«Unchiul a ascuns ceva într-unul dintre cuferele noastre!»'], ['tomi', '«...cuferele noastre!»'],
+      ['timi', '«Dar atenție: unul dintre noi spune MEREU adevărul, iar celălalt MEREU minte! Hi-hi!»'], ['tomi', '«...minte! Hi-hi!»'],
+      ['timi', '«Hai să ne jucăm! Întâi te întrebăm NOI ceva.»'], ['tomi', '«...NOI ceva!»']])],
+    buttons: [{ t: 'Hai să ne jucăm!', f: () => go('tquiz'), c: 'wide' }],
+  });
+}
+function tquiz(msg) {
+  S.tw = S.tw || { used: [] };
+  let left = QUIZ.map((_, i) => i).filter(i => !S.tw.used.includes(i));
+  if (!left.length) { S.tw.used = []; left = QUIZ.map((_, i) => i); }
+  const i = pick(left); S.tw.used.push(i); save();
+  const [q, ok, ...bad] = QUIZ[i];
+  show({
+    text: [TWINS_SVG(), msg || '', say([['timi', '«Întrebarea noastră este...»'], ['tomi', '«...este...»']]), `<p class="center"><b>${q}</b></p>`],
+    cols: 'three',
+    buttons: shuffle([ok, ...bad]).map(a => ({
+      t: a, c: 'alt', f: () => a === ok
+        ? (SFX.good(), tAsk())
+        : (SFX.wrong(), tquiz(say([['timi', `«${a}? Nuuu! Greșit!»`], ['tomi', '«...greșit! Încă una!»']]))),
+    })),
+  });
+}
+function tAsk() {
+  const liar = Math.random() < .5 ? 'timi' : 'tomi', chest = pick(Object.keys(COLORS));
+  const qs = shuffle(ASK.map((_, i) => i)).slice(0, 2);
+  S.tw.round = { liar, chest, qs }; save();
+  show({
+    text: [TWINS_SVG(), say([['timi', '«Corect! Bravo!»'], ['tomi', '«...bravo! Acum e rândul TĂU să ne întrebi ceva!»']]),
+      '<p>Ce-i întrebi pe Timi și Tomi?</p>'],
+    cols: 'one',
+    buttons: qs.map(i => ({ t: `«${ASK[i][0]}»`, c: 'alt', f: () => tAnswer(i) })),
+  });
+}
+function claim(first, second) { return [['timi', `«${first}!»`], ['tomi', `«...${first.toLowerCase()}? Ba nu! ${second}!»`]]; }
+function tAnswer(qi) {
+  SFX.chatter();
+  const { liar, chest } = S.tw.round, [q, t, f] = ASK[qi];
+  const wrongChest = pick(Object.keys(COLORS).filter(c => c !== chest));
+  const timiTrue = liar === 'tomi';
+  const c1 = `Comoara e în cufărul ${COLORS[timiTrue ? chest : wrongChest][1]}`, c2 = `E în cufărul ${COLORS[timiTrue ? wrongChest : chest][1]}`;
+  show({
+    text: [TWINS_SVG(), `<p>Tu: <b>«${q}»</b></p>`, say(claim(timiTrue ? t : f, timiTrue ? f : t)),
+      '<p class="flash">Hmm! Unul dintre ei a mințit. Ține minte cine!</p>',
+      '<p>Acum, despre cufere:</p>', say(claim(c1, c2)),
+      `<div class="chests">${Object.keys(COLORS).map(k => `<div class="chestbtn" data-c="${k}">${chestSVG(COLORS[k][0], k === chest ? IN_MAP : (k === 'rosu' ? IN_SOCK : k === 'verde' ? IN_BOOT : pick([IN_SOCK, IN_BOOT])))}${COLORS[k][2]}</div>`).join('')}</div>`,
+      '<p class="center"><b>Pe cine crezi? Alege un cufăr!</b></p>'],
+    after: c => c.querySelectorAll('.chestbtn').forEach(el => el.onclick = () => openTwinChest(el)),
+  });
+}
+async function openTwinChest(el) {
+  const k = el.dataset.c, ok = k === S.tw.round.chest;
+  card.querySelectorAll('.chestbtn').forEach(b => { if (b !== el) b.classList.add('off'); b.onclick = null; });
+  SFX.creak(); el.querySelector('.chestsvg').classList.add('open');
+  await wait(1300);
+  if (!ok) {
+    SFX.wrong(); SFX.chatter();
+    return show({
+      text: [`<div style="max-width:220px;margin:30px auto 0">${chestSVG(COLORS[k][0], el.querySelector('.contents').innerHTML)}</div>`,
+        k === 'rosu' || el.innerHTML.includes('#sock') ? 'Înăuntru e doar... o șosetă cu dungi. Iar ea?!' : 'Înăuntru e un pantof vechi și foarte mirositor. Pfui!',
+        say([['timi', '«Hi-hi-hi! Ai crezut pe cine nu trebuia!»'], ['tomi', '«...nu trebuia! Hai încă o dată!»']])],
+      buttons: [{ t: 'Încă o dată!', f: () => tquiz(), c: 'wide' }],
+      after: c => c.querySelector('.chestsvg').classList.add('open'),
+    });
+  }
+  SFX.good(); giveSticker('harta');
+  go('map');
+}
+function map() {
+  show({
+    title: 'Harta lui Mișșișșippi!',
+    text: ['În cufăr era o hartă veche, mototolită, cu urme de lăbuțe pe ea.', mapScene(),
+      say([['timi', '«Harta unchiului! Uite: s-a ascuns dincolo de Râul cu Pietre!»'], ['tomi', '«...Râul cu Pietre!»'],
+        ['timi', '«Pe pietre sari doar în ordine: 1, 2, 3... Altfel faci PLEOSC!»'], ['tomi', '«...PLEOSC! Hi-hi!»']])],
+    buttons: [{ t: 'Spre râu!', f: () => { S.rv = null; go('river'); }, c: 'wide' }],
+  });
+}
+
+// ---------- 3. RÂUL CU PIETRE ----------
+function river() {
+  if (!S.rv) {
+    const slots = [];
+    [125, 215, 305].forEach(y => [62, 152, 248, 338].forEach(x => slots.push([x + rnd(-14, 14), y + rnd(-10, 10)])));
+    S.rv = { next: 1, pos: shuffle(slots).slice(0, 10) }; save();
+  }
+  show({
+    title: 'Râul cu Pietre',
+    text: ['Apa curge repede. Pe pietre sunt scrise numere. Sari pe ele <b>în ordine</b>, de la 1 la 10!', riverScene(),
+      `<p class="tracks" id="rmsg">${S.rv.next > 1 ? `Acum caută piatra cu <b>${S.rv.next}</b>!` : 'Caută piatra cu <b>1</b>!'}</p>`],
+    after: c => c.querySelector('#river').onclick = e => { const g = e.target.closest('.stone'); if (g) stone(g); },
+  });
+}
+let hopping = false;
+async function stone(g) {
+  const n = +g.dataset.n, R = S.rv, msg = document.getElementById('rmsg'), [x, y] = R.pos[n - 1];
+  if (hopping || n < R.next) return;
+  if (n !== R.next) {
+    SFX.splash(); retrigger(g, 'sink');
+    g.parentNode.insertAdjacentHTML('beforeend', `<circle class="ripple" cx="${x}" cy="${y}" r="24"/>`);
+    msg.innerHTML = `<b>PLEOSC!</b> ${pick(['Piatra cu ' + n + ' se clatină!', 'Era cât pe ce să-ți uzi șosetele!', 'Brrr, apa e rece!'])} Caută piatra cu <b>${R.next}</b>!`;
+    return;
+  }
+  SFX.hop(); g.classList.add('done');
+  document.getElementById('me').style.transform = `translate(${x}px,${y - 26}px)`;
+  R.next++; save();
+  if (R.next <= 10) { msg.innerHTML = `${n}! ${pick(['Hop!', 'Țup!', 'Bravo!', 'Super!'])} Acum caută piatra cu <b>${R.next}</b>!`; return; }
+  hopping = true; msg.innerHTML = '<b>10! Ai ajuns pe malul celălalt!</b>';
+  await wait(600); SFX.good(); giveSticker('rau');
+  await wait(900); hopping = false; go('door');
+}
+
+// ---------- 4. UȘA LUI TENNEȘȘEE ----------
+function door(reply, dead) {
+  S.dr = S.dr || { tries: 0 }; let code = '';
+  const intro = say([['ten', '«S-s-stai! Eu sunt Tenneșșee, oposumul de pază al lui Mișșișșippi. Ușa asta se deschide doar cu NUMĂRUL PREFERAT al lui Mișșișșippi.»'],
+    ['ten', '«Un indiciu? Hmm... e un număr cu DOUĂ BURȚI. Și seamănă cu un om de zăpadă.»']]);
+  show({
+    title: 'Ușa din deal',
+    text: [doorScene(false, dead), reply || intro, '<div class="keyshow" id="ks">&nbsp;</div>'],
+    after: c => {
+      const pad = document.createElement('div'); pad.className = 'keypad';
+      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '⌫', 'OK'].forEach(k => {
+        const b = document.createElement('button'); b.textContent = k; if (k === 'OK' || k === '⌫') b.className = 'alt';
+        b.onclick = () => {
+          if (k === 'OK') { if (code) tryCode(code); return; }
+          SFX.beep();
+          code = k === '⌫' ? code.slice(0, -1) : (code + k).slice(-2);
+          document.getElementById('ks').innerHTML = code || '&nbsp;';
+        };
+        pad.appendChild(b);
+      });
+      c.appendChild(pad);
+      if (dead) setTimeout(() => { if (S.stage === 'door' && card.querySelector('#ks')) { card.querySelector('.scene').outerHTML = doorScene(false, false); } }, 2200);
+    },
+  });
+}
+function tryCode(code) {
+  const n = String(+code);
+  if (n === NUMAR_PREFERAT) return doorOpen();
+  S.dr.tries++; save(); SFX.wrong();
+  const faint = Math.random() < .5;
+  let r = {
+    1: '«Unu? Unu e slab ca un bețișor. N-are nicio burtă!»',
+    0: '«Zero are o singură burtă, mare și rotundă. Mișșișșippi vrea DOUĂ.»',
+    6: '«Șase are o singură burtă, jos. Mai trebuie una!»',
+    9: '«Nouă are o singură burtă, sus. Mai trebuie una!»',
+    3: '«Trei arată ca două burți tăiate pe jumătate. Aproape!»',
+  }[n] || pick([`«${n}? Nu. Nu e ăla. Gândește-te la un om de zăpadă!»`, `«${n}? Hmm, ${n} nu are două burți.»`]);
+  if (S.dr.tries >= 3) r += ' «Psst... e câte picioare are un păianjen!»';
+  if (faint) { SFX.faint(); r = `<p>Tenneșșee se sperie atât de tare că... leșină! (Oposumii fac asta.) ... ... Gata, și-a revenit.</p>${say([['ten', r]])}`; }
+  else r = say([['ten', r]]);
+  door(r, faint);
+}
+async function doorOpen() {
+  SFX.good(); SFX.faint();
+  show({
+    title: 'Ușa se deschide!',
+    text: [doorScene(true, true), say([['ten', `«${NUMAR_PREFERAT}! Da! Cum ai ghicit?!»`]]),
+      'Tenneșșee e atât de fericit că leșină. (Oposumii fac asta.)',
+      'Ușa scârțâie și se deschide. Înăuntru e întuneric... Doi ochi roșii se aprind. CLANC... CLANC...'],
+    buttons: [{ t: 'Intră!', f: startBoss, c: 'wide' }],
+  });
+  await wait(300); SFX.creak();
+}
+
+// ---------- 5. MECHA-MIȘȘIȘȘIPPI ----------
+const MAXHP = 12, BOSSHP = 24;
+const ACTS = {
+  sari: { t: 'Sari', dmg: [2, 2], txt: ['Sari sus și aterizezi drept pe capul robotului. BONG!', 'Faci o săritură de cangur și îi tragi o lovitură în antenă!'] },
+  fereste: { t: 'Ferește-te', dmg: [1, 1], txt: ['Te strecori printre picioarele robotului și îi dai un bobârnac în genunchi.', 'Faci o piruetă și îi tragi un șut în cutia de viteze!'] },
+  blocheaza: { t: 'Blochează', dmg: [1, 1], txt: ['Ridici capacul de oală și îi dai cu el una în nas. CLANG!', 'Te aperi cu capacul de oală și îl împingi. BONC!'] },
+  gadila: { t: 'Gâdilă', dmg: [1, 3], txt: ['Îl gâdili la subsuoara mecanică: «HA-HA-HA-EROARE-HA!»', 'Îl gâdili la tălpile de metal. Robotul se strâmbă de râs și scapă un șurub!'] },
+  jughineste: { t: 'JUGHINEȘTE!', dmg: [5, 6], txt: ['Îl JUGHINEȘTI cu toată puterea de detectiv! Robotul se învârte ca un titirez!', 'JUGHINEALĂ DE DETECTIV! Robotului îi sar trei șuruburi și o antenă!'] },
+  potiune: { t: 'Poțiune', heal: 5, txt: ['Bei poțiunea. Are gust de căpșuni și curaj!'] },
+};
+const ATTACKS = {
+  laser: { warn: 'Ochii robotului se încarcă, tot mai roșii... o să tragă cu LASERUL!', tip: 'De laser te poți feri.', counter: 'fereste', dmg: [2, 3], hit: 'Laserul te pârlește puțin la sprâncene!', miss: 'Te ferești ca un ninja și laserul topește un tufiș. Robotul se uită după tine buimac!' },
+  rachete: { warn: 'Se deschide o trapă în spatele robotului... RACHETE DE GUNOI!', tip: 'Capacul de oală poate respinge rachetele.', counter: 'blocheaza', dmg: [2, 3], hit: 'Te nimerește o conservă și o coajă de banană. Bleah!', miss: 'CLANG! CLANG! Rachetele ricoșează din capacul de oală... drept în robot!' },
+  coada: { warn: 'Coada-elice începe să se învârtă, jos, la nivelul picioarelor...', tip: 'Peste coadă se poate sări!', counter: 'sari', dmg: [2, 2], hit: 'Coada te mătură ca pe o frunză! Pleosc, pe fund!', miss: 'HOP! Sari peste coadă, iar robotul se încurcă singur în ea!' },
+  tipat: { warn: 'Robotul trage aer în difuzoare... o să ȚIPE!', tip: 'Un robot gâdilat nu mai poate țipa...', counter: 'gadila', dmg: [1, 2], hit: '«MIȘ-ȘIȘ-ȘIPPIII!» Îți țiuie urechile!', miss: 'Îl gâdili exact când deschide gura: «MIȘ-ȘIȘ-HI-HI-HI!» Se îneacă de râs!' },
+  mega: { warn: 'MEGA-LASER! Robotul pornește o sirenă și ochește drept spre tine!', tip: 'Ferește-te!!!', counter: 'fereste', dmg: [3, 4], hit: 'MEGA-LASERUL te nimerește! Ai fum în păr!', miss: 'Te arunci într-o parte în ultima clipă! MEGA-LASERUL face o gaură în tavan.' },
+  pumn: { warn: 'Robotul își strânge PUMNUL-RACHETĂ și ochește...', tip: 'Un capac de oală bun oprește orice pumn.', counter: 'blocheaza', dmg: [3, 3], hit: 'BUF! Pumnul-rachetă te aruncă într-un morman de cutii!', miss: 'BOING! Pumnul se lovește de capacul de oală și zboară înapoi în nasul robotului!' },
+};
+const SLIPS = ['Robotul calcă pe o coajă de banană din propriile rachete. BUF! Pierde tura.', 'Robotul se oprește să-și lustruiască mustața de metal. Pierde tura!', 'Robotului i se încurcă un cablu în coadă. Pierde tura!'];
 let busy = false;
+function startBoss() { S.b = { hp: MAXHP, bhp: BOSSHP, pot: 2, en: 0, angry: false, learned: {}, next: 'laser', last: '' }; go('boss'); }
 function boss() {
+  if (!S.b) return startBoss();
+  if (S.b.bhp <= 0) return victory();
+  busy = false;
+  const keys = ['sari', 'fereste', 'blocheaza', 'gadila', 'jughineste', 'potiune'];
   show({
     title: 'MECHA-MIȘȘIȘȘIPPI 3000',
-    text: [BOSS_SVG, '<div id="bars"></div>', `<div id="log"><p>Din întuneric se aprind doi ochi roșii. Un robot uriaș cu mască de raton! Cine o fi înăuntru?...</p></div>`],
-    buttons: ACTIONS.map((a, i) => ({ t: a.t, f: () => turn(i), c: i === 4 ? 'alt wide' : '' })),
-    after: () => { bars(); buttonsState(); },
+    text: [`<div class="arena" id="arena">${BOSS_SVG}</div>`, '<div id="bars"></div>', '<div id="warn"></div>',
+      '<div id="log"><p>Din întuneric se aprind doi ochi roșii. Un robot uriaș cu mască de raton! Cine o fi înăuntru?...</p></div>'],
+    buttons: keys.map(k => ({ t: ACTS[k].t, f: () => turn(k), c: k === 'jughineste' ? 'jug wide' : k === 'potiune' ? 'alt wide' : '' })),
+    after: () => { if (S.b.angry) document.getElementById('boss').classList.add('angry'); bars(); renderWarn(); buttonsState(); },
   });
 }
 function bars() {
-  const b = S.bossHp / 14 * 100, p = S.hp / 10 * 100;
+  const b = S.b;
   document.getElementById('bars').innerHTML =
-    `<div class="hp-label"><span>🤖 Mecha-Mișșișșippi</span><span>${S.bossHp} / 14</span></div><div class="bar"><i style="width:${b}%;background:var(--bad)"></i></div>` +
-    `<div class="hp-label"><span>🕵️ Detectivul ${esc(S.name)}</span><span>${'❤️'.repeat(Math.ceil(S.hp / 2))} ${S.hp} / 10</span></div><div class="bar"><i style="width:${p}%;background:var(--good)"></i></div>`;
+    `<div class="hp-label"><span>Mecha-Mișșișșippi</span><span>${b.bhp} / ${BOSSHP}</span></div><div class="bar"><i style="width:${b.bhp / BOSSHP * 100}%;background:var(--bad)"></i></div>` +
+    `<div class="hp-label"><span>Detectivul ${NAME()}</span><span>${b.hp} / ${MAXHP}</span></div><div class="bar"><i style="width:${b.hp / MAXHP * 100}%;background:var(--good)"></i></div>`;
+}
+function renderWarn() {
+  const a = ATTACKS[S.b.next];
+  document.getElementById('warn').innerHTML = `<div class="warn"><b>Atenție!</b> ${a.warn}${S.b.learned[S.b.next] ? '' : `<small>Sfat: ${a.tip}</small>`}</div>`;
 }
 function buttonsState() {
-  const bs = card.querySelectorAll('.btns button');
-  bs.forEach((b, i) => { b.disabled = busy || (i === 4 && (S.potions <= 0 || S.hp >= 10)); });
-  bs[4].innerHTML = `🧪 Poțiune (${S.potions} rămase)`;
+  const b = S.b, bs = card.querySelectorAll('.btns button');
+  bs.forEach((el, i) => { el.disabled = busy || (i === 4 && b.en < 3) || (i === 5 && (b.pot <= 0 || b.hp >= MAXHP)); });
+  bs[4].innerHTML = `JUGHINEȘTE! ${'●'.repeat(b.en)}${'○'.repeat(3 - b.en)}`;
+  bs[4].classList.toggle('ready', b.en >= 3 && !busy);
+  bs[5].innerHTML = `Poțiune (${b.pot} rămase)`;
 }
-function log(html) { document.getElementById('log').innerHTML = html; }
-function anim(cls) { const el = document.getElementById('boss'); el.classList.remove('hit', 'attack'); el.offsetWidth; el.classList.add(cls); }
-async function turn(i) {
+function log(lines) { document.getElementById('log').innerHTML = lines.map(l => `<p>${l}</p>`).join(''); }
+function anim(cls) { const el = document.getElementById('boss'); el.classList.remove('hit', 'attack', 'spin'); void el.offsetWidth; el.classList.add(cls); }
+function floatTxt(txt, color, top) {
+  const d = document.createElement('div'); d.className = 'fxt'; d.style.color = color; d.textContent = txt;
+  d.style.left = (30 + Math.random() * 40) + '%'; if (top) d.style.top = top;
+  document.getElementById('arena').appendChild(d); setTimeout(() => d.remove(), 1400);
+}
+async function attackFx(kind, countered) {
+  const A = document.getElementById('arena');
+  const add = (cls, style = '', html = '') => { const d = document.createElement('div'); d.className = cls; d.style.cssText = style; d.innerHTML = html; A.appendChild(d); setTimeout(() => d.remove(), 1700); };
+  anim('attack');
+  if (kind === 'laser' || kind === 'mega') {
+    SFX.laser(); if (kind === 'mega') SFX.alarm();
+    [-26, 26].forEach(o => add('beam' + (kind === 'mega' ? ' mega' : ''), `left:calc(50% + ${o}px - ${kind === 'mega' ? 13 : 6}px);${countered ? `transform:rotate(${o > 0 ? -45 : 45}deg)` : ''}`));
+  } else if (kind === 'rachete') {
+    SFX.whoosh();
+    for (let i = 0; i < 5; i++) add('proj' + (countered ? ' back' : ''), `--dx:${((Math.random() - .5) * 260).toFixed(0)}px;animation-delay:${i * .1}s`, i % 2 ? PEEL : CAN);
+  } else if (kind === 'pumn') { SFX.whoosh(); add('proj fist' + (countered ? ' back' : ''), '', FIST); }
+  else if (kind === 'coada') { SFX.whir(); add('sweep'); }
+  else if (kind === 'tipat') { SFX.scream(); add('scream', '', countered ? 'MIȘ-ȘIȘ-HI-HI-HI!' : 'MIȘ-ȘIȘ-ȘIPPIII!'); if (!countered) retrigger(card, 'quake'); }
+  await wait(850); card.classList.remove('quake');
+}
+async function turn(k) {
   if (busy) return;
   busy = true; buttonsState();
-  const a = ACTIONS[i];
+  const b = S.b, a = ACTS[k], at = ATTACKS[b.next], lines = [];
+  // rândul detectivului
   if (a.heal) {
-    S.potions--; S.hp = Math.min(10, S.hp + a.heal); SFX.heal();
-    log(`<p>${pick(a.txt)}</p>`);
+    b.pot--; b.hp = Math.min(MAXHP, b.hp + a.heal); SFX.heal(); floatTxt('+' + a.heal, '#2e8b3e', '75%');
+    lines.push(`${pick(a.txt)} <b>+${a.heal}</b>`);
   } else {
-    S.bossHp = Math.max(0, S.bossHp - a.dmg); SFX.hit(); anim('hit');
-    log(`<p>${pick(a.txt)} <b>−${a.dmg}</b></p>`);
+    let d = rnd(a.dmg[0], a.dmg[1]);
+    const crit = k !== 'jughineste' && Math.random() < .15;
+    if (k === 'jughineste') { b.en = 0; SFX.jug(); flashScreen('#fff'); bigText('JUGHINEALĂ!'); anim('spin'); await wait(700); }
+    else { SFX.hit(); anim('hit'); }
+    if (crit) { d *= 2; floatTxt('LOVITURĂ DE DETECTIV!', '#6b3fa0', '8%'); }
+    b.bhp = Math.max(0, b.bhp - d); floatTxt('−' + d, '#e05a47');
+    lines.push(`${pick(a.txt)} <b>−${d}</b>`);
   }
-  save(); bars();
-  if (S.bossHp <= 0) { await wait(900); return victory(); }
-  await wait(1100);
-  const att = pick(BOSS_ATT);
-  anim('attack'); SFX.laser();
-  let res;
-  if (a.dodge) res = 'dar tu ești deja în altă parte. Ratează! 😎';
-  else if (a.block) res = 'dar capacul de oală te apără. Nimic! 🛡️';
-  else if (Math.random() < .55 && S.hp > 2) {
-    const d = Math.min(Math.random() < .5 ? 1 : 2, S.hp - 2);
-    S.hp -= d; SFX.ouch(); card.classList.remove('ouch'); card.offsetWidth; card.classList.add('ouch');
-    res = `și te nimerește puțin. <b>−${d}</b> 😖`;
-  } else res = pick(['dar ratează de un fir de păr!', 'dar se încurcă în propriile cabluri!', 'dar alunecă pe o coajă de banană!']);
-  document.getElementById('log').innerHTML += `<p>🤖 Robotul ${att}... ${res}</p>`;
-  save(); bars();
+  save(); bars(); log(lines);
+  if (b.bhp <= 0) { await wait(900); return victory(); }
+  await wait(1200);
+  // rândul robotului
+  if (Math.random() < .1) {
+    SFX.boing(); anim('hit'); lines.push(pick(SLIPS));
+  } else {
+    const countered = at.counter === k;
+    await attackFx(b.next, countered);
+    if (countered) {
+      b.bhp = Math.max(0, b.bhp - 2); b.en = Math.min(3, b.en + 1); b.learned[b.next] = 1;
+      SFX.counter(); anim('hit'); floatTxt('CONTRAATAC! −2', '#2f6fb5');
+      lines.push(`${at.miss} <b>CONTRAATAC! −2</b>`);
+    } else {
+      const d = rnd(at.dmg[0], at.dmg[1]) + (b.angry ? 1 : 0);
+      b.hp = Math.max(0, b.hp - d); SFX.ouch(); retrigger(card, 'ouch'); floatTxt('−' + d, '#b03020', '75%');
+      lines.push(`${at.hit} <b>−${d}</b>`);
+    }
+  }
+  b.en = Math.min(3, b.en + 1);
+  save(); bars(); log(lines);
+  if (b.bhp <= 0) { await wait(900); return victory(); }
+  if (b.hp <= 0) {
+    await wait(1100);
+    b.hp = 8; SFX.heal(); leaves(10);
+    lines.push(`Detectivul e la pământ!... Dar ce-i asta? Timi și Tomi sar dintr-un tufiș și îți aruncă o poțiune! «Nu te lăsa, detective!» «...detective!» <b>+8</b>`);
+    save(); bars(); log(lines);
+  }
+  if (!b.angry && b.bhp <= BOSSHP / 2) {
+    b.angry = true; await wait(700);
+    SFX.alarm(); bigText('ROBOTUL SE ÎNFURIE!'); document.getElementById('boss').classList.add('angry');
+    lines.push('<b>Robotul se înfurie!</b> Îi iese abur din urechi și lovește mai tare. Are atacuri noi!'); log(lines);
+  }
+  const pool = Object.keys(ATTACKS).filter(x => (b.angry || (x !== 'mega' && x !== 'pumn')) && x !== b.next);
+  b.last = b.next; b.next = pick(pool);
+  save(); renderWarn(); SFX.alarm();
   busy = false; buttonsState();
 }
 async function victory() {
   busy = true;
-  log('<p>Robotul scârțâie... scoate scântei... ochii roșii clipesc nebunește... «EROARE! EROARE! PREA MULT GÂDILAT!»</p>');
-  anim('hit'); SFX.laser();
-  await wait(1600);
-  SFX.boom();
-  show({ text: ['<div class="boom">💥</div>', '<h1 style="text-align:center">BUUUUM!</h1>'] });
-  await wait(1800);
+  if (document.getElementById('boss')) {
+    buttonsState(); document.getElementById('warn').innerHTML = '';
+    log(['Robotul scârțâie... scoate scântei... ochii clipesc nebunește... «EROARE! EROARE! PREA MULT GÂDILAT!»']);
+    for (let i = 0; i < 3; i++) { anim('hit'); SFX.laser(); floatTxt(pick(['ZZT!', 'BZZ!', 'PFF!']), '#e0a800'); await wait(550); }
+  }
+  flashScreen('#fff'); SFX.boom();
+  show({ text: [BURST, '<h1 class="center">BUUUUM!</h1>'] });
+  await wait(2000);
   show({
-    text: ['<div class="big">💨</div>',
+    text: [`<div class="runbox"><svg class="runner" id="runner" viewBox="0 0 120 150">${raccoon(0, 0, 120, { messy: true })}</svg></div>`,
       `<p>Din fum iese un raton <b>CIUFULIT</b>, cu blana zbârlită și mustățile strâmbe. E chiar el, ${RATON}!</p>`,
-      `<div class="say">«Bine, bine, m-ai bătut de data asta, detective ${esc(S.name)}! Dar tot nu mă prinzi!»</div>`,
-      '<div style="overflow:hidden"><span class="run">🦝</span></div>'],
+      say([['mis', `«Bine, bine, m-ai bătut de data asta, detective ${NAME()}! Dar tot nu mă prinzi!»`]])],
+    buttons: [{ t: 'Prinde-l!', f: catchHim, c: 'wide' }],
   });
-  await wait(2800);
   busy = false;
+}
+async function catchHim() {
+  card.querySelector('button').disabled = true;
+  SFX.whoosh(); document.getElementById('runner').classList.add('go');
+  await wait(2300);
   S.stage = 'end'; save();
-  end();
+  end('Prea târziu! Ratonul a zbughit-o, lăsând în urmă doar urme de lăbuțe... și un cufăraș ferecat!');
 }
 
 // ---------- 6. CUFĂRAȘUL ----------
-function end() {
+function end(msg) {
   let taps = 0;
   show({
-    text: ['<p>În grabă, ratonul a lăsat în urmă un cufăraș ferecat!</p>', '<div class="chest" id="chest">🧰</div>', '<p style="text-align:center"><b>Atinge-l de 3 ori ca să-l deschizi!</b></p>'],
+    text: [`<p>${msg || 'În grabă, ratonul a lăsat în urmă un cufăraș ferecat!'}</p>`, `<div class="bigchest" id="chest">${chestSVG('#9b6a3c', IN_NOTE)}</div>`,
+      '<p class="center"><b>Atinge-l de 3 ori ca să-l deschizi!</b></p>'],
     after: () => {
-      const ch = document.getElementById('chest');
-      ch.onclick = () => {
-        taps++; SFX.hit(); ch.classList.remove('tap'); ch.offsetWidth; ch.classList.add('tap');
-        if (taps >= 3) openChest();
+      const ch = document.getElementById('chest'), svg = ch.querySelector('svg');
+      ch.onclick = async () => {
+        if (taps >= 3) return;
+        taps++; SFX.hit(); retrigger(svg, 'tap');
+        if (taps < 3) return;
+        SFX.creak(); svg.classList.add('open'); await wait(1100); openChest();
       };
     },
   });
 }
 function openChest() {
+  S.stage = 'code'; save();
   SFX.win(); giveSticker('boss'); confetti();
   show({
-    emoji: '🔓✨',
-    title: `Bravo, detective ${esc(S.name)}!`,
+    title: `Bravo, detective ${NAME()}!`,
     text: ['Înăuntru e un bilețel pe care scrie:',
       `<div class="code">${COD_LACAT}</div>`,
-      '<p style="text-align:center"><b>Acesta e codul pentru lacăt! 🔒</b></p>',
-      `<div class="say">Și dedesubt, cu scris de raton: «Și mie îmi place cifra 8. Are două burți. — M.»</div>`],
-    buttons: [{ t: '🎉 Mai multe confetti!', f: () => { SFX.win(); confetti(); }, c: 'wide' }],
+      '<p class="center"><b>Acesta e codul pentru lacăt!</b></p>',
+      `<div class="note"><p>Și dedesubt, cu scris de raton: «Și mie îmi place cifra 8. Are două burți. — M.» ${PAW_ICON.replace('<svg', '<svg style="width:26px;height:31px;fill:#5b3a1e;vertical-align:middle"')}</p></div>`],
+    buttons: [{ t: 'Mai multe confetti!', f: () => { SFX.win(); confetti(); }, c: 'wide' }],
   });
 }
 function confetti() {
@@ -525,11 +1032,14 @@ function confetti() {
 }
 
 // ---------- pornire ----------
-const SCENES = { intro, guard: () => guard(), maze: () => maze(), statues: () => statues(), chests: () => chests(), gate, boss, end };
-document.getElementById('reset').onclick = () => {
-  if (confirm('Începi jocul de la început?')) { S = fresh(); save(); renderStickers(); go('intro'); }
+const SCENES = {
+  intro, letter: () => letter(), maze: () => maze(), out: outMaze, twins, tquiz: () => tquiz(), map, river, door: () => door(), boss, end: () => end(), code: openChest,
 };
-load(); renderStickers();
+document.getElementById('reset').onclick = () => {
+  if (confirm('Începi jocul de la început?')) { busy = false; hopping = false; S = fresh(); save(); renderStickers(); go('intro'); }
+};
+let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(pawLayer, 300); });
+load(); renderStickers(); pawLayer(); setPaws();
 (SCENES[S.stage] || intro)();
 </script>
 </body>
