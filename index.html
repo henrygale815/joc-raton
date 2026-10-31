@@ -28,13 +28,19 @@ body.pawsy #paws{opacity:.36}
 .zzz{font:bold 18px "Trebuchet MS",sans-serif;fill:#4f6d8f;animation:hihi 1.6s ease-out infinite}
 .qsub{font-weight:normal;font-size:19px}
 #app{position:relative;width:100%;max-width:720px}
-#stickers{display:flex;gap:12px;justify-content:center;margin:4px 0 8px}
-#inv{display:flex;justify-content:center;margin:0 0 10px;min-height:0}
+body.wide #app{max-width:1060px}
+.card.split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:24px;align-items:center}
+.card.split .sl .scene{margin:0}
+.card.split .sr > :first-child{margin-top:0}
+.btns.four{grid-template-columns:repeat(4,1fr)}
+.btns.four button{padding:10px 6px;min-height:58px}
+#stickers{display:flex;gap:8px;justify-content:center}
+#inv{display:flex;justify-content:center}
 #inv span{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#fff;font-weight:bold;font-size:18px;border-radius:20px;padding:4px 14px 4px 8px}
 #inv svg{width:26px;height:31px}
 #inv span.bump{animation:boom .5s}
-.st{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;filter:grayscale(1);opacity:.3;transition:.5s}
-.st svg{width:38px;height:38px}
+.st{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;filter:grayscale(1);opacity:.3;transition:.5s}
+.st svg{width:30px;height:30px}
 .st.on{filter:none;opacity:1;background:rgba(244,162,89,.35);transform:scale(1.08)}
 .card{position:relative;background:var(--card);border-radius:26px;padding:24px;box-shadow:0 12px 34px rgba(0,0,0,.45);animation:pop .35s ease}
 @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
@@ -48,7 +54,7 @@ p{font-size:22px;line-height:1.45;margin:10px 0}
 .say p{margin:6px 0;font-size:21px}
 .say b.missi{color:#2f6fb5}.say b.ssippi{color:#c26a1b}.say b.ten{color:#8a4f8a}.say b.mis{color:var(--purple)}
 .tracks{font-size:22px;background:#efe3c8;border-radius:14px;padding:10px 14px}
-.scene{display:block;width:100%;height:auto;margin:4px 0 8px;border-radius:18px}
+.scene{display:block;width:100%;height:auto;margin:4px auto 8px;border-radius:18px}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
 .btns.one{grid-template-columns:1fr}
 .btns.three{grid-template-columns:1fr 1fr 1fr}
@@ -114,6 +120,9 @@ input{font:inherit;font-size:28px;width:100%;padding:14px 16px;border-radius:16p
 /* tastatura */
 button.kana{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;font-size:38px;letter-spacing:4px;padding:10px;background:#fffaf0;box-shadow:0 5px 0 #c9b48f;border:3px solid #2b2118}
 button.kana:disabled{opacity:.35;text-decoration:line-through}
+button.kana{white-space:nowrap}
+.split button.kana{font-size:27px;letter-spacing:1px;min-height:56px;padding:8px 4px}
+.split .say p{font-size:19px}
 .keyshow{font-size:46px;font-weight:bold;letter-spacing:10px;text-align:center;background:#1d2b3a;color:#7cfc9a;border-radius:14px;padding:6px;min-height:72px;font-family:"Courier New",monospace}
 .keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
 .keypad button{min-height:62px;font-size:28px;padding:8px}
@@ -121,8 +130,18 @@ button.kana:disabled{opacity:.35;text-decoration:line-through}
 .bar{height:22px;border-radius:12px;background:#e2d6bd;overflow:hidden;margin:4px 0 10px}
 .bar>i{display:block;height:100%;transition:width .5s}
 .hp-label{font-size:18px;font-weight:bold;display:flex;justify-content:space-between}
-.arena{position:relative;height:226px}
-#boss{display:block;margin:0 auto;width:220px;height:220px;animation:bob 2s ease-in-out infinite}
+.arena{position:relative;height:186px}
+#boss{display:block;margin:0 auto;width:180px;height:180px;animation:bob 2s ease-in-out infinite}
+.bosscard h1{font-size:26px}
+.bosscard .btns{margin-top:10px;gap:10px}
+.bosscard .btns button{min-height:58px;font-size:19px;padding:10px 6px}
+.bosscard #log{min-height:70px}
+.bosscard .warn{margin:4px 0 6px}
+@media (min-width:900px){
+  .bosscard{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"t t" "l r" "l b";column-gap:24px;align-items:start}
+  .bosscard h1{grid-area:t}.bosscard .bleft{grid-area:l}.bosscard .bright{grid-area:r}.bosscard .btns{grid-area:b}
+  .bosscard .arena{height:250px}.bosscard #boss{width:240px;height:240px}
+}
 #boss.angry{filter:url(#crayon) drop-shadow(0 0 14px #ff3b30);animation-duration:.8s}
 #boss.hit{animation:shake .4s}
 #boss.attack{animation:lunge .5s}
@@ -130,7 +149,24 @@ button.kana:disabled{opacity:.35;text-decoration:line-through}
 #boss.asleep{animation:none;transform:rotate(-8deg) translateY(6px);filter:url(#crayon) grayscale(.6) brightness(.9)}
 .parsfly{position:absolute;left:-30%;top:40px;width:110px;z-index:4;animation:parsfly 1.4s ease-in-out forwards}
 @keyframes parsfly{0%{transform:translate(0,40px) rotate(-20deg)}45%{transform:translate(calc(var(--w,300px)*.9),-20px) rotate(10deg)}60%{transform:translate(calc(var(--w,300px)*.95),10px) rotate(-10deg) scale(1.1)}100%{transform:translate(calc(var(--w,300px)*.9),150px) rotate(0) scale(.6);opacity:0}}
-button.parsbtn{background:#9fd27f;box-shadow:0 5px 0 #5e9a45}
+button.parsbtn{background:linear-gradient(90deg,#9fd27f,#ffd166);box-shadow:0 5px 0 #5e9a45}
+.warn.zz{background:#e3ecff;border-color:#4f6d8f;animation:none}
+.mnote{position:absolute;bottom:20%;font-size:34px;color:#6b3fa0;animation:mnote 2.2s ease-out forwards;z-index:3}
+@keyframes mnote{0%{opacity:0;transform:translateY(0)}20%{opacity:1}100%{opacity:0;transform:translate(30px,-140px) rotate(20deg)}}
+.summon{position:fixed;inset:0;z-index:30;background:radial-gradient(circle,rgba(70,30,110,.88),rgba(5,5,18,.96));display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden;animation:fadein .4s}
+.summon.out{animation:fadeout .5s forwards}
+@keyframes fadein{from{opacity:0}}
+@keyframes fadeout{to{opacity:0}}
+.sum-grow{position:absolute;width:min(86vw,86vh);height:min(86vw,86vh);animation:grow .9s cubic-bezier(.3,1.4,.5,1)}
+@keyframes grow{from{transform:scale(0) rotate(-90deg)}}
+.sum-circle{width:100%;height:100%;filter:drop-shadow(0 0 10px #b06bff);animation:spin 7s linear infinite}
+.sum-rays{position:absolute;width:160vmax;height:160vmax;background:repeating-conic-gradient(rgba(255,214,102,.28) 0 9deg,transparent 9deg 18deg);opacity:0;animation:spin 9s linear infinite,raysin .4s 1.2s forwards}
+@keyframes raysin{to{opacity:1}}
+.sum-pars{position:absolute;width:min(44vw,40vh);opacity:0;animation:parsin 1s 1.2s cubic-bezier(.3,1.6,.5,1) forwards}
+.sum-pars svg{width:100%;height:auto;filter:url(#crayon) drop-shadow(0 0 20px #ffd166)}
+@keyframes parsin{from{opacity:0;transform:scale(.1) rotate(-200deg)}to{opacity:1;transform:none}}
+.sum-title{position:absolute;bottom:7vh;left:0;right:0;text-align:center;font:900 54px "Trebuchet MS",sans-serif;color:#ffd166;text-shadow:0 4px 0 #6b3fa0,0 0 24px #b06bff;opacity:0;animation:lootIn .6s 1.9s forwards}
+.sum-title small{display:block;font-size:22px;color:#fff;text-shadow:0 2px 0 #6b3fa0}
 @keyframes bob{50%{transform:translateY(-6px)}}
 @keyframes shake{20%{transform:translateX(-12px) rotate(-4deg)}40%{transform:translateX(12px) rotate(4deg)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
 @keyframes lunge{50%{transform:scale(1.15) translateY(10px)}}
@@ -183,6 +219,8 @@ body.dark #dark{opacity:.94}
 .acornpick{cursor:pointer;transform-box:fill-box;transform-origin:center;animation:acornb 1s ease-in-out infinite}
 @keyframes acornb{50%{transform:translateY(-4px) rotate(8deg)}}
 .acornpick.taken{animation:vanish .4s forwards}
+.donutpick{cursor:pointer;transform-box:fill-box;transform-origin:center}
+.donutpick.nope{animation:shake .4s}
 .pace{transform-box:fill-box;transform-origin:center;animation:pace 10s ease-in-out infinite}
 @keyframes pace{0%{transform:translateX(0) scaleX(1)}45%{transform:translateX(-292px) scaleX(1)}50%{transform:translateX(-292px) scaleX(-1)}95%{transform:translateX(0) scaleX(-1)}100%{transform:translateX(0) scaleX(1)}}
 .brow{animation:brow 2.4s ease-in-out infinite}
@@ -201,7 +239,7 @@ body.dark #dark{opacity:.94}
 .code{font-size:88px;font-weight:bold;letter-spacing:18px;text-align:center;color:var(--purple);background:#fff;border-radius:20px;padding:10px 0 10px 18px;margin:10px 0;animation:boom .8s ease-out;font-family:"Trebuchet MS",sans-serif}
 .confetti{position:fixed;top:-20px;font-size:28px;pointer-events:none;animation:fall linear forwards;z-index:12}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
-footer{text-align:center;margin-top:18px}
+footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 14px;margin-top:12px}
 footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35);font-size:15px;min-height:0;padding:6px}
 @media (max-width:480px){.card{padding:18px}p{font-size:20px}button{font-size:19px}.code{font-size:64px;letter-spacing:10px}}
 </style>
@@ -211,7 +249,7 @@ footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35)
   <defs>
     <symbol id="paw" viewBox="0 0 40 48"><ellipse cx="20" cy="33" rx="10.5" ry="11.5"/><ellipse cx="5.5" cy="21" rx="3.4" ry="6.5" transform="rotate(-35 5.5 21)"/><ellipse cx="12" cy="11" rx="3.4" ry="7.5" transform="rotate(-14 12 11)"/><ellipse cx="20" cy="7.5" rx="3.4" ry="7.5"/><ellipse cx="28" cy="11" rx="3.4" ry="7.5" transform="rotate(14 28 11)"/><ellipse cx="34.5" cy="21" rx="3.4" ry="6.5" transform="rotate(35 34.5 21)"/></symbol>
     <symbol id="acorn" viewBox="0 0 40 48"><g stroke="#2b2118" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M8 20 Q8 44 20 46 Q32 44 32 20 Z" fill="#d98b3a"/><path d="M13 25 Q14 35 18 40" fill="none" stroke="#f6c58a" stroke-width="3"/><path d="M4 20 Q4 8 20 7 Q36 8 36 20 Q20 24 4 20 Z" fill="#8a5a2b"/><path d="M10 12 l6 8 M18 9 l6 10 M26 10 l5 8 M12 19 l8 -9 M21 19 l8 -9" stroke="#5e3b1a" stroke-width="1.5"/><path d="M20 7 q2 -6 7 -6" fill="none" stroke-width="3"/></g></symbol>
-    <symbol id="sock" viewBox="0 0 40 54"><g stroke="#2b2118" stroke-width="2.5" stroke-linejoin="round"><path d="M10 2 H28 V30 Q28 36 34 40 Q40 46 34 50 Q28 53 20 48 L8 40 Q4 37 6 30 Z" fill="#fff"/><path d="M10 9 H28 M10 17 H28 M10 25 H28" stroke="#e05a47" stroke-width="4"/></g></symbol>
+    <symbol id="donut" viewBox="0 0 48 48"><g stroke="#2b2118" stroke-width="2.5" stroke-linejoin="round"><path d="M24 4 A20 20 0 1 0 43 18 Q37 20 36 15 Q31 15 31 10 Q26 10 27 5 Q25 4 24 4 Z" fill="#e2a35c"/><path d="M24 10 A14 14 0 1 0 37 20 Q33 20 32 17 Q28 17 27 13 Q24 13 24 10 Z" fill="#ff8fb1"/><circle cx="24" cy="25" r="5.5" fill="#dcc89c"/><path d="M15 21 l3 -2 M18 33 l3 2 M30 32 l2 -3 M14 28 l1 3 M29 21 l3 1" stroke-width="2.2" stroke="#fff"/><path d="M20 15 l3 1 M33 27 l-1 3" stroke-width="2.2" stroke="#6fd0f0"/></g></symbol>
     <filter id="crayon" x="-4%" y="-4%" width="108%" height="108%">
       <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="1" seed="7" result="w"/>
       <feDisplacementMap in="SourceGraphic" in2="w" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="d"/>
@@ -226,10 +264,8 @@ footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35)
 <div id="dark"></div>
 <div id="over"></div>
 <div id="app">
-  <div id="stickers"></div>
-  <div id="inv"></div>
   <div class="card" id="card"></div>
-  <footer><button id="reset">↺ de la început</button></footer>
+  <footer><div id="stickers"></div><div id="inv"></div><button id="reset">↺ de la început</button></footer>
 </div>
 <script>
 // ====== SETĂRI ======
@@ -302,6 +338,8 @@ const SFX = {
   munch: () => { for (let i = 0; i < 4; i++) noise(.06, .3, 'bandpass', 1800, 0, i * .14); },
   splash: () => { noise(.7, .55, 'lowpass', 3500, 250); tone(500, .2, 'sine', .15, 0, 150); },
   creak: () => { tone(95, 1.1, 'sawtooth', .07, 0, 60); tone(140, .8, 'sawtooth', .04, .2, 90); },
+  summon: () => { [262, 330, 392, 523, 659, 784, 1046, 1318].forEach((f, i) => tone(f, .35, 'triangle', .12, i * .13)); noise(1.2, .12, 'highpass', 6000, 0, .2); },
+  lullaby: () => [784, 659, 523, 659, 784, 784, 659].forEach((f, i) => tone(f, .4, 'sine', .14, i * .32)),
   snore: () => { tone(420, .7, 'sine', .12, 0, 160); tone(80, .7, 'sawtooth', .05, .8, 60); tone(160, .5, 'sine', .07, 1.6, 320); },
   beep: () => tone(1000, .05, 'square', .06),
   alarm: () => { tone(880, .13, 'square', .07); tone(660, .13, 'square', .07, .16); tone(880, .13, 'square', .07, .32); },
@@ -368,47 +406,64 @@ ${o.messy ? '<circle cx="34" cy="42" r="4" fill="#555" stroke="none"/><circle cx
 </g></g></svg>`;
 }
 function dormouse(x, y, w, mood = 'grumpy') {
-  const happy = mood === 'happy', asleep = mood === 'asleep', grumpy = mood === 'grumpy';
-  const fur = '#a59a90', furL = '#c4bab0', furD = '#7d736a', belly = '#f4eee4', ring = '#5a5049';
-  const eyes = asleep ? `<path d="M37 61 q8 7 16 0 M69 61 q8 7 16 0" fill="none" stroke-width="3.2"/>`
-    : grumpy ? `<circle cx="45" cy="61" r="8" fill="#111" stroke="none"/><circle cx="77" cy="61" r="8" fill="#111" stroke="none"/><path d="M35 58 H55 V52 H35 Z M67 58 H87 V52 H67 Z" fill="${ring}" stroke="none"/><path d="M36 58 H54 M68 58 H86" stroke-width="2.5"/><circle cx="47" cy="62" r="2" fill="#fff" stroke="none"/><circle cx="79" cy="62" r="2" fill="#fff" stroke="none"/>`
-    : `<circle cx="45" cy="60" r="9" fill="#111" stroke="none"/><circle cx="77" cy="60" r="9" fill="#111" stroke="none"/><circle cx="48" cy="56" r="3.2" fill="#fff" stroke="none"/><circle cx="80" cy="56" r="3.2" fill="#fff" stroke="none"/><circle cx="42" cy="64" r="1.6" fill="#fff" stroke="none"/><circle cx="74" cy="64" r="1.6" fill="#fff" stroke="none"/>`;
-  const brows = grumpy ? '<path d="M32 42 L54 50 M90 42 L68 50" fill="none" stroke="#111" stroke-width="6.5"/>'
-    : happy ? '<path d="M34 44 Q44 36 54 42 M88 44 Q78 36 68 42" fill="none" stroke="#111" stroke-width="6"/>'
-    : '<path d="M35 48 Q44 45 53 48 M87 48 Q78 45 69 48" fill="none" stroke="#111" stroke-width="5.5"/>';
-  const mouth = grumpy ? '<path d="M53 87 Q61 81 69 87" fill="none"/>'
-    : happy ? '<path d="M51 82 Q61 96 71 82 Z" fill="#8a2f2f"/><path d="M56 89 Q61 93 66 89" fill="#ff8fa3" stroke="none"/>'
-    : '<path d="M57 84 Q61 86 65 84" fill="none"/>';
-  const arms = grumpy ? `<path d="M36 104 Q60 120 86 104" fill="none" stroke="#2b2118" stroke-width="15"/><path d="M36 104 Q60 120 86 104" fill="none" stroke="${fur}" stroke-width="10"/><path d="M86 104 Q60 114 38 112" fill="none" stroke="#2b2118" stroke-width="14"/><path d="M86 104 Q60 114 38 112" fill="none" stroke="${furL}" stroke-width="9"/>`
-    : happy ? `<ellipse cx="34" cy="98" rx="7" ry="12" fill="${fur}" transform="rotate(-35 34 98)"/><ellipse cx="88" cy="98" rx="7" ry="12" fill="${fur}" transform="rotate(35 88 98)"/>`
-    : `<ellipse cx="40" cy="112" rx="6" ry="11" fill="${fur}" transform="rotate(20 40 112)"/><ellipse cx="82" cy="112" rx="6" ry="11" fill="${fur}" transform="rotate(-20 82 112)"/>`;
-  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 122 152" overflow="visible"><g stroke="#2b2118" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
-<path d="M80 134 Q126 134 118 84 Q112 46 90 52 Q80 58 90 68" fill="none" stroke="#2b2118" stroke-width="27"/>
-<path d="M80 134 Q126 134 118 84 Q112 46 90 52 Q80 58 90 68" fill="none" stroke="${fur}" stroke-width="21"/>
-<path d="M84 130 Q118 128 112 86 Q108 60 94 58" fill="none" stroke="${furL}" stroke-width="7" stroke-dasharray="3 6"/>
-<path d="M32 112 Q30 82 61 80 Q92 82 90 112 Q92 148 61 148 Q30 148 32 112 Z" fill="${fur}"/>
-<path d="M44 108 Q44 92 61 91 Q78 92 78 108 Q80 140 61 140 Q42 140 44 108 Z" fill="${belly}" stroke="none"/>
+  if (mood === 'asleep') return dormouseSleep(x - w * .1, y + w * .31, w * 1.25);
+  const happy = mood === 'happy', grumpy = !happy;
+  const fur = '#a59a90', furL = '#c4bab0', belly = '#f4eee4';
+  const eyes = grumpy
+    ? '<ellipse cx="46" cy="62" rx="5.5" ry="6.5" fill="#111" stroke="none"/><ellipse cx="76" cy="62" rx="5.5" ry="6.5" fill="#111" stroke="none"/><path d="M38 58 H54 M68 58 H84" stroke-width="3.5"/>'
+    : '<ellipse cx="46" cy="60" rx="6" ry="8" fill="#111" stroke="none"/><ellipse cx="76" cy="60" rx="6" ry="8" fill="#111" stroke="none"/><circle cx="48" cy="57" r="2.4" fill="#fff" stroke="none"/><circle cx="78" cy="57" r="2.4" fill="#fff" stroke="none"/>';
+  // sprâncene groase ca omizile
+  const brows = grumpy ? '<path d="M33 41 Q42 41 54 50 M89 41 Q80 41 68 50" fill="none" stroke="#111" stroke-width="10"/>'
+    : '<path d="M35 46 Q44 36 54 43 M87 46 Q78 36 68 43" fill="none" stroke="#111" stroke-width="10"/>';
+  const mouth = grumpy ? '<path d="M52 86 q3 -3 6 0 t6 0 t6 0" fill="none" stroke-width="2.6"/>'
+    : '<path d="M52 82 Q61 95 70 82 Z" fill="#8a2f2f"/><path d="M56 88 Q61 92 66 88" fill="#ff8fa3" stroke="none"/>';
+  const arms = grumpy ? `<path d="M36 106 Q60 122 86 106" fill="none" stroke="#2b2118" stroke-width="15"/><path d="M36 106 Q60 122 86 106" fill="none" stroke="${fur}" stroke-width="10"/><path d="M86 106 Q60 116 38 114" fill="none" stroke="#2b2118" stroke-width="14"/><path d="M86 106 Q60 116 38 114" fill="none" stroke="${furL}" stroke-width="9"/>`
+    : `<ellipse cx="32" cy="98" rx="7" ry="13" fill="${fur}" transform="rotate(-40 32 98)"/><ellipse cx="90" cy="98" rx="7" ry="13" fill="${fur}" transform="rotate(40 90 98)"/>`;
+  return `<svg x="${x}" y="${y}" width="${w}" height="${w * 1.25}" viewBox="0 0 122 152" overflow="visible"><g stroke="#2b2118" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M80 136 Q126 136 118 86 Q112 48 90 54 Q80 60 90 70" fill="none" stroke="#2b2118" stroke-width="28"/>
+<path d="M80 136 Q126 136 118 86 Q112 48 90 54 Q80 60 90 70" fill="none" stroke="${fur}" stroke-width="22"/>
+<path d="M84 132 Q118 130 112 88 Q108 62 94 60" fill="none" stroke="${furL}" stroke-width="7" stroke-dasharray="3 6"/>
+<path d="M32 114 Q30 84 61 82 Q92 84 90 114 Q92 148 61 148 Q30 148 32 114 Z" fill="${fur}"/>
+<path d="M44 110 Q44 94 61 93 Q78 94 78 110 Q80 140 61 140 Q42 140 44 110 Z" fill="${belly}" stroke="none"/>
 <ellipse cx="46" cy="146" rx="11" ry="5.5" fill="#f2b6bd"/><ellipse cx="76" cy="146" rx="11" ry="5.5" fill="#f2b6bd"/>
-<path d="M40 146 v-3 M46 147 v-4 M52 146 v-3 M70 146 v-3 M76 147 v-4 M82 146 v-3" stroke-width="1.5"/>
 ${arms}
-<circle cx="27" cy="30" r="19" fill="${furL}"/><circle cx="95" cy="30" r="19" fill="${furL}"/>
-<circle cx="28" cy="31" r="12" fill="#f3c2c6" stroke="none"/><circle cx="94" cy="31" r="12" fill="#f3c2c6" stroke="none"/>
-<path d="M22 36 Q24 24 34 24 M100 36 Q98 24 88 24" fill="none" stroke="#d99aa1" stroke-width="3"/>
-<path d="M22 66 Q18 30 61 28 Q104 30 100 66 Q98 92 61 94 Q24 92 22 66 Z" fill="${fur}"/>
-<path d="M24 70 l-8 2 l7 4 l-6 5 l9 0 M98 70 l8 2 l-7 4 l6 5 l-9 0" fill="${fur}"/>
-<path d="M52 30 q4 -12 8 -2 q4 -10 7 1" fill="${fur}"/>
-<path d="M40 34 Q61 28 82 34 Q72 42 61 42 Q50 42 40 34 Z" fill="${furD}" stroke="none" opacity=".45"/>
-<ellipse cx="45" cy="60" rx="14" ry="13" fill="${ring}" stroke="none"/><ellipse cx="77" cy="60" rx="14" ry="13" fill="${ring}" stroke="none"/>
+<circle cx="26" cy="32" r="18" fill="${furL}"/><circle cx="96" cy="32" r="18" fill="${furL}"/>
+<circle cx="27" cy="33" r="11" fill="#f3c2c6" stroke="none"/><circle cx="95" cy="33" r="11" fill="#f3c2c6" stroke="none"/>
+<path d="M20 64 Q16 28 61 27 Q106 28 102 62 Q108 96 76 98 Q61 101 46 98 Q14 96 20 64 Z" fill="${fur}"/>
+<path d="M52 29 q4 -12 8 -2 q4 -10 7 1" fill="${fur}"/>
+<path d="M28 82 Q26 70 38 70 Q50 72 48 86 Q40 96 30 90 Z M94 82 Q96 70 84 70 Q72 72 74 86 Q82 96 92 90 Z" fill="${furL}" stroke="none"/>
 ${eyes}${brows}
-<ellipse cx="61" cy="80" rx="18" ry="12" fill="${belly}"/>
-${happy ? `<ellipse cx="33" cy="76" rx="7" ry="4.5" fill="#ff9aa8" stroke="none" opacity=".8"/><ellipse cx="89" cy="76" rx="7" ry="4.5" fill="#ff9aa8" stroke="none" opacity=".8"/>` : ''}
-<ellipse cx="61" cy="74" rx="5.5" ry="4" fill="#e98ca0"/><circle cx="59.5" cy="72.8" r="1.3" fill="#fff" stroke="none"/>
+<ellipse cx="61" cy="80" rx="15" ry="10" fill="${belly}"/>
+${happy ? '<ellipse cx="32" cy="80" rx="8" ry="5" fill="#ff9aa8" stroke="none" opacity=".85"/><ellipse cx="90" cy="80" rx="8" ry="5" fill="#ff9aa8" stroke="none" opacity=".85"/>' : ''}
+<ellipse cx="61" cy="75" rx="5" ry="3.8" fill="#e98ca0"/><circle cx="59.6" cy="73.8" r="1.2" fill="#fff" stroke="none"/>
 ${mouth}
-<path d="M46 76 L18 70 M46 80 L18 82 M46 84 L22 92 M76 76 L104 70 M76 80 L104 82 M76 84 L100 92" stroke-width="1.4"/>
-${asleep ? '<circle cx="68" cy="76" r="5" fill="rgba(180,220,255,.75)" stroke="#4f6d8f" stroke-width="1.5"><animate attributeName="r" values="3;8;3" dur="1.6s" repeatCount="indefinite"/></circle>' : ''}
-${grumpy ? '<path d="M98 16 l6 -6 M104 22 l8 -2 M100 8 l2 -8" stroke="#e05a47" stroke-width="3"/>' : ''}
-${happy ? '<path d="M104 14 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 Z" fill="#ffd166" stroke-width="1.5"/>' : ''}
-</g>${asleep ? '<text class="zzz" x="96" y="20">Z</text><text class="zzz" x="108" y="4" style="animation-delay:.5s">z</text><text class="zzz" x="118" y="-10" style="animation-delay:1s">Z</text>' : ''}</svg>`;
+<path d="M46 77 L18 72 M46 81 L18 84 M76 77 L104 72 M76 81 L104 84" stroke-width="1.4"/>
+${grumpy ? '<path d="M100 14 l6 -6 M106 22 l8 -2 M102 6 l2 -8" stroke="#e05a47" stroke-width="3"/>' : '<path d="M104 14 l3 -8 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 Z" fill="#ffd166" stroke-width="1.5"/>'}
+</g></svg>`;
+}
+// doarme cu fundul în sus
+function dormouseSleep(x, y, w) {
+  const fur = '#a59a90', furL = '#c4bab0';
+  return `<svg x="${x}" y="${y}" width="${w}" height="${w * .75}" viewBox="0 0 160 120" overflow="visible"><g stroke="#2b2118" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round">
+<ellipse cx="82" cy="113" rx="72" ry="6" fill="rgba(0,0,0,.15)" stroke="none"/>
+<path d="M44 50 Q28 4 60 8 Q74 12 64 26" fill="none" stroke="#2b2118" stroke-width="25"/>
+<path d="M44 50 Q28 4 60 8 Q74 12 64 26" fill="none" stroke="${fur}" stroke-width="19"/>
+<path d="M42 44 Q32 12 58 13" fill="none" stroke="${furL}" stroke-width="6" stroke-dasharray="3 6"/>
+<ellipse cx="14" cy="104" rx="11" ry="6" fill="#f2b6bd"/><ellipse cx="32" cy="107" rx="11" ry="6" fill="#f2b6bd"/>
+<path d="M18 102 Q6 56 46 46 Q80 40 88 80 L98 108 L22 108 Z" fill="${fur}"/>
+<path d="M50 50 Q54 64 47 76" fill="none" stroke-width="2.5"/>
+<circle cx="88" cy="60" r="15" fill="${furL}"/><circle cx="138" cy="62" r="15" fill="${furL}"/>
+<circle cx="89" cy="61" r="9" fill="#f3c2c6" stroke="none"/><circle cx="137" cy="63" r="9" fill="#f3c2c6" stroke="none"/>
+<path d="M80 88 Q78 58 113 57 Q148 58 147 86 Q150 112 122 112 Q113 114 104 112 Q76 112 80 88 Z" fill="${fur}"/>
+<path d="M90 74 Q99 68 107 74 M119 74 Q127 68 136 74" fill="none" stroke="#111" stroke-width="9"/>
+<path d="M93 85 Q99 91 105 85 M121 85 Q127 91 133 85 M93 85 l-3 -2 M133 85 l3 -2" fill="none" stroke-width="3"/>
+<ellipse cx="114" cy="101" rx="14" ry="8" fill="#f4eee4"/>
+<ellipse cx="94" cy="98" rx="7" ry="4.5" fill="#ff9aa8" stroke="none" opacity=".8"/><ellipse cx="134" cy="98" rx="7" ry="4.5" fill="#ff9aa8" stroke="none" opacity=".8"/>
+<ellipse cx="114" cy="96" rx="4.5" ry="3.4" fill="#e98ca0"/>
+<path d="M105 104 q2 -2 4.5 0 t4.5 0 t4.5 0 t4.5 0" fill="none" stroke-width="2.4"/>
+<path d="M100 98 L78 94 M100 102 L80 106 M128 98 L150 94 M128 102 L148 106" stroke-width="1.4"/>
+<circle cx="121" cy="96" r="5" fill="rgba(180,220,255,.75)" stroke="#4f6d8f" stroke-width="1.5"><animate attributeName="r" values="3;8;3" dur="1.6s" repeatCount="indefinite"/></circle>
+</g><text class="zzz" x="140" y="40">Z</text><text class="zzz" x="152" y="24" style="animation-delay:.5s">z</text><text class="zzz" x="162" y="10" style="animation-delay:1s">Z</text></svg>`;
 }
 const ENVELOPE = `<svg class="env" viewBox="0 0 220 150"><g stroke="#2b2118" stroke-width="3" stroke-linejoin="round">
 <rect x="10" y="18" width="200" height="122" rx="8" fill="#f5e6c8"/>
@@ -438,10 +493,10 @@ function mazeScene(track, spiral, acorn) {
   others.forEach(k => s += trail(150 + D[k][0] * 26, 150 + D[k][1] * 26, D[k][0], D[k][1], 6, 21, { op: .22, s: .7 }));
   // urme proaspete spre direcția bună
   s += trail(150 + D[track][0] * 24, 150 + D[track][1] * 24, D[track][0], D[track][1], 7, 19, { fill: '#4a2a10' });
-  // șoseta
+  // gogoașa mușcată (mereu aceeași: te învârți în cerc)
   const sk = D[pick(others)];
   const sx = 150 + sk[0] * 92 + sk[1] * 14, sy = 150 + sk[1] * 92 + sk[0] * 14;
-  s += `<use href="#sock" x="${sx - 13}" y="${sy - 17}" width="26" height="34" transform="rotate(${rnd(-60, 60)} ${sx} ${sy})"/>`;
+  s += `<g id="donutme" class="donutpick"><circle cx="${sx}" cy="${sy}" r="22" fill="transparent"/><use href="#donut" x="${sx - 17}" y="${sy - 17}" width="34" height="34" transform="rotate(${rnd(-60, 60)} ${sx} ${sy})"/></g>`;
   if (acorn) {
     const ak = D[pick(others.filter(k => D[k] !== sk))];
     const ax = 150 + ak[0] * 58 - ak[1] * 16, ay = 150 + ak[1] * 58 + ak[0] * 16;
@@ -462,7 +517,7 @@ function chestSVG(color, contents = '', id = '') {
 <g class="contents">${contents}</g>
 </g></svg>`;
 }
-const IN_SOCK = '<use href="#sock" x="44" y="16" width="32" height="42" transform="rotate(-20 60 37)"/>';
+const IN_DONUT = '<use href="#donut" x="42" y="16" width="36" height="36" transform="rotate(-20 60 34)"/>';
 const IN_BOOT = '<path d="M44 14 h22 v24 q16 2 20 12 v6 h-42 z" fill="#8b5a2b"/><path d="M44 50 h42" stroke-width="4"/><path d="M52 6 q4 -6 0 -10 M62 6 q4 -6 0 -10" fill="none" stroke="#5fb36a" stroke-width="2.5"/>';
 const IN_MAP = '<g transform="rotate(-8 60 34)"><rect x="34" y="12" width="52" height="40" rx="3" fill="#f1deb0"/><path d="M40 40 q10 -14 20 -6 t20 -14" fill="none" stroke="#b5462f" stroke-width="2.5" stroke-dasharray="1 5"/><path d="M74 18 l8 8 M82 18 l-8 8" stroke="#c0392b" stroke-width="3.5"/></g>';
 const IN_NOTE = '<rect x="38" y="10" width="44" height="44" rx="4" fill="#fffaf0" transform="rotate(6 60 32)"/><text x="60" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#6b3fa0" stroke="none">?</text>';
@@ -628,8 +683,17 @@ function renderInv(bump) {
 function giveSticker(k) { if (!S.stickers.includes(k)) S.stickers.push(k); save(); renderStickers(); }
 
 // show({flash, title, text:[...], buttons:[{t,f,c,dis}], cols, after})
+let curSh = 38;
+// fiecare scenă desenată încape în ~sh% din înălțimea ecranului
+function fitScenes() {
+  card.querySelectorAll('svg.scene').forEach(sv => { const vb = sv.viewBox.baseVal; if (vb && vb.height) sv.style.width = `min(100%, calc(${curSh}vh * ${(vb.width / vb.height).toFixed(3)}))`; });
+}
+const LAND = matchMedia('(min-width: 900px) and (orientation: landscape)');
 function show(o) {
-  card.className = 'card';
+  // pe ecran lat: desenul în stânga, textul și butoanele în dreapta
+  const split = o.split && LAND.matches;
+  card.className = 'card' + (o.cls ? ' ' + o.cls : '') + (split ? ' split' : '');
+  document.body.classList.toggle('wide', !!o.wide || split); curSh = split ? 74 : o.sh || 38;
   card.style.animation = 'none'; card.offsetHeight; card.style.animation = '';
   let h = '';
   if (o.flash) h += `<p class="flash">${o.flash}</p>`;
@@ -647,6 +711,13 @@ function show(o) {
     });
     card.appendChild(box);
   }
+  if (split) {
+    const L = document.createElement('div'), R = document.createElement('div'); L.className = 'sl'; R.className = 'sr';
+    const sc = card.querySelector(':scope > svg.scene');
+    [...card.childNodes].forEach(n => (n === sc ? L : R).appendChild(n));
+    card.append(L, R);
+  }
+  fitScenes();
   if (o.after) o.after(card);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -737,7 +808,7 @@ function trapped() {
     text: [`<div class="letter"><p class="ink huge">${NAME().toUpperCase()}?!</p>
 <p>Ucenicul detectiv ${NAME()}! Pe tine te așteptam!</p>
 <p class="ink">Ai căzut în CAPCANA MEA! HA-HA-HA-HA!</p>
-<p>P.S. Nu era nicio gogoașă.</p><p class="sign">— M. ${PAW_ICON}</p></div>`],
+<p>P.S. Gogoașa am mâncat-o eu. Aproape toată.</p><p class="sign">— M. ${PAW_ICON}</p></div>`],
     buttons: [{ t: 'Ce capcană?!', f: trapFall, c: 'wide' }],
   });
 }
@@ -758,37 +829,45 @@ async function trapFall() {
 // ---------- 1. LABIRINTUL ----------
 const DIRS = [['stanga', '← Stânga', 'stânga'], ['dreapta', '→ Dreapta', 'dreapta'], ['inainte', '↑ Înainte', 'înainte'], ['inapoi', '↓ Înapoi', 'înapoi']];
 const ROOM_TXT = [
-  'Ești în <b>Labirintul Încâlcit</b>: garduri vii mai înalte decât un om mare, cărări de pietriș... și, pe jos, o șosetă cu dungi.',
-  'Mergi printre tufișuri până la altă răscruce. Pe cărare e o șosetă cu dungi... hmm.',
-  'Încă o răscruce. Frunze, frunze, frunze. Și... o șosetă cu dungi?',
-  'Stai puțin! ȘOSETA ASTA ai mai văzut-o! Te învârți în cerc!',
-  'Iar șoseta. Tu te uiți la șosetă. Șoseta se uită la tine.',
+  'Ești în <b>Labirintul Încâlcit</b>: garduri vii mai înalte decât un om mare, cărări de pietriș... și, pe jos, o gogoașă mușcată.',
+  'Mergi printre tufișuri până la altă răscruce. Pe cărare e o gogoașă mușcată... hmm.',
+  'Încă o răscruce. Frunze, frunze, frunze. Și... o gogoașă mușcată?',
+  'Stai puțin! GOGOAȘA ASTA ai mai văzut-o! Te învârți în cerc!',
+  'Iar gogoașa. Tu te uiți la gogoașă. Gogoașa se uită la tine.',
 ];
 const ROOM_LATER = [
-  'Șoseta cu dungi pare să-ți facă cu ochiul.',
-  'Aceleași tufișuri. Aceeași șosetă. Ce labirint încâlcit!',
-  'Șoseta e tot aici. Sigur e a lui Mișșișșippi. Miroase a raton.',
+  'Gogoașa mușcată pare să-ți facă cu ochiul.',
+  'Aceleași tufișuri. Aceeași gogoașă. Ce labirint încâlcit!',
+  'Gogoașa e tot aici. Are urme de dinți de raton.',
 ];
+const DONUT_TXT = [
+  'E gogoașa promisă de Mișșișșippi! ...Dar e mușcată. Bleah! O lași acolo.',
+  'Are urme de dinți de raton și un fir de păr cu dungi. Nu, mersi!',
+  'Gogoașa asta te urmărește! Mai bine o lași în pace.',
+];
+const MAX_GHINDE = 5;
 function maze(flash) {
   const m = S.moves || 0, prev = S.track;
   S.track = pick(DIRS.filter(d => d[0] !== prev))[0];
   save();
   const tr = DIRS.find(d => d[0] === S.track), open = m >= 5;
-  const txt = [mazeScene(S.track, open, true), m < ROOM_TXT.length ? ROOM_TXT[m] : pick(ROOM_LATER),
-    '<p class="tracks" id="acornmsg">Pe jos e o <b>ghindă</b>! Atinge-o ca s-o iei.</p>',
+  const acorn = (S.found || 0) < MAX_GHINDE;
+  const txt = [mazeScene(S.track, open, acorn), m < ROOM_TXT.length ? ROOM_TXT[m] : pick(ROOM_LATER),
+    `<p class="tracks" id="mazemsg">${acorn ? 'Pe jos e o <b>ghindă</b>! Atinge-o ca s-o iei.' : `Ai găsit toate cele ${MAX_GHINDE} ghinde din labirint.`}</p>`,
     `<p class="tracks">Urme proaspete de lăbuțe duc spre <b>${tr[2].toUpperCase()}</b>.</p>`];
   if (open) txt.push('Ce-i asta? În colțul dintre Stânga și Înainte s-a deschis o cărare învârtită ca un melc. O direcție pe care n-ai mai văzut-o niciodată!');
   const buttons = DIRS.map(d => ({ t: d[1], f: () => moveMaze(d) }));
   if (open) buttons.push({ t: `${SPIRAL_ICON} ȘTÂNGA ${SPIRAL_ICON}`, f: exitMaze, c: 'spiral' });
   show({
-    flash, text: txt, buttons,
+    flash, text: txt, buttons, cols: 'four', sh: 40, split: true,
     after: c => {
-      const a = c.querySelector("#pickme");
-      a.onclick = () => {
-        a.onclick = null; S.acorns = (S.acorns || 0) + 1; save(); SFX.pickup(); renderInv(true);
+      const a = c.querySelector('#pickme'), msg = c.querySelector('#mazemsg');
+      if (a) a.onclick = () => {
+        a.onclick = null; S.acorns = (S.acorns || 0) + 1; S.found = (S.found || 0) + 1; save(); SFX.pickup(); renderInv(true);
         a.classList.add('taken'); setTimeout(() => a.remove(), 400);
-        c.querySelector('#acornmsg').innerHTML = `Ai luat ghinda! Acum ai <b>${S.acorns}</b> ${S.acorns === 1 ? 'ghindă' : 'ghinde'}.`;
+        msg.innerHTML = `Ai luat ghinda! Acum ai <b>${S.acorns}</b> ${S.acorns === 1 ? 'ghindă' : 'ghinde'}.${S.found >= MAX_GHINDE ? ' Asta a fost ultima din labirint!' : ''}`;
       };
+      c.querySelector("#donutme").onclick = () => { SFX.wrong(); retrigger(c.querySelector("#donutme"), "nope"); msg.innerHTML = pick(DONUT_TXT); };
     },
   });
 }
@@ -916,7 +995,7 @@ function tChests() {
       ['missi', '«Fiecare dintre noi îți spune unde a ascuns unchiul comoara. Dar nu uita: unul dintre noi minte!»'], ['ssippi', '«...minte! Hi-hi!»']]),
       `<p class="flash">Mai ții minte? La Question ${R.said.L}, Mișși a zis «${R.said.missi}», iar Șșippi a zis «${R.said.ssippi}».</p>`,
       say(claim(c1, c2)),
-      `<div class="chests">${Object.keys(COLORS).map(k => `<div class="chestbtn" data-c="${k}">${chestSVG(COLORS[k][0], k === R.chest ? IN_MAP : (k === 'rosu' ? IN_SOCK : k === 'verde' ? IN_BOOT : pick([IN_SOCK, IN_BOOT])))}${COLORS[k][2]}</div>`).join('')}</div>`,
+      `<div class="chests">${Object.keys(COLORS).map(k => `<div class="chestbtn" data-c="${k}">${chestSVG(COLORS[k][0], k === R.chest ? IN_MAP : (k === 'rosu' ? IN_DONUT : k === 'verde' ? IN_BOOT : pick([IN_DONUT, IN_BOOT])))}${COLORS[k][2]}</div>`).join('')}</div>`,
       '<p class="center"><b>Pe cine crezi? Alege un cufăr!</b></p>'],
     after: c => c.querySelectorAll('.chestbtn').forEach(el => el.onclick = () => openTwinChest(el)),
   });
@@ -930,7 +1009,7 @@ async function openTwinChest(el) {
     SFX.wrong(); SFX.chatter();
     return show({
       text: [`<div style="max-width:220px;margin:30px auto 0">${chestSVG(COLORS[k][0], el.querySelector('.contents').innerHTML)}</div>`,
-        k === 'rosu' || el.innerHTML.includes('#sock') ? 'Înăuntru e doar... o șosetă cu dungi. Iar ea?!' : 'Înăuntru e un pantof vechi și foarte mirositor. Pfui!',
+        el.innerHTML.includes('#donut') ? 'Înăuntru e doar... o gogoașă mușcată. Iar ea?!' : 'Înăuntru e un pantof vechi și foarte mirositor. Pfui!',
         TWINS_SVG(true), say([['missi', '«Hi-hi-hi! Ai crezut pe cine nu trebuia!»'], ['ssippi', '«...nu trebuia!»'],
           ['missi', '«Joc nou! Acum ne amestecăm: poate mint eu, poate minte el!»'], ['ssippi', '«...minte el! Adică... hi-hi!»']])],
       buttons: [{ t: 'Încă o dată!', f: () => tquiz(), c: 'wide' }],
@@ -970,7 +1049,7 @@ function makeRow(type) {
 function river() {
   if (!S.rv || !S.rv.rows) { S.rv = { row: 0, rows: shuffle(Object.keys(RIDDLES)).slice(0, 5).map(makeRow) }; save(); }
   show({
-    title: 'Râul cu Pietre',
+    title: 'Râul cu Pietre', sh: 52, split: true,
     text: ['Ca să treci râul, sari <b>rând cu rând</b>, de la malul tău până pe celălalt mal. Pe fiecare rând, doar o piatră e sigură: cea cu <b>răspunsul corect</b>!', riverScene(),
       `<p class="tracks" id="rmsg">${riverTask()}</p>`],
     after: c => c.querySelector('#river').onclick = e => { const g = e.target.closest('.stone'); if (g) stone(g); },
@@ -993,7 +1072,7 @@ async function stone(g) {
     return;
   }
   SFX.hop(); R.row++; save();
-  card.querySelector('#river').outerHTML = riverScene();
+  card.querySelector('#river').outerHTML = riverScene(); fitScenes();
   card.querySelector('#river').onclick = e => { const gg = e.target.closest('.stone'); if (gg) stone(gg); };
   if (R.row < R.rows.length) { msg.innerHTML = riverTask(`${pick(['Hop!', 'Țup!', 'Bravo!', 'Super!'])} `); return; }
   hopping = true; msg.innerHTML = '<b>Ai ajuns pe malul celălalt!</b>';
@@ -1009,19 +1088,23 @@ function pars(msg) {
   if (n > 0) buttons.push({ t: `Dă-i o ghindă (ai ${n})`, c: 'alt wide', f: giveAcorn });
   buttons.push({ t: gave ? 'Mergi la ușă' : 'Treci pe lângă el, la ușă', c: 'wide', f: () => { S.dr.met = true; save(); door(); } });
   show({
-    title: 'Pârșul de pază',
+    title: 'Pârșul de pază', sh: 34, split: true,
     text: [doorScene(false, parsMood()), msg || say([
       ['ten', '«Hmpf! Cine-i acolo?! Eu sunt Tenneșșee, pârșul de pază. Și sunt FOARTE morocănos. M-ai trezit din somn!»'],
       ['ten', `«Și mi-e o foame... *îi chiorăie burtica*${n ? '' : ' Și tu n-ai nimic de mâncare, nu? Hmpf.'}»`]])],
     buttons,
   });
 }
+const GHINDE_REPLICI = [
+  ['«O GHINDĂ?! Pentru mine?! Ronț-ronț-ronț... Mmm! Ești de treabă, știi?»', '«Gata, nu mai sunt morocănos. Și dacă vreodată ai nevoie de ajutor... strigă-mă! Vin imediat!»'],
+  ['«Încă una?! Ronț-ronț! Asta are gust de alune... și de prietenie!»'],
+  ['«A TREIA?! Ronț... ronț... Simt cum îmi crește puterea în coadă! Uite, se umflă!»'],
+  ['«Patru ghinde! Burtica mea cântă de fericire! Acum pot să adorm și un dinozaur!»'],
+  ['«CINCI?! Ronț-ronț-ronț-RONȚ! Sunt cel mai puternic pârș din toată lumea! Robotul n-are nicio șansă!»'],
+];
 function giveAcorn() {
   S.acorns--; S.given = (S.given || 0) + 1; S.allyPars = true; save(); renderInv(true); SFX.munch();
-  pars(S.given === 1
-    ? say([['ten', '«O GHINDĂ?! Pentru mine?! Ronț-ronț-ronț... Mmm! Ești de treabă, știi?»'],
-      ['ten', '«Gata, nu mai sunt morocănos. Și dacă vreodată ai nevoie de ajutor... strigă-mă! Vin imediat!»']])
-    : say([['ten', `«ÎNCĂ una?! Ronț-ronț! Acum sunt și mai puternic! (Ghinde mâncate: ${S.given})»`]]));
+  pars(say(GHINDE_REPLICI[Math.min(S.given, GHINDE_REPLICI.length) - 1].map(t => ['ten', t])));
 }
 // variantele greșite și cum râde pârșul de ele
 const PAROLE_GLUME = {
@@ -1040,11 +1123,11 @@ function door(reply, mood) {
     ['ten', '«Parola? Hmm... *cască* Vezi tastele de pe ușă? Pe ele sunt litere KATAKANA.»'],
     ['ten', '«Și să știi că stăpânul meu e cam îngâmfat. Cel mai mult îi place să audă... ăăă... nu, nu-ți spun!»']]);
   show({
-    title: 'Ușa lui Mișșișșippi',
+    title: 'Ușa lui Mișșișșippi', sh: 30, split: true,
     text: [doorScene(false, mood || parsMood()), reply || intro, '<p class="center"><b>Ce tastă apeși?</b></p>'],
-    cols: 'one',
+    cols: innerWidth > 600 ? '' : 'one',
     buttons: S.dr.opts.map(w => ({ t: w, c: 'kana', dis: S.dr.tried.includes(w), f: () => tryWord(w) })),
-    after: () => { if (mood === 'asleep') setTimeout(() => { if (S.stage === 'door' && card.querySelector('button.kana')) card.querySelector('.scene').outerHTML = doorScene(false, parsMood()); }, 2400); },
+    after: () => { if (mood === 'asleep') setTimeout(() => { if (S.stage === 'door' && card.querySelector('button.kana')) { card.querySelector('.scene').outerHTML = doorScene(false, parsMood()); fitScenes(); } }, 2400); },
   });
 }
 function tryWord(w) {
@@ -1078,7 +1161,7 @@ const ACTS = {
   gadila: { t: 'Gâdilă', dmg: [1, 3], txt: ['Îl gâdili la subsuoara mecanică: «HA-HA-HA-EROARE-HA!»', 'Îl gâdili la tălpile de metal. Robotul se strâmbă de râs și scapă un șurub!'] },
   jughineste: { t: 'JUGHINEȘTE!', dmg: [5, 6], txt: ['Îl JUGHINEȘTI cu toată puterea de detectiv! Robotul se învârte ca un titirez!', 'JUGHINEALĂ DE DETECTIV! Robotului îi sar trei șuruburi și o antenă!'] },
   potiune: { t: 'Poțiune', heal: 5, txt: ['Bei poțiunea. Are gust de căpșuni și curaj!'] },
-  pars: { t: 'Cheamă pârșul!', txt: [] },
+  pars: { t: 'SUMONEAZĂ PÂRȘUL!', txt: [] },
 };
 const ATTACKS = {
   laser: { warn: 'Ochii robotului se încarcă, tot mai roșii... o să tragă cu LASERUL!', tip: 'De laser te poți feri.', counter: 'fereste', dmg: [2, 3], hit: 'Laserul te pârlește puțin la sprâncene!', miss: 'Te ferești ca un ninja și laserul topește un tufiș. Robotul se uită după tine buimac!' },
@@ -1097,10 +1180,11 @@ function boss() {
   busy = false;
   const keys = bossKeys();
   show({
-    title: 'MECHA-MIȘȘIȘȘIPPI 3000',
-    text: [`<div class="arena" id="arena">${BOSS_SVG}</div>`, '<div id="bars"></div>', '<div id="warn"></div>',
-      '<div id="log"><p>Din întuneric se aprind doi ochi roșii. Un robot uriaș cu mască de raton! Cine o fi înăuntru?...</p></div>'],
-    buttons: keys.map(k => ({ t: ACTS[k].t, f: () => turn(k), c: k === 'jughineste' ? 'jug wide' : k === 'potiune' ? 'alt wide' : k === 'pars' ? 'parsbtn wide' : '' })),
+    title: 'MECHA-MIȘȘIȘȘIPPI 3000', cls: 'bosscard', wide: true,
+    text: [`<div class="bleft"><div class="arena" id="arena">${BOSS_SVG}</div><div id="bars"></div></div>`,
+      '<div class="bright"><div id="warn"></div><div id="log"><p>Din întuneric se aprind doi ochi roșii. Un robot uriaș cu mască de raton! Cine o fi înăuntru?...</p></div></div>'],
+    cols: 'three',
+    buttons: keys.map(k => ({ t: ACTS[k].t, f: () => turn(k), c: k === 'jughineste' ? 'jug wide' : k === 'potiune' ? 'alt' : k === 'pars' ? 'parsbtn' : '' })),
     after: () => { if (S.b.angry) document.getElementById('boss').classList.add('angry'); if (S.b.sleep) document.getElementById('boss').classList.add('asleep'); bars(); renderWarn(); buttonsState(); },
   });
 }
@@ -1111,10 +1195,11 @@ function bars() {
     `<div class="hp-label"><span>${NAME()}</span><span>${b.hp} / ${MAXHP}</span></div><div class="bar"><i style="width:${b.hp / MAXHP * 100}%;background:var(--good)"></i></div>`;
 }
 function renderWarn() {
+  if (S.b.sleep) { document.getElementById('warn').innerHTML = '<div class="warn zz"><b>Zzz...</b> Robotul doarme! Ai o <b>acțiune gratuită</b>: acum nu te poate ataca.</div>'; return; }
   const a = ATTACKS[S.b.next];
   document.getElementById('warn').innerHTML = `<div class="warn"><b>Atenție!</b> ${a.warn}${S.b.learned[S.b.next] ? '' : `<small>Sfat: ${a.tip}</small>`}</div>`;
 }
-function bossKeys() { return ['sari', 'fereste', 'blocheaza', 'gadila', 'jughineste', 'potiune', ...(S.allyPars ? ['pars'] : [])]; }
+function bossKeys() { return ['sari', 'fereste', 'blocheaza', 'gadila', 'potiune', ...(S.allyPars ? ['pars'] : []), 'jughineste']; }
 function buttonsState() {
   const b = S.b, keys = bossKeys();
   card.querySelectorAll('.btns button').forEach((el, i) => {
@@ -1122,7 +1207,6 @@ function buttonsState() {
     el.disabled = busy || (k === 'jughineste' && b.en < 3) || (k === 'potiune' && (b.pot <= 0 || b.hp >= MAXHP)) || (k === 'pars' && b.parsUsed);
     if (k === 'jughineste') { el.innerHTML = `JUGHINEȘTE! ${'●'.repeat(b.en)}${'○'.repeat(3 - b.en)}`; el.classList.toggle('ready', b.en >= 3 && !busy); }
     if (k === 'potiune') el.innerHTML = `Poțiune (${b.pot} rămase)`;
-    if (k === 'pars') el.innerHTML = b.parsUsed ? 'Pârșul a venit deja' : 'Cheamă pârșul! (o singură dată)';
   });
 }
 function log(lines) { document.getElementById('log').innerHTML = lines.map(l => `<p>${l}</p>`).join(''); }
@@ -1132,17 +1216,32 @@ function floatTxt(txt, color, top) {
   d.style.left = (30 + Math.random() * 40) + '%'; if (top) d.style.top = top;
   document.getElementById('arena').appendChild(d); setTimeout(() => d.remove(), 1400);
 }
+async function summonFx() {
+  const runes = ['召', '喚', 'ド', 'ン', 'グ', 'リ', '★', 'パ', 'ワ', 'ー', '★', '!'];
+  const R = runes.map((c, i) => { const a = i / runes.length * Math.PI * 2; return `<text x="${(Math.cos(a) * 80).toFixed(1)}" y="${(Math.sin(a) * 80 + 6).toFixed(1)}" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffd166" transform="rotate(${(a * 180 / Math.PI + 90).toFixed(0)} ${(Math.cos(a) * 80).toFixed(1)} ${(Math.sin(a) * 80).toFixed(1)})">${c}</text>`; }).join('');
+  const nuts = Array.from({ length: Math.max(1, S.given || 1) }, (_, i) => { const a = i / Math.max(1, S.given || 1) * Math.PI * 2; return `<use href="#acorn" x="${(Math.cos(a) * 52 - 9).toFixed(1)}" y="${(Math.sin(a) * 52 - 11).toFixed(1)}" width="18" height="22"/>`; }).join('');
+  const ov = document.createElement('div'); ov.className = 'summon';
+  ov.innerHTML = `<div class="sum-rays"></div><div class="sum-grow"><svg class="sum-circle" viewBox="-100 -100 200 200"><g fill="none" stroke="#b06bff" stroke-width="3"><circle r="96"/><circle r="66" stroke="#ffd166" stroke-width="2"/><circle r="40" stroke-dasharray="4 6"/><polygon points="${starPoints(5, 66, 26)}" stroke="#ffd166" stroke-width="2.5" transform="rotate(-90)"/></g>${R}${nuts}</svg></div>
+<div class="sum-pars"><svg viewBox="-10 -10 142 172">${dormouse(0, 0, 122, 'happy')}</svg></div>
+<div class="sum-title">SUMONARE!<small>Tenneșșee, pârșul ${S.given >= 5 ? 'LEGENDAR' : S.given >= 3 ? 'puternic' : 'curajos'} (${S.given || 1} ${S.given === 1 ? 'ghindă' : 'ghinde'})</small></div>`;
+  document.body.appendChild(ov);
+  SFX.summon();
+  await wait(1200); flashScreen('#fff'); SFX.boom();
+  await wait(2300);
+  ov.classList.add('out'); await wait(500); ov.remove();
+}
 async function attackFx(kind, countered) {
   const A = document.getElementById('arena');
   const add = (cls, style = '', html = '') => { const d = document.createElement('div'); d.className = cls; d.style.cssText = style; d.innerHTML = html; A.appendChild(d); setTimeout(() => d.remove(), 1700); };
   anim('attack');
+  const bw = document.getElementById('boss').offsetWidth;
   if (kind === 'laser' || kind === 'mega') {
     SFX.laser(); if (kind === 'mega') SFX.alarm();
-    [-26, 26].forEach(o => add('beam' + (kind === 'mega' ? ' mega' : ''), `left:calc(50% + ${o}px - ${kind === 'mega' ? 13 : 6}px);${countered ? `transform:rotate(${o > 0 ? -45 : 45}deg)` : ''}`));
+    [-1, 1].forEach(sg => { const o = Math.round(sg * bw * .12); add('beam' + (kind === 'mega' ? ' mega' : ''), `top:${Math.round(bw * .33)}px;left:calc(50% + ${o}px - ${kind === 'mega' ? 13 : 6}px);${countered ? `transform:rotate(${o > 0 ? -45 : 45}deg)` : ''}`); });
   } else if (kind === 'rachete') {
     SFX.whoosh();
-    for (let i = 0; i < 5; i++) add('proj' + (countered ? ' back' : ''), `--dx:${((Math.random() - .5) * 260).toFixed(0)}px;animation-delay:${i * .1}s`, i % 2 ? PEEL : CAN);
-  } else if (kind === 'pumn') { SFX.whoosh(); add('proj fist' + (countered ? ' back' : ''), '', FIST); }
+    for (let i = 0; i < 5; i++) add('proj' + (countered ? ' back' : ''), `top:${Math.round(bw * .5)}px;--dx:${((Math.random() - .5) * 260).toFixed(0)}px;animation-delay:${i * .1}s`, i % 2 ? PEEL : CAN);
+  } else if (kind === 'pumn') { SFX.whoosh(); add('proj fist' + (countered ? ' back' : ''), `top:${Math.round(bw * .4)}px`, FIST); }
   else if (kind === 'coada') { SFX.whir(); add('sweep'); }
   else if (kind === 'tipat') { SFX.scream(); add('scream', '', countered ? 'MIȘ-ȘIȘ-HI-HI-HI!' : 'MIȘ-ȘIȘ-ȘIPPIII!'); if (!countered) retrigger(card, 'quake'); }
   await wait(850); card.classList.remove('quake');
@@ -1153,19 +1252,23 @@ async function turn(k) {
   const b = S.b, a = ACTS[k], at = ATTACKS[b.next], lines = [];
   // rândul tău
   if (k === 'pars') {
-    b.parsUsed = true;
-    const d = 4 + Math.min(4, S.given || 1);
+    b.parsUsed = true; buttonsState();
+    const d = 4 + Math.min(5, S.given || 1);
+    await summonFx();
     const A = document.getElementById('arena'), f = document.createElement('div');
     f.className = 'parsfly'; f.style.setProperty('--w', A.offsetWidth + 'px'); f.innerHTML = `<svg viewBox="0 0 122 152">${dormouse(0, 0, 122, 'happy')}</svg>`; A.appendChild(f);
-    SFX.hop(); await wait(700); SFX.jug(); anim('hit'); flashScreen('#fff3b0');
+    SFX.whoosh(); await wait(650); SFX.jug(); anim('spin'); flashScreen('#fff3b0'); bigText('BONK!');
     b.bhp = Math.max(0, b.bhp - d); floatTxt('−' + d, '#e05a47'); bars();
-    lines.push(`Tenneșșee țâșnește dintr-un tufiș și îi trage robotului una cu coada lui stufoasă! <b>−${d}</b>`);
-    log(lines); await wait(900);
+    lines.push(`Tenneșșee se rotește ca o morișcă și îi trage robotului una cu coada lui stufoasă! <b>−${d}</b>`);
+    log(lines); await wait(1100);
     lines.push('<b>Robotul:</b> «Măi, pârșule, măi! Tu de partea cui ești?!»'); log(lines); SFX.alarm();
-    await wait(1300);
+    await wait(1600);
+    SFX.lullaby();
+    for (let i = 0; i < 6; i++) { const n = document.createElement('div'); n.className = 'mnote'; n.textContent = i % 2 ? '♪' : '♫'; n.style.left = (20 + i * 11) + '%'; n.style.animationDelay = (i * .2) + 's'; A.appendChild(n); setTimeout(() => n.remove(), 2600); }
     lines.push('Tenneșșee îi cântă un cântec de leagăn: «Nani-nani, robotelul...» Robotul cască... și ADOARME! Zzz...');
-    b.sleep = true; document.getElementById('boss').classList.add('asleep'); SFX.snore(); log(lines);
-    setTimeout(() => f.remove(), 600);
+    log(lines); await wait(1400);
+    b.sleep = 2; document.getElementById('boss').classList.add('asleep'); SFX.snore();
+    setTimeout(() => f.remove(), 300);
   } else if (a.heal) {
     b.pot--; b.hp = Math.min(MAXHP, b.hp + a.heal); SFX.heal(); floatTxt('+' + a.heal, '#2e8b3e', '75%');
     lines.push(`${pick(a.txt)} <b>+${a.heal}</b>`);
@@ -1182,10 +1285,10 @@ async function turn(k) {
   if (b.bhp <= 0) { await wait(900); return victory(); }
   await wait(1200);
   // rândul robotului
-  if (b.sleep) {
-    b.sleep = false; floatTxt('Zzz...', '#4f6d8f', '10%'); SFX.snore();
-    lines.push('Robotul sforăie de zor: «Zzz... MIȘ... zzz... ȘIPPI...» Pierde tura!');
-    await wait(900); document.getElementById('boss').classList.remove('asleep');
+  if (b.sleep > 0) {
+    b.sleep--; floatTxt('Zzz...', '#4f6d8f', '10%'); SFX.snore();
+    if (b.sleep > 0) lines.push('Robotul sforăie de zor: «Zzz... MIȘ... zzz... ȘIPPI...» Ai o <b>acțiune gratuită</b>: acum nu te poate ataca!');
+    else { await wait(700); document.getElementById('boss').classList.remove('asleep'); anim('hit'); lines.push('Robotul se trezește buimac: «Ce... unde... cine m-a pârșit?!» Până se dezmeticește, pierde tura.'); }
   } else if (Math.random() < .1) {
     SFX.boing(); anim('hit'); lines.push(pick(SLIPS));
   } else {
@@ -1215,9 +1318,11 @@ async function turn(k) {
     SFX.alarm(); bigText('ROBOTUL SE ÎNFURIE!'); document.getElementById('boss').classList.add('angry');
     lines.push('<b>Robotul se înfurie!</b> Îi iese abur din urechi și lovește mai tare. Are atacuri noi!'); log(lines);
   }
-  const pool = Object.keys(ATTACKS).filter(x => (b.angry || (x !== 'mega' && x !== 'pumn')) && x !== b.next);
-  b.last = b.next; b.next = pick(pool);
-  save(); renderWarn(); SFX.alarm();
+  if (!b.sleep) {
+    const pool = Object.keys(ATTACKS).filter(x => (b.angry || (x !== 'mega' && x !== 'pumn')) && x !== b.next);
+    b.last = b.next; b.next = pick(pool); SFX.alarm();
+  }
+  save(); renderWarn();
   busy = false; buttonsState();
 }
 async function victory() {
