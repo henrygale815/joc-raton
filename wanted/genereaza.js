@@ -1,10 +1,12 @@
 // Generează afișul WANTED (varianta A, desenată în stil creion / cărbune).
-// Rulare: node wanted/genereaza.js  ->  afis-wanted-A.svg, afis-wanted-A-print.jpg (A4, 300 DPI), afis-wanted-A-mic.jpg (pentru joc)
+// Rulare: node wanted/genereaza.js [A|B]  ->  afis-wanted-X.svg, afis-wanted-X-print.jpg (A4, 300 DPI), afis-wanted-X-mic.jpg (pentru joc)
+// A = puiul desenat aici în cod; B = desenul din sursa/raton-B.png (decupat și curățat din sursa/raton-B-original.jpg)
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
 
 const DIR = __dirname;
+const V = (process.argv[2] || 'A').toUpperCase();
 const W = 840, H = 1188; // proporții A4
 
 // număr aleator cu sămânță fixă, ca afișul să iasă la fel de fiecare dată
@@ -125,6 +127,11 @@ const rule = y => `<path d="M120 ${y} H360 M480 ${y} H720" stroke="#2a1d12" stro
 let stains = '';
 for (let i = 0; i < 9; i++) stains += `<ellipse cx="${f1(R(60, 780))}" cy="${f1(R(60, 1130))}" rx="${f1(R(30, 110))}" ry="${f1(R(20, 80))}" fill="url(#stain)" opacity="${f1(R(.25, .6))}"/>`;
 
+// varianta B: desenul dat, potrivit pe înălțimea ramei
+function portraitB() {
+  const f = path.join(DIR, 'sursa', 'raton-B.png'), [w, h] = [1252, 1320], ph = 442, pw = ph * w / h;
+  return `<image href="data:image/png;base64,${fs.readFileSync(f).toString('base64')}" x="${f1(420 - pw / 2)}" y="224" width="${f1(pw)}" height="${ph}" />`;
+}
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
 <style>${FONTS}</style>
 <defs>
@@ -171,22 +178,22 @@ ${stains}
   ${gp(452, 1126, 72)}
 </g>
 <g clip-path="url(#portrait)">
-  <rect x="175" y="224" width="490" height="442" fill="url(#hatch)"/>
-  <g transform="translate(420 418) scale(1.0)" filter="url(#pencil)" style="mix-blend-mode:multiply">${kit()}</g>
+  ${V === 'B' ? portraitB() : `<rect x="175" y="224" width="490" height="442" fill="url(#hatch)"/>
+  <g transform="translate(420 418) scale(1.0)" filter="url(#pencil)" style="mix-blend-mode:multiply">${kit()}</g>`}
 </g>
 ${[[58, 58], [782, 58], [58, 1130], [782, 1130]].map(([x, y]) => `<circle cx="${x + 2}" cy="${y + 3}" r="9" fill="#000" opacity=".25"/><circle cx="${x}" cy="${y}" r="8" fill="#6b6b6b" stroke="#2a2a2a" stroke-width="2"/><circle cx="${x - 2.5}" cy="${y - 2.5}" r="2.5" fill="#cfcfcf"/>`).join('')}
 </svg>`;
 
 (async () => {
-  fs.writeFileSync(path.join(DIR, 'afis-wanted-A.svg'), svg);
+  fs.writeFileSync(path.join(DIR, `afis-wanted-${V}.svg`), svg);
   const b = await chromium.launch();
   const html = `<!doctype html><html><head><style>html,body{margin:0;background:#fff}svg{display:block;width:100vw;height:auto}@page{size:A4;margin:0}</style></head><body>${svg}</body></html>`;
   const p = await b.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 2480 / W });
   await p.setContent(html); await p.waitForTimeout(500);
-  await p.screenshot({ path: path.join(DIR, 'afis-wanted-A-print.jpg'), type: 'jpeg', quality: 95, clip: { x: 0, y: 0, width: W, height: H } });
+  await p.screenshot({ path: path.join(DIR, `afis-wanted-${V}-print.jpg`), type: 'jpeg', quality: 95, clip: { x: 0, y: 0, width: W, height: H } });
   const p2 = await b.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1.4 });
   await p2.setContent(html); await p2.waitForTimeout(500);
-  await p2.screenshot({ path: path.join(DIR, 'afis-wanted-A-mic.jpg'), type: 'jpeg', quality: 82, clip: { x: 0, y: 0, width: W, height: H } });
+  await p2.screenshot({ path: path.join(DIR, `afis-wanted-${V}-mic.jpg`), type: 'jpeg', quality: 82, clip: { x: 0, y: 0, width: W, height: H } });
   await b.close();
   console.log('gata');
 })();

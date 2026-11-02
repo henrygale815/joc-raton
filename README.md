@@ -26,8 +26,14 @@ Progresul se salvează în localStorage (cheia `misi-joc-v2`); butonul „↺ de
 `qr/qr-joc.png` (simplu) și `qr/qr-joc-cu-text.png` („Scanează-mă, detective!”) duc la https://henrygale815.github.io/joc-raton/. 1800 px, 300 DPI (≈15 cm), corecție de erori H, deci merge și printat mic (min. ~3 cm).
 
 ## Afișul WANTED (`wanted/`)
-- `afis-wanted-A-print.jpg`: pentru print, A4 la 300 DPI (2480×3507).
-- `afis-wanted-A-mic.jpg`: versiunea mică, folosită în joc.
-- `afis-wanted-A.svg`: sursa vectorială, cu fonturile incluse.
-- `genereaza.js`: desenează afișul (puiul de raton în stil creion/cărbune, textele, hârtia) și exportă fișierele: `node wanted/genereaza.js`.
+Două variante, cu același text și aceeași hârtie:
+- **A**: puiul de raton desenat în cod, în stil creion/cărbune.
+- **B**: desenul generat (`sursa/raton-B-original.jpg`), decupat fără ramă, curățat și transformat în „cerneală” pe hârtia afișului (`sursa/raton-B.png`).
+
+Pentru fiecare variantă X:
+- `afis-wanted-X-print.jpg`: pentru print, A4 la 300 DPI (2480×3507).
+- `afis-wanted-X-mic.jpg`: versiunea mică, pentru joc (acum jocul folosește A, constanta `AFIS` din `index.html`).
+- `afis-wanted-X.svg`: sursa, cu fonturile incluse.
+
+`genereaza.js` desenează afișul și exportă fișierele: `node wanted/genereaza.js A` sau `node wanted/genereaza.js B`.
 - Fonturi (SIL Open Font License, din Google Fonts): Rye, Sancreek, Bevan, Special Elite.
