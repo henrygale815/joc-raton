@@ -28,12 +28,12 @@ Progresul se salvează în localStorage (cheia `misi-joc-v2`); butonul „↺ de
 ## Afișul WANTED (`wanted/`)
 Două variante, cu același text și aceeași hârtie:
 - **A**: puiul de raton desenat în cod, în stil creion/cărbune.
-- **B**: desenul generat (`sursa/raton-B-original.jpg`), decupat fără ramă, curățat și transformat în „cerneală” pe hârtia afișului (`sursa/raton-B.png`).
+- **B**, **C**: desenele generate (`sursa/raton-X-original.jpg`), decupate fără ramă, curățate și transformate în „cerneală” pe hârtia afișului (`sursa/raton-X.png`, cu `python3 wanted/sursa/pregateste.py`).
 
 Pentru fiecare variantă X:
 - `afis-wanted-X-print.jpg`: pentru print, A4 la 300 DPI (2480×3507).
 - `afis-wanted-X-mic.jpg`: versiunea mică, pentru joc (acum jocul folosește A, constanta `AFIS` din `index.html`).
 - `afis-wanted-X.svg`: sursa, cu fonturile incluse.
 
-`genereaza.js` desenează afișul și exportă fișierele: `node wanted/genereaza.js A` sau `node wanted/genereaza.js B`.
+`genereaza.js` desenează afișul și exportă fișierele: `node wanted/genereaza.js A` (sau `B`, `C`).
 - Fonturi (SIL Open Font License, din Google Fonts): Rye, Sancreek, Bevan, Special Elite.
