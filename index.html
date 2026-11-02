@@ -716,7 +716,7 @@ const STICKERS = ['maze', 'harta', 'rau', 'boss'];
 function renderStickers() {
   document.getElementById('stickers').innerHTML = STICKERS.map(k => `<div class="st ${S.stickers.includes(k) ? 'on' : ''}">${ICON[k]}</div>`).join('');
 }
-const AFIS = 'wanted/afis-wanted-A-mic.jpg';
+const AFIS = 'wanted/afis-wanted-C-mic.jpg';
 function renderInv(bump) {
   const n = S.acorns || 0, inv = document.getElementById('inv');
   inv.innerHTML = (n ? `<span class="${bump === 'ghinda' ? 'bump' : ''}"><svg viewBox="0 0 40 48"><use href="#acorn"/></svg> Ghinde: ${n}</span>` : '')

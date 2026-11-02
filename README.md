@@ -32,7 +32,7 @@ Două variante, cu același text și aceeași hârtie:
 
 Pentru fiecare variantă X:
 - `afis-wanted-X-print.jpg`: pentru print, A4 la 300 DPI (2480×3507).
-- `afis-wanted-X-mic.jpg`: versiunea mică, pentru joc (acum jocul folosește A, constanta `AFIS` din `index.html`).
+- `afis-wanted-X-mic.jpg`: versiunea mică, pentru joc (jocul folosește varianta C, aleasă pentru print; constanta `AFIS` din `index.html`).
 - `afis-wanted-X.svg`: sursa, cu fonturile incluse.
 
 `genereaza.js` desenează afișul și exportă fișierele: `node wanted/genereaza.js A` (sau `B`, `C`).
