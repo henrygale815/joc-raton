@@ -240,6 +240,22 @@ body.dark #dark{opacity:.94}
 @keyframes glint{0%,70%,100%{opacity:0}80%,90%{opacity:1}}
 .vanish{animation:vanish 1s ease-in forwards}
 @keyframes vanish{to{opacity:0;transform:scale(.3) rotate(20deg)}}
+.vtitle{font:900 54px "Trebuchet MS",sans-serif;text-align:center;color:#e0a800;text-shadow:0 4px 0 #6b3fa0,0 0 18px #ffd166;margin:0 0 8px;animation:boom .8s}
+.explist .row{display:flex;justify-content:space-between;font-size:19px;padding:5px 10px;border-bottom:2px dashed #e6d7b5;animation:lootIn .35s both}
+.explist .row b{color:#2f6fb5;font-variant-numeric:tabular-nums}
+.exptot{display:flex;justify-content:space-between;font-size:24px;font-weight:900;margin:8px 10px 12px}
+.lvlrow{font-weight:bold;font-size:20px;text-align:center;margin-bottom:4px}
+.lvlrow.up{color:#6b3fa0;font-size:24px;animation:boom .6s}
+.bar.xp{height:24px}.bar.xp>i{background:linear-gradient(90deg,#47b5ff,#b06bff);transition:width .35s}
+.xpnum{text-align:right;font-size:15px;color:var(--muted);margin-top:-6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:10px}
+.stats div{background:#fff;border-radius:12px;padding:6px 10px;font-size:17px;display:flex;justify-content:space-between;gap:6px;animation:lootIn .35s both}
+.stats .plus{color:#2e8b3e;font-weight:900;font-style:normal}
+@media (min-width:900px) and (orientation:landscape){
+  .expcard{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"t t" "l r" "b b";column-gap:26px;align-items:start}
+  .expcard .vtitle{grid-area:t}.expcard .expleft{grid-area:l}.expcard .expright{grid-area:r;margin-top:6px}.expcard .btns{grid-area:b}
+  .expcard .stats{grid-template-columns:1fr}
+}
 .runbox{overflow:hidden;height:170px;position:relative}
 .runner{position:absolute;left:calc(50% - 65px);width:130px}
 .runner.go{animation:run 2.4s ease-in forwards}
@@ -362,6 +378,14 @@ const SFX = {
   counter: () => { tone(900, .08, 'square', .1); [784, 1046, 1318].forEach((f, i) => tone(f, .15, 'triangle', .18, .08 + i * .07)); },
   jug: () => { noise(.6, .6, 'lowpass', 3000, 100); tone(70, .7, 'square', .3, 0, 30); [300, 500, 800, 1200].forEach((f, i) => tone(f, .12, 'square', .1, .1 + i * .06)); },
   boom: () => { noise(1.4, .7, 'lowpass', 2500, 60); tone(60, 1.2, 'sine', .6, 0, 25); },
+  fanfare: () => {
+    const n = (f, t, d, v = .06) => { tone(f, d, 'sawtooth', v, t); tone(f * 1.006, d, 'square', v * .6, t); };
+    [523, 659, 784, 1046].forEach((f, i) => n(f, i * .08, .12));
+    [[262, 330, 392, 523], [349, 440, 523, 698], [392, 494, 587, 784], [523, 659, 784, 1046]].forEach((ch, i) => ch.forEach(f => n(f, .45 + [0, .4, .75, 1.15][i], i === 3 ? 1.4 : .32, .045)));
+    [[659, .45], [698, .85], [784, 1.2], [1046, 1.6]].forEach(([f, t]) => tone(f * 2, t === 1.6 ? 1.2 : .3, 'triangle', .1, t));
+  },
+  levelup: () => [523, 659, 784, 1046, 1318, 1568, 2093].forEach((f, i) => tone(f, .14, 'triangle', .14, i * .05)),
+  tick: () => tone(1250, .03, 'square', .035),
   win: () => [523, 523, 523, 659, 784, 659, 784, 1046].forEach((f, i) => tone(f, .22, 'triangle', .22, i * .14)),
 };
 
@@ -650,7 +674,7 @@ const BOSS_SVG = `<svg id="boss" viewBox="0 0 200 200" xmlns="http://www.w3.org/
     <text x="100" y="166" text-anchor="middle" font-size="15" font-weight="bold" fill="#2b2118" stroke="none">メカ</text>
   </g>
 </svg>`;
-const BOSS_REVEAL = `<svg class="scene" viewBox="0 0 300 230">
+const BOSS_REVEAL = `<svg class="scene" id="shadow" viewBox="0 0 300 230">
 <defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd59a"/><stop offset=".55" stop-color="#f6a9b6"/><stop offset="1" stop-color="#b59ae0"/></linearGradient></defs>
 <rect width="300" height="230" fill="url(#dusk)"/>
 <path d="M118 0 H182 L258 230 H42 Z" fill="#fff8e0" opacity=".35"/>
@@ -1373,7 +1397,7 @@ async function turn(k) {
     const countered = at.counter === k;
     await attackFx(b.next, countered);
     if (countered) {
-      b.bhp = Math.max(0, b.bhp - 2); b.en = Math.min(3, b.en + 1); b.learned[b.next] = 1;
+      b.bhp = Math.max(0, b.bhp - 2); b.en = Math.min(3, b.en + 1); b.learned[b.next] = 1; b.counters = (b.counters || 0) + 1;
       SFX.counter(); anim('hit'); floatTxt('CONTRAATAC! −2', '#2f6fb5');
       lines.push(`${at.miss} <b>CONTRAATAC! −2</b>`);
     } else {
@@ -1413,14 +1437,70 @@ async function victory() {
   flashScreen('#fff'); SFX.boom();
   show({ text: [BURST, '<h1 class="center">BUUUUM!</h1>'] });
   await wait(2000);
+  await expScreen();
   show({
-    text: [`<div id="shadow">${BOSS_REVEAL}</div>`,
+    split: true, sh: 40,
+    text: [BOSS_REVEAL,
       '<p>Din robotul stricat iese, printr-un nor de fum... cineva. Pălărie, ochelari de soare, guler ridicat. Te privește pe deasupra ochelarilor și ridică o sprânceană.</p>',
-      say([['mis', '«Heh-heh. Nu-i rău, ucenicule. Nu-i rău deloc.»'], ['mis', '«Mi-ai stricat robotul preferat... dar recunosc, a fost un meci frumos.»'],
+      say([['mis', '«Heh-heh. Nu-i rău... Ce văd? Nu mai ești ucenic, acum ești DETECTIV JUNIOR! Nu-i rău deloc.»'], ['mis', '«Mi-ai stricat robotul preferat... dar recunosc, a fost un meci frumos.»'],
         ['mis', '«Eu sunt MIȘȘIȘȘIPPI. Boss-ul cel mare. Și pe mine nu mă prinde nimeni... încă.»']])],
     buttons: [{ t: 'Prinde-l!', f: catchHim, c: 'wide' }],
   });
   busy = false;
+}
+// ---------- ecranul de experiență + level up ----------
+const LVL_EXP = 500;
+function expList() {
+  const b = S.b || {}, L = [['Labirintul Încâlcit', 50], ['Mișși și Șșippi', 80], ['Râul cu Pietre', 60], ['Pârșul Tenneșșee', 40]];
+  if (S.found) L.push([`Ghinde găsite (${S.found})`, S.found * 5]);
+  if (S.given) L.push([`Ghinde dăruite (${S.given})`, S.given * 10]);
+  if (S.wanted) L.push(['Afișul WANTED', 20]);
+  if (b.counters) L.push([`Contraatacuri (${b.counters})`, b.counters * 15]);
+  L.push(['Mecha-Mișșișșippi 3000', 300]);
+  return L;
+}
+function countUp(el, from, to, ms) {
+  return new Promise(res => { const t0 = performance.now(); const step = now => { const k = Math.min(1, (now - t0) / ms); el.textContent = Math.round(from + (to - from) * k); k < 1 ? requestAnimationFrame(step) : res(); }; requestAnimationFrame(step); });
+}
+async function expScreen() {
+  const stats = [['Curaj', 5, 3], ['Putere', 4, 2], ['Agilitate', 4, 2], ['Gâdilat', 3, 5]];
+  if (S.given) stats.push(['Prietenie cu pârșii', 1, S.given]);
+  show({
+    cls: 'expcard',
+    text: ['<h1 class="vtitle">VICTORIE!</h1>',
+      '<div class="expleft"><div class="explist" id="explist"></div><div class="exptot"><span>EXP total</span><b id="exptotal">0</b></div></div>',
+      `<div class="expright"><div class="lvlrow" id="lvlname">Nivel 1 · Ucenic detectiv</div><div class="bar xp"><i id="xpbar" style="width:0%"></i></div><div class="xpnum" id="xpnum">0 / ${LVL_EXP}</div><div class="stats" id="stats"></div></div>`],
+  });
+  SFX.fanfare(); await wait(1500);
+  const list = card.querySelector('#explist'), tot = card.querySelector('#exptotal'), bar = card.querySelector('#xpbar'), num = card.querySelector('#xpnum');
+  let total = 0, up = false;
+  for (const [name, v] of expList()) {
+    const row = document.createElement('div'); row.className = 'row'; row.innerHTML = `<span>${name}</span><b>+0</b>`; list.appendChild(row);
+    const b = row.querySelector('b'), from = total; total += v; SFX.tick();
+    const tick = setInterval(SFX.tick, 70);
+    await Promise.all([countUp({ set textContent(x) { b.textContent = '+' + x; } }, 0, v, 380), countUp(tot, from, total, 380)]);
+    clearInterval(tick);
+    if (!up && total >= LVL_EXP) {
+      up = true; bar.style.width = '100%'; await wait(300);
+      SFX.levelup(); flashScreen('#fff3b0'); bigText('LEVEL UP!'); confetti();
+      const ln = card.querySelector('#lvlname'); ln.textContent = 'Nivel 2 · DETECTIV JUNIOR'; ln.classList.add('up');
+      bar.style.transition = 'none'; bar.style.width = '0%'; void bar.offsetWidth; bar.style.transition = '';
+      S.level = 2; save(); await wait(700);
+    }
+    const cur = up ? total - LVL_EXP : total;
+    bar.style.width = Math.min(100, cur / LVL_EXP * 100) + '%'; num.textContent = `${cur} / ${LVL_EXP}`;
+    await wait(220);
+  }
+  const st = card.querySelector('#stats');
+  for (const [name, a, d] of stats) {
+    const el = document.createElement('div'); el.innerHTML = `<span>${name}</span><span>${a} → <b>${a + d}</b> <i class="plus">+${d}</i></span>`;
+    st.appendChild(el); SFX.hop(); await wait(380);
+  }
+  await new Promise(res => {
+    const box = document.createElement('div'); box.className = 'btns one';
+    const btn = document.createElement('button'); btn.className = 'wide'; btn.textContent = 'Continuă';
+    btn.onclick = () => { SFX.click(); res(); }; box.appendChild(btn); card.appendChild(box);
+  });
 }
 async function catchHim() {
   card.querySelector('button').disabled = true;
