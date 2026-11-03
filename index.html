@@ -282,6 +282,8 @@ footer button{background:transparent;box-shadow:none;color:rgba(255,255,255,.35)
       <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.8 0 0 0 2.15" result="ga"/>
       <feComposite in="d" in2="ga" operator="in"/>
     </filter>
+    <pattern id="stripesB" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#fff"/><rect width="10" height="5" fill="#3f7fd0"/></pattern>
+    <pattern id="stripesR" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#fff"/><rect width="10" height="5" fill="#d64541"/></pattern>
     <linearGradient id="rb" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ff5f6d"/><stop offset=".3" stop-color="#ffc371"/><stop offset=".55" stop-color="#5fe08a"/><stop offset=".8" stop-color="#47b5ff"/><stop offset="1" stop-color="#b06bff"/></linearGradient>
   </defs>
 </svg>
@@ -413,8 +415,8 @@ function raccoon(x, y, w, o = {}) {
 <path d="M84 132 q36 -2 30 -46" fill="none" stroke="${dk}" stroke-width="21"/>
 <path d="M84 132 q36 -2 30 -46" fill="none" stroke="#cfcfd4" stroke-width="16"/>
 <path d="M84 132 q36 -2 30 -46" fill="none" stroke="${mid}" stroke-width="16" stroke-dasharray="7 7" stroke-linecap="butt"/></g>
-<ellipse cx="60" cy="112" rx="32" ry="32" fill="${body}"/>
-<ellipse cx="60" cy="118" rx="19" ry="22" fill="#ece7dc" stroke="none"/>
+<ellipse cx="60" cy="112" rx="32" ry="32" fill="${o.shirt ? `url(#stripes${o.shirt})` : body}"/>
+${o.shirt ? '<path d="M29 118 Q60 128 91 118 L91 127 Q60 137 29 127 Z" fill="#6b4420"/><rect x="53" y="120" width="14" height="11" rx="2" fill="#e2b33c"/>' : '<ellipse cx="60" cy="118" rx="19" ry="22" fill="#ece7dc" stroke="none"/>'}
 ${o.apron ? `<path d="M37 98 H83 L80 134 Q60 142 40 134 Z" fill="${o.apron}"/><path d="M60 106 q9 7 0 18 q-9 -11 0 -18z" fill="#7cc36b" stroke-width="2"/>` : ''}
 <ellipse cx="31" cy="110" rx="8" ry="13" fill="${body}" transform="rotate(20 31 110)"/>
 <ellipse cx="89" cy="110" rx="8" ry="13" fill="${body}" transform="rotate(-20 89 110)"/>
@@ -436,6 +438,11 @@ ${o.messy ? `<path d="M24 36 l-10 -10 l13 1 l-3 -14 l12 8 l5 -15 l7 13 l9 -13 l3
 <path class="mo" d="M51 77 Q60 93 69 77 Z" fill="#8a2f2f"/>
 <path d="M40 74 L20 ${o.messy ? 64 : 70} M40 78 L22 ${o.messy ? 88 : 80} M80 74 L98 ${o.messy ? 80 : 70} M80 78 L100 ${o.messy ? 72 : 80}" stroke-width="1.5"/>
 ${o.messy ? '<circle cx="34" cy="42" r="4" fill="#555" stroke="none"/><circle cx="86" cy="86" r="5" fill="#555" stroke="none"/><circle cx="70" cy="34" r="3" fill="#555" stroke="none"/>' : ''}
+${o.patch ? '<path d="M21 49 Q30 52 37 55 M50 53 Q72 41 97 40" fill="none" stroke="#111" stroke-width="2.6"/><ellipse cx="43" cy="58" rx="10" ry="9" fill="#111"/>' : ''}
+${o.pirate === 'hat' ? `<path d="M30 36 Q34 4 60 2 Q86 4 90 36 Q60 27 30 36 Z" fill="#1d1b24"/><path d="M12 37 Q60 14 108 37 Q101 45 86 41 Q60 31 34 41 Q19 45 12 37 Z" fill="#1d1b24"/><path d="M15 37 Q60 17 105 37" fill="none" stroke="#e2b33c" stroke-width="3"/>
+<g stroke="#fff" stroke-width="2.6"><path d="M50 27 l20 7 M70 27 l-20 7" /><circle cx="60" cy="19" r="6.5" fill="#fff" stroke="none"/></g><circle cx="57.5" cy="18.5" r="1.6" fill="#1d1b24" stroke="none"/><circle cx="62.5" cy="18.5" r="1.6" fill="#1d1b24" stroke="none"/>` : ''}
+${o.pirate === 'bandana' ? `<path d="M19 46 Q20 17 60 15 Q100 17 101 46 Q60 33 19 46 Z" fill="#d64541"/>${[[34, 32], [48, 24], [64, 22], [80, 27], [92, 36], [56, 34], [40, 40], [74, 38]].map(([cx, cy]) => `<circle cx="${cx}" cy="${cy}" r="2.6" fill="#fff" stroke="none"/>`).join('')}<path d="M99 39 q15 -9 19 -2 q-8 5 -17 8 Z M99 43 q17 1 17 10 q-9 -1 -17 -5 Z" fill="#d64541"/>` : ''}
+${o.earring ? '<circle cx="100" cy="68" r="4.5" fill="none" stroke="#e2b33c" stroke-width="2.6"/>' : ''}
 </g></g></svg>`;
 }
 // puncte pe o curbă (pentru coada pufoasă)
@@ -971,17 +978,21 @@ function outMaze() {
   show({
     title: 'Ai ieșit!',
     text: [`<svg class="scene" viewBox="0 0 300 150"><rect width="300" height="150" fill="#bfe3f5"/><rect y="104" width="300" height="46" fill="#7cbf5a"/>
-<path d="M190 104 L230 70 L270 104 V130 H190Z" fill="#e8b878" stroke="#2b2118" stroke-width="3"/><path d="M182 106 L230 64 L278 106" fill="none" stroke="#3e8a3a" stroke-width="9" stroke-linecap="round"/>
-${raccoon(110, 60, 52, { apron: '#5aa9e6' })}${raccoon(150, 60, 52, { apron: '#f4a259' })}${trail(14, 128, 1, 0, 5, 22, { op: .6, s: .7 })}</svg>`,
+<path d="M190 104 L230 70 L270 104 V130 H190Z" fill="#e8b878" stroke="#2b2118" stroke-width="3"/><path d="M182 106 L230 64 L278 106" fill="none" stroke="#3e8a3a" stroke-width="9" stroke-linecap="round"/><path d="M230 64 V30" stroke="#2b2118" stroke-width="3"/><rect x="231" y="30" width="30" height="20" fill="#1d1b24" stroke="#2b2118" stroke-width="2"/>${pawAt(246, 40, 0, .55, '#fff')}
+${raccoon(110, 60, 52, { shirt: 'B', pirate: 'hat', patch: true })}${raccoon(150, 60, 52, { shirt: 'R', pirate: 'bandana', earring: true })}${trail(14, 128, 1, 0, 5, 22, { op: .6, s: .7 })}</svg>`,
       'Te învârți pe ȘTÂNGA ca un titirez și... HOP! Ai ieșit din labirint!',
-      'Urmele lui Mișșișșippi duc spre o căsuță cu acoperiș verde. În fața ei se joacă doi ratoni mici, identici.'],
+      'Urmele lui Mișșișșippi duc spre o căsuță cu acoperiș verde. În fața ei se joacă doi ratoni mici, identici... îmbrăcați în pirați!'],
     buttons: [{ t: 'Mergi la căsuță', f: () => go('twins'), c: 'wide' }],
   });
 }
 
-// ---------- 2. TIMI ȘI TOMI ----------
-const TWINS_SVG = (laugh = false) => `<svg class="scene" viewBox="0 0 300 170"><rect width="300" height="170" fill="#e9f5dc"/><rect y="138" width="300" height="32" fill="#9ccc7a"/>
-${raccoon(50, 6, 100, { apron: '#5aa9e6', laugh })}${raccoon(160, 6, 100, { apron: '#f4a259', laugh, delay: .7 })}
+// ---------- 2. MIȘȘI ȘI ȘȘIPPI, PIRAȚII ----------
+const TWINS_SVG = (laugh = false) => `<svg class="scene" viewBox="0 0 300 170"><rect width="300" height="170" fill="#cfe9f7"/><rect y="84" width="300" height="44" fill="#5aa9e6"/>
+<path d="M0 98 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="#9fd0f2" stroke-width="3"/>
+<path d="M0 124 Q150 116 300 124 V170 H0 Z" fill="#f1d9a0"/>
+<path d="M22 132 V38" stroke="#6b4420" stroke-width="4"/><path d="M24 40 h34 v22 h-34 Z" fill="#1d1b24" stroke="#2b2118" stroke-width="2"/>${pawAt(41, 51, 0, .6, '#fff')}
+<path d="M272 128 q-4 -30 6 -58" fill="none" stroke="#8b5a2b" stroke-width="6"/><path d="M278 72 q-20 -8 -32 4 M278 72 q-4 -18 -24 -18 M278 72 q12 -16 22 -8 M278 72 q18 -2 20 14" fill="none" stroke="#3e8a3a" stroke-width="6" stroke-linecap="round"/>
+${raccoon(50, 6, 100, { shirt: 'B', pirate: 'hat', patch: true, laugh })}${raccoon(160, 6, 100, { shirt: 'R', pirate: 'bandana', earring: true, laugh, delay: .7 })}
 <g font-size="17" font-weight="bold" text-anchor="middle" font-family="Trebuchet MS,sans-serif"><text x="100" y="166" fill="#2f6fb5">Mișși</text><text x="210" y="166" fill="#c26a1b">Șșippi</text></g>
 ${laugh ? '<text class="hihi" x="28" y="40" fill="#2f6fb5">hi-hi!</text><text class="hihi" x="236" y="30" fill="#c26a1b" style="animation-delay:.5s">hi-hi-hi!</text>' : ''}</svg>`;
 // [întrebare, corect, greșit, greșit]
@@ -1020,11 +1031,11 @@ function twins() {
   show({
     title: 'Mișși și Șșippi',
     text: [TWINS_SVG(true), say([
-      ['missi', '«Bună ziua, bună ziua! Eu sunt Mișși!»'], ['ssippi', '«...și eu sunt Șșippi!»'],
+      ['missi', '«Ahoi, ahoi! Eu sunt Mișși, piratul cu un singur ochi!»'], ['ssippi', '«...și eu sunt Șșippi, piratul cu bandană! Arrr!»'],
       ['missi', '«Și împreună suntem... MIȘȘI-ȘȘIPPI! Ca unchiul nostru!»'], ['ssippi', '«...ca unchiul! Hi-hi!»'],
-      ['missi', '«Unchiul a ascuns o comoară într-unul dintre cele trei cufere ale noastre: roșu, albastru sau verde.»'], ['ssippi', '«...sau verde!»'],
+      ['missi', '«Unchiul a ascuns o comoară într-unul dintre cele trei cufere de pirat ale noastre: roșu, albastru sau verde.»'], ['ssippi', '«...sau verde!»'],
       ['missi', '«La fiecare joc, unul dintre noi minte tot timpul, iar celălalt spune tot timpul adevărul. Cine minte? Nu-ți spunem!»'], ['ssippi', '«...nu-ți spunem! Hi-hi!»'],
-      ['missi', '«Întâi te întrebăm NOI ceva. Apoi ne întrebi TU. Și la final îți spunem unde e comoara!»'], ['ssippi', '«...unde e comoara!»']]),
+      ['missi', '«Întâi te întrebăm NOI ceva. Apoi ne întrebi TU. Și la final îți spunem unde e comoara!»'], ['ssippi', '«...unde e comoara! Arrr!»']]),
       `<div class="chests mini">${Object.keys(COLORS).map(k => `<div class="chestbtn">${chestSVG(COLORS[k][0])}${COLORS[k][2]}</div>`).join('')}</div>`],
     buttons: [{ t: 'Hai să ne jucăm!', f: () => go('tquiz'), c: 'wide' }],
   });
@@ -1036,12 +1047,12 @@ function tquiz(msg, laugh) {
   const i = pick(left); S.tw.used.push(i); save();
   const [q, ok, ...bad] = QUIZ[i];
   show({
-    text: [TWINS_SVG(laugh), msg || '', say([['missi', '«Întrebarea noastră este...»'], ['ssippi', '«...este...»']]), `<p class="center"><b>${q}</b></p>`],
+    text: [TWINS_SVG(laugh), msg || '', say([['missi', '«Întrebarea noastră de pirați este...»'], ['ssippi', '«...este... Arrr!»']]), `<p class="center"><b>${q}</b></p>`],
     cols: 'three',
     buttons: shuffle([ok, ...bad]).map(a => ({
       t: a, c: 'alt', f: () => a === ok
         ? (SFX.good(), tAsk())
-        : (SFX.wrong(), tquiz(say([['missi', `«${a}? Nuuu! Greșit!»`], ['ssippi', '«...greșit! Încă una!»']]), true)),
+        : (SFX.wrong(), tquiz(say([['missi', `«${a}? Pe toți rechinii! Greșit!»`], ['ssippi', '«...greșit! Încă una!»']]), true)),
     })),
   });
 }
@@ -1050,7 +1061,7 @@ function tAsk() {
   const qs = shuffle(ASK.map((_, i) => i)).slice(0, 2);
   S.tw.round = { liar, chest, qs }; save();
   show({
-    text: [TWINS_SVG(), say([['missi', '«Corect! Bravo!»'], ['ssippi', '«...bravo! Acum e rândul TĂU să ne întrebi ceva!»']]),
+    text: [TWINS_SVG(), say([['missi', '«Corect! Arrr, bravo!»'], ['ssippi', '«...bravo! Acum e rândul TĂU să ne întrebi ceva!»']]),
       '<p>Ce-i întrebi pe Mișși și Șșippi?</p>'],
     cols: 'one',
     buttons: qs.map((i, j) => ({ t: `Question ${'AB'[j]}!<br><span class="qsub">«${ASK[i][0]}»</span>`, c: 'alt', f: () => tAnswer(i, 'AB'[j]) })),
@@ -1093,7 +1104,7 @@ async function openTwinChest(el) {
     return show({
       text: [`<div style="max-width:220px;margin:30px auto 0">${chestSVG(COLORS[k][0], el.querySelector('.contents').innerHTML)}</div>`,
         el.innerHTML.includes('#donut') ? 'Înăuntru e doar... o gogoașă mușcată. Iar ea?!' : 'Înăuntru e un pantof vechi și foarte mirositor. Pfui!',
-        TWINS_SVG(true), say([['missi', '«Hi-hi-hi! Ai crezut pe cine nu trebuia!»'], ['ssippi', '«...nu trebuia!»'],
+        TWINS_SVG(true), say([['missi', '«Arrr, hi-hi-hi! Ai crezut pe cine nu trebuia!»'], ['ssippi', '«...nu trebuia!»'],
           ['missi', '«Joc nou! Acum ne amestecăm: poate mint eu, poate minte el!»'], ['ssippi', '«...minte el! Adică... hi-hi!»']])],
       buttons: [{ t: 'Încă o dată!', f: () => tquiz(), c: 'wide' }],
       after: c => c.querySelector('.chestsvg').classList.add('open'),
@@ -1106,7 +1117,7 @@ function map() {
   show({
     title: 'Harta lui Mișșișșippi!',
     text: ['În cufăr era o hartă veche, mototolită, cu urme de lăbuțe pe ea.', mapScene(),
-      say([['missi', '«Harta unchiului! Uite: s-a ascuns dincolo de Râul cu Pietre!»'], ['ssippi', '«...Râul cu Pietre!»'],
+      say([['missi', '«Harta comorii unchiului! Uite: s-a ascuns dincolo de Râul cu Pietre!»'], ['ssippi', '«...Râul cu Pietre!»'],
         ['missi', '«Pe fiecare rând de pietre, sari doar pe piatra cu răspunsul corect! Altfel faci PLEOSC!»'], ['ssippi', '«...PLEOSC! Hi-hi!»']])],
     buttons: [{ t: 'Spre râu!', f: () => { S.rv = null; go('river'); }, c: 'wide' }],
   });
