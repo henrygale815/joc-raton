@@ -1,4 +1,4 @@
-// Generează codul QR „raton care ține o pancartă” spre joc.
+// Generează codul QR cu ratonul în creion (de pe afișul WANTED, varianta C) care se uită peste pancarta cu codul.
 // Rulare: node qr/genereaza-qr.js  ->  qr/qr-raton.png (cu text) și qr/qr-raton-fara-text.png
 const fs = require('fs');
 const path = require('path');
@@ -42,29 +42,21 @@ function qrSvg(x0, y0, size) {
 
 (async () => {
   const b = await chromium.launch();
-  const p = await b.newPage();
-  // capul ratonului din joc (aceeași funcție raccoon())
-  await p.goto('file://' + path.join(ROOT, 'index.html'));
-  const head = (await p.evaluate(() => raccoon(0, 0, 120, {})))
-    .replace(/class="rac[^"]*"/, '').replace('viewBox="0 0 120 150"', 'viewBox="14 4 92 92"')
-    .replace('x="0" y="0" width="120" height="150"', 'x="170" y="0" width="260" height="260"');
-  const paw = x => `<g transform="translate(${x} 262)" stroke="#2b2118" stroke-width="5" stroke-linejoin="round"><ellipse rx="44" ry="30" fill="#a3a3aa"/>${[-30, -12, 8, 27].map(dx => `<ellipse cx="${dx}" cy="-24" rx="10" ry="14" fill="#a3a3aa"/>`).join('')}<path d="M-30 -14 v8 M-12 -16 v8 M8 -16 v8 M27 -14 v8" stroke-width="3"/></g>`;
+  // ratonul în creion de pe afișul WANTED (varianta C), care se uită peste marginea pancartei
+  const img = fs.readFileSync(path.join(ROOT, 'wanted', 'sursa', 'raton-C.png')), iw = img.readUInt32BE(16), ih = img.readUInt32BE(20);
+  const RW = 400, RH = RW * ih / iw, PY = Math.round(RH * .725), PH = 520, H0 = PY + PH + 24;
   const make = withText => {
-    const H = withText ? 900 : 820;
+    const H = withText ? H0 + 70 : H0;
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 ${H}" width="600" height="${H}"><style>${FONTS}</style>
 <rect width="600" height="${H}" fill="#fff"/>
-<g stroke-linecap="butt"><path d="M520 640 Q578 604 556 474 Q546 410 516 414" fill="none" stroke="#2b2118" stroke-width="64" stroke-linecap="round"/>
-<path d="M520 640 Q578 604 556 474 Q546 410 516 414" fill="none" stroke="#cfcfd4" stroke-width="52" stroke-linecap="round"/>
-<path d="M520 640 Q578 604 556 474 Q546 410 516 414" fill="none" stroke="#3a3a40" stroke-width="52" stroke-dasharray="26 26"/></g>
-${head}
-<rect x="40" y="250" width="520" height="520" rx="34" fill="#fff" stroke="#2b2118" stroke-width="9"/>
-${qrSvg(90, 300, 420)}
-${paw(170)}${paw(430)}
-${withText ? `<text x="300" y="860" text-anchor="middle" font-family="Sancreek" font-size="38" fill="#2b2118">${TEXT}</text>` : ''}
+<image href="data:image/png;base64,${img.toString('base64')}" x="${300 - RW / 2}" y="0" width="${RW}" height="${RH.toFixed(1)}"/>
+<rect x="40" y="${PY}" width="520" height="${PH}" rx="30" fill="#fff" stroke="#2b2118" stroke-width="8"/>
+${qrSvg(90, PY + 50, 420)}
+${withText ? `<text x="300" y="${H - 26}" text-anchor="middle" font-family="Sancreek" font-size="38" fill="#2b2118">${TEXT}</text>` : ''}
 </svg>`;
   };
   for (const [withText, file] of [[true, 'qr-raton.png'], [false, 'qr-raton-fara-text.png']]) {
-    const svg = make(withText), H = withText ? 900 : 820;
+    const svg = make(withText), H = withText ? H0 + 70 : H0;
     const q = await b.newPage({ viewport: { width: 600, height: H }, deviceScaleFactor: 4 });
     await q.setContent(`<!doctype html><html><body style="margin:0">${svg}</body></html>`); await q.waitForTimeout(300);
     await q.screenshot({ path: path.join(DIR, file), clip: { x: 0, y: 0, width: 600, height: H } });

@@ -38,4 +38,4 @@ Pentru fiecare variantă X:
 
 `genereaza.js` desenează afișul și exportă fișierele: `node wanted/genereaza.js A` (sau `B`, `C`).
 - Fonturi (SIL Open Font License, din Google Fonts): Rye, Sancreek, Bevan, Special Elite.
-- `qr/qr-raton.png` (cu textul „Scanează... dacă îndrăznești!”) și `qr/qr-raton-fara-text.png`: același link, într-un raton care ține codul ca pe o pancartă, cu o lăbuță în mijloc. Se generează cu `node qr/genereaza-qr.js`. Colțurile codului rămân pătrate intenționat, pentru că rotunjite nu mai sunt citite sigur.
+- `qr/qr-raton.png` (cu textul „Scanează... dacă îndrăznești!”) și `qr/qr-raton-fara-text.png`: același link, cu ratonul în creion de pe afișul WANTED (varianta C) care se uită peste pancarta cu codul, și o lăbuță în mijloc. Se generează cu `node qr/genereaza-qr.js`. Colțurile codului rămân pătrate intenționat, pentru că rotunjite nu mai sunt citite sigur.
