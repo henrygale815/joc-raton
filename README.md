@@ -59,6 +59,4 @@ Ultimul pas din traseu. Piesele hărții adunate formează tabla, iar rezolvarea
 - `node cifru/genereaza.js` așază textul, alege ferestrele (verifică că dau exact mesajul) și trasează tăieturile pe lângă ferestre. Textul și mesajul sunt la începutul fișierului (`TEXT`, `MESAJ`).
 
 ## Scrisoarea de start (`scrisoare/`)
-- `scrisoare.pdf`, 2 pagini A4: (1) începutul scris de părinți, pe foaie dictando („Dragă David, ... este o...”), care se rupe de mână sub ultimul rând; (2) bucata lui Mișșișșippi pe hârtie veche („...SURPRIZĂ!”, interceptarea și ghicitoarea despre Yellow Submarine), lipită cu scotch dedesubt.
-- `parinti.png`, `raton.png`: aceleași pagini ca imagini. Textele sunt la începutul fișierului `genereaza.js` (`PARINTI`, `RATON`); se regenerează cu `node scrisoare/genereaza.js`.
-- Font: Caveat (SIL Open Font License).
+Scrisoarea se scrie de mână. `hartie-labute.pdf` e o foaie albă A4 cu urme de lăbuțe de raton pe margini, pentru bucata lui Mișșișșippi (`node scrisoare/genereaza.js`).
