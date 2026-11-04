@@ -50,3 +50,10 @@ Ultimul pas din traseu. Piesele hărții adunate formează tabla, iar rezolvarea
 - Soluția: Pisica B2 (patul mare), Tenneșșee A7 (patul mic), Șșippi C5 (baia mare), Mișși E3 (în fața TV), Robotul F6 (hol), **Mișșișșippi H4 (canapea)**, găsit prin eliminare.
 - `node murdoku/genereaza.js` verifică întâi că indiciile au o singură soluție, apoi generează toate paginile. Casa (`ROOMS`, `FURN`, `DOORS`), personajele și indiciile (`CHARS`) sunt la începutul fișierului. Pisica și robotul sunt desenate acolo, restul personajelor vin din joc.
 - Fonturi (SIL Open Font License): Pacifico, Nunito.
+
+## Grila secretă (`cifru/`)
+Înlocuiește harta ca ultim pas. La fiecare pas din traseu, David găsește o piesă din „Grila detectivului”. La final pune cele 5 piese peste „Jurnalul secret al lui Mișșișșippi” și, prin ferestre, citește rând cu rând: **COMOARA / ESTE / SUB / CANAPEA** (fiecare cuvânt începe pe un rând nou).
+- `de-printat.pdf`: cele două pagini A4, jurnalul și grila. Se printează la 100% („Dimensiune reală”), ca grila să cadă fix peste litere.
+- `jurnal.png`, `grila.png`: aceleași pagini ca imagini. `solutie.png`: jurnalul cu literele mesajului marcate, pentru părinte.
+- Grila se lipește pe carton (de exemplu de la o cutie de cereale), apoi se decupează pătrățelele gri și se taie pe liniile roșii.
+- `node cifru/genereaza.js` așază textul, alege ferestrele (verifică că dau exact mesajul) și trasează tăieturile pe lângă ferestre. Textul și mesajul sunt la începutul fișierului (`TEXT`, `MESAJ`).
