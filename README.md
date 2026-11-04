@@ -60,3 +60,7 @@ Ultimul pas din traseu. Piesele hărții adunate formează tabla, iar rezolvarea
 
 ## Scrisoarea de start (`scrisoare/`)
 Scrisoarea se scrie de mână. `hartie-labute.pdf` e o foaie albă A4 cu urme de lăbuțe de raton pe margini, pentru bucata lui Mișșișșippi (`node scrisoare/genereaza.js`).
+
+## Biletele printate (`bilete/`)
+- `oglinda.pdf`: biletul de la Yellow Submarine (A4 cu două exemplare, unul de rezervă). Sus scrie „Citește-mă în オグリンダ!” (oglindă, în katakana). Dedesubt, textul e scris în oglindă: „URMĂTORUL INDICIU SE AFLĂ ASCUNS SUB DESENUL DE PE FRIGIDER!”, citibil doar în fața unei oglinzi.
+- `node bilete/genereaza.js` regenerează biletele. Katakana folosește fontul IPAGothic, instalat în sistem.
