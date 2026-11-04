@@ -122,7 +122,6 @@ function labelSpot(r0, r1, c0, c1) {
 }
 function grila() {
   let s = `<text x="${W / 2}" y="78" text-anchor="middle" font-family="Pacifico" font-size="40" fill="${ink}">Grila detectivului</text>
-<text x="${W / 2}" y="118" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="17" fill="#7a6a58">Lipește pe carton · decupează pătrățelele gri · taie pe liniile roșii în 5 piese</text>
 <rect x="${GX - 8}" y="${GY - 8}" width="${COLS * CELL + 16}" height="${ROWS * CELL + 16}" fill="#f6f1e6"/>`;
   for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) s += `<rect x="${x(c)}" y="${y(r)}" width="${CELL}" height="${CELL}" fill="none" stroke="#e3d9c5" stroke-width="1"/>`;
   WIN.forEach(([r, c]) => s += `<rect x="${x(c) + 3}" y="${y(r) + 3}" width="${CELL - 6}" height="${CELL - 6}" fill="#9aa0a6" stroke="${ink}" stroke-width="2"/>`);
