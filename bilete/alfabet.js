@@ -64,12 +64,12 @@ const FONTS = ff('Nunito', 'nunito-latin-900-normal.woff2', 900) + ff('Nunito', 
   + ff('Nunito', 'nunito-latin-700-normal.woff2', 700) + ff('Nunito', 'nunito-latin-ext-700-normal.woff2', 700, 'U+0100-02AF')
   + ff('Pacifico', 'pacifico-latin-400-normal.woff2', 400) + ff('Pacifico', 'pacifico-latin-ext-400-normal.woff2', 400, 'U+0100-02AF');
 const A4 = body => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 297" width="210mm" height="297mm"><style>${FONTS}</style><rect width="210" height="297" fill="#fff"/>${body}</svg>`;
-const title = (t, sub) => `<text x="105" y="24" text-anchor="middle" font-family="Pacifico" font-size="11" fill="${ink}">${t}</text><text x="105" y="33" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="4.6" fill="#7a6a58">${sub}</text>`;
+const title = (t, size) => `<text x="105" y="28" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="${size}" letter-spacing=".4" fill="${ink}">${t}</text>`;
 
 // pagina 1: mesajul, rând cu rând; sub fiecare simbol, o căsuță goală
 function mesaj() {
   const CELL = 16, GAP = 9, ROW = 46;
-  let s = title('Mesaj secret', 'Decodează-l cu Alfabetul secret: scrie litera potrivită sub fiecare simbol.');
+  let s = title('MESAJ SECRET', 14);
   MESAJ.forEach((words, r) => {
     const n = words.reduce((a, w) => a + [...w].length, 0) + (words.length - 1);
     let x = 105 - (n * CELL + (n - 1) * 1.5 - (words.length - 1) * (CELL - GAP)) / 2;
@@ -89,20 +89,13 @@ function mesaj() {
 
 // pagina 2: alfabetul, 26 de litere pe 5 rânduri + regula pentru diacritice
 function alfabet() {
-  let s = title('Alfabetul secret al lui Mișșișșippi', 'Fiecare literă are simbolul ei. Nu-l arăta nimănui!');
+  let s = title('ALFABETUL SECRET AL LUI MIȘȘIȘȘIPPI', 8.2);
   const cols = 6, cw = 30, ch = 40, x0 = 105 - (cols * cw) / 2;
   LITERE.forEach((l, i) => {
     const c = i % cols, r = Math.floor(i / cols), x = x0 + c * cw + (r === 4 ? cw * 2 : 0), y = 42 + r * ch;
     s += `<rect x="${x + 2}" y="${y}" width="${cw - 4}" height="${ch - 4}" rx="3" fill="#faf6ee" stroke="#d9cfbd" stroke-width=".4"/>`;
     s += sym(l, x + 6, y + 3, cw - 12) + `<text x="${x + cw / 2}" y="${y + ch - 8}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="9" fill="${ink}">${l}</text>`;
   });
-  const y = 248;
-  s += `<text x="105" y="${y}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="5.5" fill="${ink}">Literele cu semn:</text>`;
-  [['Ă'], ['Ș']].forEach(([l], i) => {
-    const x = 62 + i * 52;
-    s += sym(l, x, y + 6, 16) + `<text x="${x + 22}" y="${y + 18}" font-family="Nunito" font-weight="900" font-size="7" fill="${ink}">= ${l}</text>`;
-  });
-  s += `<text x="105" y="${y + 36}" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="4.2" fill="#7a6a58">Ă = simbolul lui A cu căciulă · Ș = simbolul lui S cu virgulă dedesubt</text>`;
   return A4(s);
 }
 
