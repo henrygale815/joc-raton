@@ -1287,8 +1287,28 @@ const ATTACKS = {
 };
 const SLIPS = ['Robotul calcă pe o coajă de banană din propriile rachete. BUF! Pierde tura.', 'Robotul se oprește să-și lustruiască mustața de metal. Pierde tura!', 'Robotului i se încurcă un cablu în coadă. Pierde tura!'];
 let busy = false;
+// fanfara de victorie (audio/fanfara.mp3), încărcată din timp; dacă nu se încarcă, cântă cea sintetizată
+let FANFARA = null, fanfaraSrc = null, fanfaraGain = null;
+function loadFanfara() {
+  const a = ac(); if (FANFARA || !a) return;
+  FANFARA = fetch('audio/fanfara.mp3').then(r => r.arrayBuffer()).then(b => new Promise((res, rej) => a.decodeAudioData(b, res, rej))).catch(() => null);
+}
+async function playFanfara() {
+  const a = ac(), buf = FANFARA && await Promise.race([FANFARA, wait(1500).then(() => null)]);
+  if (!buf || !a) return SFX.fanfare();
+  fanfaraGain = a.createGain(); fanfaraGain.gain.value = .9;
+  fanfaraSrc = a.createBufferSource(); fanfaraSrc.buffer = buf;
+  fanfaraSrc.connect(fanfaraGain).connect(a.destination); fanfaraSrc.start();
+}
+function stopFanfara() {
+  if (!fanfaraSrc) return;
+  const t = AC.currentTime;
+  fanfaraGain.gain.setValueAtTime(fanfaraGain.gain.value, t); fanfaraGain.gain.linearRampToValueAtTime(.0001, t + 1.5);
+  fanfaraSrc.stop(t + 1.6); fanfaraSrc = null;
+}
 function startBoss() { S.b = { hp: MAXHP, bhp: BOSSHP, pot: 3, en: 0, angry: false, learned: {}, next: 'laser', last: '' }; go('boss'); }
 function boss() {
+  loadFanfara();
   if (!S.b) return startBoss();
   if (S.b.bhp <= 0) return victory();
   busy = false;
@@ -1475,7 +1495,7 @@ function countUp(el, from, to, ms) {
   return new Promise(res => { const t0 = performance.now(); const step = now => { const k = Math.min(1, (now - t0) / ms); el.textContent = Math.round(from + (to - from) * k); k < 1 ? requestAnimationFrame(step) : res(); }; requestAnimationFrame(step); });
 }
 async function expScreen() {
-  const stats = [['Curaj', 5, 3], ['Putere', 4, 2], ['Agilitate', 4, 2], ['Gâdilat', 3, 5]];
+  const stats = [['Curaj', 5, 3], ['Putere de jughineală', 4, 5], ['Agilitate', 4, 2], ['Gâdilat', 3, 5]];
   if (S.given) stats.push(['Prietenie cu pârșii', 1, S.given]);
   show({
     cls: 'expcard',
@@ -1483,7 +1503,7 @@ async function expScreen() {
       '<div class="expleft"><div class="explist" id="explist"></div><div class="exptot"><span>EXP total</span><b id="exptotal">0</b></div></div>',
       `<div class="expright"><div class="lvlrow" id="lvlname">Nivel 1 · Ucenic detectiv</div><div class="bar xp"><i id="xpbar" style="width:0%"></i></div><div class="xpnum" id="xpnum">0 / ${LVL_EXP}</div><div class="stats" id="stats"></div></div>`],
   });
-  SFX.fanfare(); await wait(1500);
+  playFanfara(); await wait(1500);
   const list = card.querySelector('#explist'), tot = card.querySelector('#exptotal'), bar = card.querySelector('#xpbar'), num = card.querySelector('#xpnum');
   let total = 0, up = false;
   for (const [name, v] of expList()) {
@@ -1511,7 +1531,7 @@ async function expScreen() {
   await new Promise(res => {
     const box = document.createElement('div'); box.className = 'btns one';
     const btn = document.createElement('button'); btn.className = 'wide'; btn.textContent = 'Continuă';
-    btn.onclick = () => { SFX.click(); res(); }; box.appendChild(btn); card.appendChild(box);
+    btn.onclick = () => { SFX.click(); stopFanfara(); res(); }; box.appendChild(btn); card.appendChild(box);
   });
 }
 async function catchHim() {
