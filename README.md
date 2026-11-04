@@ -63,4 +63,5 @@ Scrisoarea se scrie de mână. `hartie-labute.pdf` e o foaie albă A4 cu urme de
 
 ## Biletele printate (`bilete/`)
 - `oglinda.pdf`: biletul de la Yellow Submarine (A4 cu două exemplare, unul de rezervă). Sus scrie „Citește-mă în オグリンダ!” (oglindă, în katakana). Dedesubt, textul e scris în oglindă: „URMĂTORUL INDICIU SE AFLĂ ASCUNS SUB DESENUL DE PE FRIGIDER!”, citibil doar în fața unei oglinzi.
+- `semn-intrebare.pdf`: indiciul de sub desenul de pe frigider, de citit cu lupa. Pagina 1: un semn de întrebare mare, al cărui punct e un cerc de text de 2,5 pt (sus „HA HA HA...”, jos „INDICIUL SE AFLĂ ÎN COLȚUL DE SUS STÂNGA!”). În colțuri e text de 2 pt care îl plimbă: sus stânga → jos dreapta → sus dreapta → jos stânga („GLUMEAM! Indiciul e de fapt pe spate, la mijloc!”). Pagina 2 (spatele): la mijloc, „URMĂTORUL INDICIU ESTE LIPIT SUB MĂSUȚA TA DIN SUFRAGERIE!”. Font: Liberation Sans (aceleași dimensiuni ca Arial).
 - `node bilete/genereaza.js` regenerează biletele. Katakana folosește fontul IPAGothic, instalat în sistem.
