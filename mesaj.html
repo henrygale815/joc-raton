@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Un mesaj de la Mișșișșippi</title>
 <!-- Pagina la care duce al doilea cod QR (qr/qr-mesaj*.png): un buton mare care pornește mesajul audio al ratonului.
-     Mesajul: audio/mesaj-raton.mp3. Dacă fișierul lipsește încă, se aude fanfara (audio/fanfara.mp3). -->
+     Mesajul: audio/mesaj-raton.mp3. Dacă fișierul lipsește încă, se aude fanfara (audio/fanfara.mp3), fără nicio mențiune pe pagină. -->
 <style>
 @font-face{font-family:"Sancreek";src:url(wanted/fonts/sancreek-latin-400-normal.woff2) format("woff2")}
 @font-face{font-family:"Sancreek";src:url(wanted/fonts/sancreek-latin-ext-400-normal.woff2) format("woff2");unicode-range:U+0100-02AF}
@@ -27,7 +27,6 @@ h1{margin:0;font-weight:400;font-size:min(4.6vh,7vw,44px);color:var(--mov);text-
 p{margin:0;font-size:clamp(17px,2.8vh,26px);text-align:center}
 #bar{width:80%;height:12px;border-radius:6px;background:#eee4f7;overflow:hidden}
 #bar i{display:block;height:100%;width:0;background:var(--mov)}
-#nota{font-family:Georgia,serif;font-size:13px;color:#999;min-height:1em}
 .f{position:fixed;pointer-events:none;fill:var(--mov);opacity:0;animation:fly 2.6s ease-out forwards}
 @keyframes fly{0%{opacity:0;transform:translate(0,0) rotate(0) scale(.6)}15%{opacity:.9}100%{opacity:0;transform:translate(var(--dx),-38vh) rotate(var(--r)) scale(1.2)}}
 </style>
@@ -40,14 +39,13 @@ p{margin:0;font-size:clamp(17px,2.8vh,26px);text-align:center}
     <button id="play" aria-label="Ascultă mesajul"><svg viewBox="0 0 24 24" id="ico"><path d="M8 5v14l11-7z"/></svg></button>
     <p id="txt">Apasă butonul și ascultă!</p>
     <div id="bar"><i></i></div>
-    <div id="nota"></div>
   </div>
 </main>
 <audio id="a" preload="auto" playsinline></audio>
 <script>
 const MESAJ = 'audio/mesaj-raton.mp3', REZERVA = 'audio/fanfara.mp3';
 const a = document.getElementById('a'), btn = document.getElementById('play'), ico = document.getElementById('ico'),
-  txt = document.getElementById('txt'), bar = document.querySelector('#bar i'), nota = document.getElementById('nota');
+  txt = document.getElementById('txt'), bar = document.querySelector('#bar i');
 const PLAY = '<path d="M8 5v14l11-7z"/>', PAUZA = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
 const NOTE = ['<path d="M16 4 V36" fill="none" stroke="currentColor" stroke-width="4.5"/><path d="M16 4 Q30 10 30 22 Q26 14 16 13 Z"/><ellipse cx="10.5" cy="37" rx="7.5" ry="5.6" transform="rotate(-22 10.5 37)"/>',
   '<path d="M14 6 L38 1 V33 M14 6 V38" fill="none" stroke="currentColor" stroke-width="4.5"/><path d="M14 6 L38 1 V9 L14 14 Z"/><ellipse cx="8.5" cy="39" rx="7.5" ry="5.6" transform="rotate(-22 8.5 39)"/><ellipse cx="32.5" cy="34" rx="7.5" ry="5.6" transform="rotate(-22 32.5 34)"/>'];
@@ -55,7 +53,7 @@ const NOTE = ['<path d="M16 4 V36" fill="none" stroke="currentColor" stroke-widt
 // mesajul ratonului; dacă nu a fost încă pus pe site, fanfara
 a.src = MESAJ;
 a.addEventListener('error', () => {
-  if (a.src.endsWith(MESAJ)) { a.src = REZERVA; nota.textContent = '(mesajul ratonului nu e încă încărcat — se aude fanfara)'; }
+  if (a.src.endsWith(MESAJ)) { a.src = REZERVA; }
 }, { once: true });
 
 let noteT = null;

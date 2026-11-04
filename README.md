@@ -43,7 +43,7 @@ Pentru fiecare variantă X:
 - Ambele coduri și foile A4 se generează cu `node qr/genereaza-qr.js` (secțiunea `DESIGNS` din script).
 
 ## Mesajul audio (`mesaj.html`)
-Pagina are un buton mare de play care pornește `audio/mesaj-raton.mp3`. Cât timp sună, ratonul cu căști se leagănă, iar notele zboară din buton. Până se pune pe site fișierul cu vocea ratonului, pagina cântă fanfara (`audio/fanfara.mp3`) și scrie mărunt dedesubt că mesajul nu e încă încărcat. Ca să pui mesajul, salvează-l ca `audio/mesaj-raton.mp3`; restul nu trebuie modificat. Sunetul iese pe boxa Bluetooth dacă iPad-ul e deja conectat la ea.
+Pagina are un buton mare de play care pornește `audio/mesaj-raton.mp3`. Cât timp sună, ratonul cu căști se leagănă, iar notele zboară din buton. Până se pune pe site fișierul cu vocea ratonului, pagina cântă fanfara (`audio/fanfara.mp3`), fără nicio mențiune pe pagină. Ca să pui mesajul, salvează-l ca `audio/mesaj-raton.mp3`; restul nu trebuie modificat. Sunetul iese pe boxa Bluetooth dacă iPad-ul e deja conectat la ea.
 
 ## Murdoku: „Unde s-a ascuns Mișșișșippi?” (`murdoku/`)
 Ultimul pas din traseu. Piesele hărții adunate formează tabla, iar rezolvarea arată unde e seiful (canapeaua).
