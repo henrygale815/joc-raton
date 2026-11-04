@@ -40,8 +40,13 @@ Pentru fiecare variantă X:
 - Fonturi (SIL Open Font License, din Google Fonts): Rye, Sancreek, Bevan, Special Elite.
 - `qr/qr-raton.png` (cu textul „Scanează... dacă îndrăznești!”) și `qr/qr-raton-fara-text.png`: același link, cu ratonul în creion de pe afișul WANTED (varianta C) care se uită peste pancarta cu codul, și o lăbuță în mijloc. Se generează cu `node qr/genereaza-qr.js`. Colțurile codului rămân pătrate intenționat, pentru că rotunjite nu mai sunt citite sigur.
 
-## Murdoku: harta casei (`murdoku/`), în lucru
-- `harta.png` și `harta-piese.png`: harta casei ca hartă de comori (A4 orizontal, 300 DPI), pe o grilă de 11×8, fără nume de camere. A doua are liniile de tăiat în cele 5 piese din traseu.
-- Camerele: dormitorul (pat dublu, șifonier), baia mare (cadă, chiuvetă, WC), camera din dreapta (pat single, birou) cu balcon închis, sufrageria (rafturi, birou, TV, pickup, fotolii, canapea), holul (frigider, cuier, intrarea), baia mică (chiuvetă, WC, litieră), bucătăria (blat cu aragaz, masă cu scaune, mașina de spălat) cu balcon închis.
-- `harta.js` desenează harta: `node murdoku/harta.js`. Camerele, mobila și ușile sunt în listele de la început (`ROOMS`, `FURN`, `DOORS`).
-- `rezolva.py` verifică dacă indiciile au o singură soluție. Era făcut pentru prima schiță (5×5) și trebuie refăcut pe harta nouă.
+## Murdoku: „Unde s-a ascuns Mișșișșippi?” (`murdoku/`)
+Ultimul pas din traseu. Piesele hărții adunate formează tabla, iar rezolvarea arată unde e seiful (canapeaua).
+- `indicii.png`: titlul, regula și 6 cartonașe-polaroid (Pisica, Tenneșșee, Șșippi, Mișși, Robotul, Mișșișșippi), fiecare cu indiciul lui.
+- `harta.png` și `harta-piese.png`: harta casei (11×8, fără nume de camere), a doua cu liniile de tăiat în 5 piese.
+- `jetoane.png`: două seturi de jetoane rotunde de decupat.
+- `solutie.png`: harta cu personajele așezate, pentru părinte.
+- Regula: două personaje nu stau niciodată pe același rând sau pe aceeași coloană. Se poate sta pe jos, pe pat, pe canapea, pe fotoliu, pe scaun și în cadă.
+- Soluția: Pisica B2 (patul mare), Tenneșșee A7 (patul mic), Șșippi C5 (baia mare), Mișși E3 (în fața TV), Robotul F6 (hol), **Mișșișșippi H4 (canapea)**, găsit prin eliminare.
+- `node murdoku/genereaza.js` verifică întâi că indiciile au o singură soluție, apoi generează toate paginile. Casa (`ROOMS`, `FURN`, `DOORS`), personajele și indiciile (`CHARS`) sunt la începutul fișierului. Pisica și robotul sunt desenate acolo, restul personajelor vin din joc.
+- Fonturi (SIL Open Font License): Pacifico, Nunito.
