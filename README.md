@@ -57,3 +57,8 @@ Ultimul pas din traseu. Piesele hărții adunate formează tabla, iar rezolvarea
 - `jurnal.png`, `grila.png`: aceleași pagini ca imagini. `solutie.png`: jurnalul cu literele mesajului marcate, pentru părinte.
 - Grila se lipește pe carton (de exemplu de la o cutie de cereale), apoi se decupează pătrățelele gri și se taie pe liniile roșii.
 - `node cifru/genereaza.js` așază textul, alege ferestrele (verifică că dau exact mesajul) și trasează tăieturile pe lângă ferestre. Textul și mesajul sunt la începutul fișierului (`TEXT`, `MESAJ`).
+
+## Scrisoarea de start (`scrisoare/`)
+- `scrisoare.pdf`, 2 pagini A4: (1) începutul scris de părinți, pe foaie dictando („Dragă David, ... este o...”), care se rupe de mână sub ultimul rând; (2) bucata lui Mișșișșippi pe hârtie veche („...SURPRIZĂ!”, interceptarea și ghicitoarea despre Yellow Submarine), lipită cu scotch dedesubt.
+- `parinti.png`, `raton.png`: aceleași pagini ca imagini. Textele sunt la începutul fișierului `genereaza.js` (`PARINTI`, `RATON`); se regenerează cu `node scrisoare/genereaza.js`.
+- Font: Caveat (SIL Open Font License).
