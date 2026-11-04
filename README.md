@@ -41,8 +41,7 @@ Pentru fiecare variantă X:
 - `qr/qr-raton.png` (cu textul „Scanează... dacă îndrăznești!”) și `qr/qr-raton-fara-text.png`: același link, cu ratonul în creion de pe afișul WANTED (varianta C) care se uită peste pancarta cu codul, și o lăbuță în mijloc. Se generează cu `node qr/genereaza-qr.js`. Colțurile codului rămân pătrate intenționat, pentru că rotunjite nu mai sunt citite sigur.
 
 ## Murdoku: harta casei (`murdoku/`), în lucru
-- `harta.png` și `harta-piese.png`: harta casei ca hartă de comori (A4 orizontal, 300 DPI), cu grila de Murdoku 5×5 și mobila. A doua are liniile de tăiat în cele 5 piese din traseu.
-- `harta.js` desenează harta: `node murdoku/harta.js`.
-- `rezolva.py` verifică dacă indiciile au o singură soluție: `python3 murdoku/rezolva.py`.
-- Regulă: pe fiecare rând și pe fiecare coloană stă exact un personaj; pe masă, TV, birou, plantă și chiuvetă nu se poate sta.
-- Indiciile actuale: Tenneșșee e pe un pat · Mișși e pe un covor · Robotul e în hol · Șșippi e în bucătărie, dar nu lângă masă. Mișșișșippi iese prin eliminare: pe canapea.
+- `harta.png` și `harta-piese.png`: harta casei ca hartă de comori (A4 orizontal, 300 DPI), pe o grilă de 11×8, fără nume de camere. A doua are liniile de tăiat în cele 5 piese din traseu.
+- Camerele: dormitorul (pat dublu, șifonier), baia mare (cadă, chiuvetă, WC), camera din dreapta (pat single, birou) cu balcon închis, sufrageria (rafturi, birou, TV, pickup, fotolii, canapea), holul (frigider, cuier, intrarea), baia mică (chiuvetă, WC, litieră), bucătăria (blat cu aragaz, masă cu scaune, mașina de spălat) cu balcon închis.
+- `harta.js` desenează harta: `node murdoku/harta.js`. Camerele, mobila și ușile sunt în listele de la început (`ROOMS`, `FURN`, `DOORS`).
+- `rezolva.py` verifică dacă indiciile au o singură soluție. Era făcut pentru prima schiță (5×5) și trebuie refăcut pe harta nouă.
