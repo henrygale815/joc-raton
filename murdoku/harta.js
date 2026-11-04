@@ -1,4 +1,4 @@
-// Desenează harta casei ca hartă de comori (tabla de Murdoku), A4 orizontal.
+// Desenează harta casei ca hartă de comori (tabla de Murdoku), A4 orizontal, fără legendă.
 // Rulare: node murdoku/harta.js  ->  murdoku/harta.png (300 DPI) și murdoku/harta-piese.png (cu liniile de tăiat în 5 piese)
 const fs = require('fs');
 const path = require('path');
@@ -17,7 +17,7 @@ const CAMERE = [
 const NUME = { dormitor: 'Dormitor', baie: 'Baie', camera: 'Camera mică', sufragerie: 'Sufragerie', hol: 'Hol', bucatarie: 'Bucătărie', baie2: 'Baie' };
 const CULOARE = { dormitor: '#e9d6b8', baie: '#d5e3e0', camera: '#e6d2c4', sufragerie: '#e7dcb6', hol: '#ddd2bd', bucatarie: '#e3d9c0', baie2: '#d5e3e0' };
 const MOBILA = { '0,1': 'pat', '1,1': 'covor', '0,2': 'cada', '1,2': 'chiuveta', '0,3': 'pat', '0,4': 'birou', '2,0': 'birou', '2,1': 'tv', '3,0': 'planta', '3,1': 'covor', '2,3': 'masa', '3,3': 'scaun', '4,3': 'chiuveta' };
-const N = 5, CW = 180, CH = 112, X0 = 150, Y0 = 136;
+const N = 5, CW = 186, CH = 126, X0 = 150, Y0 = 136;
 const cx = c => X0 + c * CW, cy = r => Y0 + r * CH;
 const ink = '#3a2614';
 
@@ -95,11 +95,12 @@ const legend = () => {
 };
 // liniile de tăiat în 5 piese (zimțate, ca de puzzle)
 function cuts() {
-  const jag = pts => 'M' + pts.map(([x, y]) => `${x} ${y}`).join(' L');
-  const a = [[60, 300], [250, 286], [400, 322], [540, 296], [690, 334], [840, 294], [980, 326], [1130, 306]];
-  const b = [[520, 300], [502, 410], [540, 520], [506, 640], [530, 800]];
-  const c = [[860, 314], [842, 430], [880, 540], [846, 650], [870, 800]];
-  const d = [[60, 540], [210, 566], [370, 528], [514, 556]];
+  const jag = pts => 'M' + pts.map(([x, y]) => `${x.toFixed(0)} ${y.toFixed(0)}`).join(' L');
+  const yA = cy(2) - 50, xB = cx(2) + 6, xC = cx(4) + 20, yD = cy(3) + 56;
+  const a = [[40, yA + 10], [cx(1) - 20, yA - 12], [cx(1) + 70, yA + 22], [cx(2) + 10, yA - 6], [cx(3) - 20, yA + 26], [cx(3) + 110, yA - 10], [cx(4) + 80, yA + 18], [W - 40, yA]];
+  const b = [[xB, yA + 4], [xB - 18, cy(2) + 50], [xB + 22, cy(3) + 10], [xB - 14, cy(4) + 20], [xB + 12, H - 40]];
+  const c = [[xC, yA + 14], [xC - 18, cy(2) + 60], [xC + 22, cy(3) + 30], [xC - 14, cy(4) + 40], [xC + 10, H - 40]];
+  const d = [[40, yD], [cx(0) + 70, yD + 24], [cx(1) + 30, yD - 14], [xB - 4, yD + 14]];
   return `<g fill="none" stroke="#7a2e1e" stroke-width="2.5" stroke-dasharray="12 8">${[a, b, c, d].map(p => `<path d="${jag(p)}"/>`).join('')}</g>`;
 }
 
@@ -116,7 +117,7 @@ function svg(withCuts) {
 <rect x="22" y="22" width="${W - 44}" height="${H - 44}" fill="none" stroke="${ink}" stroke-width="4"/><rect x="32" y="32" width="${W - 64}" height="${H - 64}" fill="none" stroke="${ink}" stroke-width="1.5"/>
 <text x="${W / 2}" y="76" text-anchor="middle" font-family="Sancreek" font-size="46" fill="${ink}">Unde s-a ascuns Mișșișșippi?</text>
 <g filter="url(#wobble)">${rooms()}${furniture()}</g>
-${coords()}${compass(1110, 420)}${legend()}
+${coords()}${compass(1128, 440)}
 ${withCuts ? cuts() : ''}
 </svg>`;
 }
