@@ -14,7 +14,7 @@ Totul e într-un singur fișier: `index.html` (fără dependențe, merge pe iPad
 6. **VICTORIE + LEVEL UP**: după explozie, cu fanfară, EXP-ul se adună rând cu rând (labirint, gemeni, râu, pârș, ghinde găsite și dăruite, afiș, contraatacuri, robot). Bara se umple, apare LEVEL UP din „Ucenic detectiv” în „Nivel 2 · Detectiv junior” și cresc statisticile (inclusiv „Putere de jughineală +5”). Fanfara de victorie e `audio/fanfara.mp3`: pornește la „VICTORIE!” și se stinge la „Continuă”; dacă nu se încarcă, cântă una sintetizată. Boss-ul remarcă promovarea.
 7. **LOOT!**: din robot iese boss-ul cel mare, deghizat: pălărie cu pană, ochelari de soare coborâți, sprânceană ridicată, trenci, bombă cu fum. E șmecher, nu rău. Dispare într-un PUF și lasă un cufăr strălucitor. Din el ies o ghindă strălucitoare (comun), harta lui Mișșișșippi (rar), pălăria cu pană a șefului (epic) și bilețelul cu codul lacătului (legendar), plus confetti. Pe bilețel: „Și mie îmi place cifra 8. E ca un infinit întors.”
 
-Ilustrațiile sunt desenate în SVG direct în cod, în stil de desen animat cu creioane colorate (contur gros, linii tremurate, sprâncene groase); filtrul `#crayon` se poate scoate dintr-o singură linie CSS. Prin joc apar mici bucăți de japoneză: 川 și 山 pe hartă, メカ pe robot. iar sunetele sunt sintetizate (Web Audio), deci nu există fișiere externe.
+Ilustrațiile sunt desenate în SVG direct în cod, în stil de desen animat cu creioane colorate (contur gros, linii tremurate, sprâncene groase); filtrul `#crayon` se poate scoate dintr-o singură linie CSS. Prin joc apar mici bucăți de japoneză: 川 și 山 pe hartă, メカ pe robot. iar sunetele sunt sintetizate (Web Audio), în afară de fanfara de victorie.
 
 ## Setări (începutul scriptului)
 - `NUME_ACCEPTATE`, `COD_LACAT` (acum `8888`), `PAROLA` (`ミッシッシッピ`), `RATON`. Variantele greșite de parolă și glumele pârșului sunt în `PAROLE_GLUME`.
@@ -38,7 +38,12 @@ Pentru fiecare variantă X:
 
 `genereaza.js` desenează afișul și exportă fișierele: `node wanted/genereaza.js A` (sau `B`, `C`).
 - Fonturi (SIL Open Font License, din Google Fonts): Rye, Sancreek, Bevan, Special Elite.
-- `qr/qr-raton.png` (cu textul „Scanează... dacă îndrăznești!”) și `qr/qr-raton-fara-text.png`: același link, cu ratonul în creion de pe afișul WANTED (varianta C) care se uită peste pancarta cu codul, și o lăbuță în mijloc. Se generează cu `node qr/genereaza-qr.js`. Colțurile codului rămân pătrate intenționat, pentru că rotunjite nu mai sunt citite sigur.
+- `qr/qr-raton.png` (cu textul „Scanează... dacă îndrăznești!”) și `qr/qr-raton-fara-text.png`: același link, cu ratonul în creion de pe afișul WANTED (varianta C) care se uită peste pancarta cu codul, și o lăbuță în mijloc. Foaie de printat: `qr/qr-raton-de-printat-A4.pdf` (un cod de 7 cm și două de rezervă de 5 cm, cu linie de tăiere). Colțurile codului rămân pătrate intenționat, pentru că rotunjite nu mai sunt citite sigur.
+- `qr/qr-mesaj.png` (cu textul „Am un mesaj pentru tine!”) și `qr/qr-mesaj-fara-text.png`: al doilea cod, pentru boxa-raton de la pasul 5. Duce la https://henrygale815.github.io/joc-raton/mesaj.html. E făcut intenționat diferit de primul: ratonul B (cel cu mingea) cu căști mov, note muzicale în jur, ramă mov, puncte rotunde și o notă muzicală în mijloc. Foaie de printat: `qr/qr-mesaj-de-printat-A4.pdf` (7 cm + 2 × 5 cm).
+- Ambele coduri și foile A4 se generează cu `node qr/genereaza-qr.js` (secțiunea `DESIGNS` din script).
+
+## Mesajul audio (`mesaj.html`)
+Pagina are un buton mare de play care pornește `audio/mesaj-raton.mp3`. Cât timp sună, ratonul cu căști se leagănă, iar notele zboară din buton. Până se pune pe site fișierul cu vocea ratonului, pagina cântă fanfara (`audio/fanfara.mp3`) și scrie mărunt dedesubt că mesajul nu e încă încărcat. Ca să pui mesajul, salvează-l ca `audio/mesaj-raton.mp3`; restul nu trebuie modificat. Sunetul iese pe boxa Bluetooth dacă iPad-ul e deja conectat la ea.
 
 ## Murdoku: „Unde s-a ascuns Mișșișșippi?” (`murdoku/`)
 Ultimul pas din traseu. Piesele hărții adunate formează tabla, iar rezolvarea arată unde e seiful (canapeaua).
