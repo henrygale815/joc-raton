@@ -981,7 +981,7 @@ function outMaze() {
 <path d="M190 104 L230 70 L270 104 V130 H190Z" fill="#e8b878" stroke="#2b2118" stroke-width="3"/><path d="M182 106 L230 64 L278 106" fill="none" stroke="#3e8a3a" stroke-width="9" stroke-linecap="round"/><path d="M230 64 V30" stroke="#2b2118" stroke-width="3"/><rect x="231" y="30" width="30" height="20" fill="#1d1b24" stroke="#2b2118" stroke-width="2"/>${pawAt(246, 40, 0, .55, '#fff')}
 ${raccoon(110, 60, 52, { shirt: 'B', pirate: 'hat', patch: true })}${raccoon(150, 60, 52, { shirt: 'R', pirate: 'bandana', earring: true })}${trail(14, 128, 1, 0, 5, 22, { op: .6, s: .7 })}</svg>`,
       'Te învârți pe ȘTÂNGA ca un titirez și... HOP! Ai ieșit din labirint!',
-      'Urmele lui Mișșișșippi duc spre o căsuță cu acoperiș verde. În fața ei se joacă doi ratoni mici, identici... îmbrăcați în pirați!'],
+      'Urmele lui Mișșișșippi duc spre o căsuță cu acoperiș verde. În fața ei se joacă doi ratoni mici, identici: doi ucenici de pirați!'],
     buttons: [{ t: 'Mergi la căsuță', f: () => go('twins'), c: 'wide' }],
   });
 }
@@ -1031,7 +1031,8 @@ function twins() {
   show({
     title: 'Mișși și Șșippi',
     text: [TWINS_SVG(true), say([
-      ['missi', '«Ahoi, ahoi! Eu sunt Mișși, piratul cu un singur ochi!»'], ['ssippi', '«...și eu sunt Șșippi, piratul cu bandană! Arrr!»'],
+      ['missi', '«Ahoi, ahoi! Eu sunt Mișși!»'], ['ssippi', '«...și eu sunt Șșippi!»'],
+      ['missi', '«Suntem ucenici de pirați! Arrr!»'], ['ssippi', '«...ucenici de pirați! Arrr!»'],
       ['missi', '«Și împreună suntem... MIȘȘI-ȘȘIPPI! Ca unchiul nostru!»'], ['ssippi', '«...ca unchiul! Hi-hi!»'],
       ['missi', '«Unchiul a ascuns o comoară într-unul dintre cele trei cufere de pirat ale noastre: roșu, albastru sau verde.»'], ['ssippi', '«...sau verde!»'],
       ['missi', '«La fiecare joc, unul dintre noi minte tot timpul, iar celălalt spune tot timpul adevărul. Cine minte? Nu-ți spunem!»'], ['ssippi', '«...nu-ți spunem! Hi-hi!»'],
