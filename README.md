@@ -75,4 +75,5 @@ Scrisoarea se scrie de mână. `hartie-labute.pdf` e o foaie albă A4 cu urme de
 ## Actele detectivului (`acte/`)
 - `legitimatie.pdf`: 4 legitimații pe un A4 (85,6×54 mm, mărimea unui card), fără poză. Fața: „LEGITIMAȚIE DE DETECTIV”, insignă cu stea și lupă, Nume DAVID, Grad Ucenic detectiv, Nr. 001, Valabilă până îl prinde pe Mișșișșippi, loc de semnătură. Spatele: echipament, abilități, 5 cercuri pentru sigilii, „returneaz-o detectivului David. NU ratonului!”. Fața și spatele sunt alăturate: se decupează, se îndoaie pe linia roșie și se lipesc.
 - `diploma.pdf`: Diploma de detectiv junior, A4 orizontal, cu sigiliu, loc pentru dată și semnătură și un P.S. de la M.
+- `voucher.pdf`: 3 vouchere de 180×85 mm pe o foaie A4 (nr. 001–003), ca un bilet cu cotor. Premiul se scrie de mână pe liniile de la „ÎȚI DĂ DREPTUL LA:”, plus „Valabil până la” și semnătura. P.S.: „Pot să vin și eu? — M.” Împăturit în două are 90×85 mm, pentru lock box.
 - Se regenerează cu `node acte/genereaza.js`.

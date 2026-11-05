@@ -2,7 +2,8 @@
 //   legitimatie.pdf: A4 cu 4 legitimații 85,6×54 mm (mărimea unui card). Fiecare are fața și spatele alăturate:
 //                    se decupează, se îndoaie pe linia din mijloc și se lipește, apoi intră în ecuson.
 //   diploma.pdf:     A4 orizontal.
-// Rulare: node acte/genereaza.js  ->  acte/legitimatie.pdf, acte/diploma.pdf (+ .png pentru previzualizare)
+//   voucher.pdf:     A4 cu 3 vouchere de 180×85 mm, cu linii pe care se scrie premiul de mână.
+// Rulare: node acte/genereaza.js  ->  acte/legitimatie.pdf, acte/diploma.pdf, acte/voucher.pdf (+ .png pentru previzualizare)
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
@@ -84,9 +85,45 @@ function diploma() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}mm" height="${H}mm"><style>${FONTS}</style>${s}</svg>`;
 }
 
+// ---------- voucherul: 180 × 85 mm, ca un bilet cu cotor; premiul se scrie de mână pe linii ----------
+const VW = 180, VH = 85, STUB = 44;
+function voucher(x, y, nr) {
+  const nx = x + STUB, r = 4.2, mx = x + STUB + (VW - STUB) / 2;
+  let s = `<rect x="${x}" y="${y}" width="${VW}" height="${VH}" rx="4" fill="#fffdf7" stroke="${navy}" stroke-width="1"/>
+<path d="M${x + 4} ${y} H${nx} V${y + VH} H${x + 4} Q${x} ${y + VH} ${x} ${y + VH - 4} V${y + 4} Q${x} ${y} ${x + 4} ${y} Z" fill="${navy}"/>
+<rect x="${nx + 4}" y="${y + 4}" width="${VW - STUB - 8}" height="${VH - 8}" rx="2.5" fill="none" stroke="${gold}" stroke-width=".5"/>
+<path d="M${nx} ${y + r + 1.5} V${y + VH - r - 1.5}" stroke="#fff" stroke-width=".7" stroke-dasharray="1.6 1.4"/>
+<circle cx="${nx}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${nx}" cy="${y + VH}" r="${r}" fill="#fff"/>
+<path d="M${nx - r} ${y} A${r} ${r} 0 0 0 ${nx + r} ${y} M${nx - r} ${y + VH} A${r} ${r} 0 0 1 ${nx + r} ${y + VH}" fill="none" stroke="${navy}" stroke-width="1"/>`;
+  // cotorul: insigna, numărul, „admite”
+  s += badge(x + STUB / 2, y + 25, 13);
+  s += `<text x="${x + STUB / 2}" y="${y + 50}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="2.4" letter-spacing=".4" fill="#c9d6e2">NR.</text>
+<text x="${x + STUB / 2}" y="${y + 57}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="6" fill="#fff">${String(nr).padStart(3, '0')}</text>
+<text x="${x + STUB / 2}" y="${y + 67}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="2.6" letter-spacing=".3" fill="${gold}">ADMITE:</text>
+<text x="${x + STUB / 2}" y="${y + 71.5}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="2.6" letter-spacing=".3" fill="${gold}">1 DETECTIV</text>`;
+  // partea principală
+  s += `<text x="${mx}" y="${y + 13}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="2.8" letter-spacing="1" fill="#8a7c6a">AGENȚIA DE DETECTIVI</text>
+<text x="${mx}" y="${y + 28}" text-anchor="middle" font-family="Sancreek" font-size="15" fill="${navy}">VOUCHER</text>
+<text x="${mx}" y="${y + 36.5}" text-anchor="middle" font-family="Pacifico" font-size="5" fill="${navy}">pentru David, detectiv junior</text>
+<text x="${nx + 10}" y="${y + 45}" font-family="Nunito" font-weight="900" font-size="2.6" letter-spacing=".4" fill="#8a7c6a">ÎȚI DĂ DREPTUL LA:</text>
+<path d="M${nx + 10} ${y + 53} H${x + VW - 10} M${nx + 10} ${y + 61.5} H${x + VW - 10}" stroke="${ink}" stroke-width=".3"/>
+<path d="M${nx + 10} ${y + 70} H${nx + 62} M${nx + 76} ${y + 70} H${x + VW - 10}" stroke="${ink}" stroke-width=".3"/>
+<text x="${nx + 10}" y="${y + 73.4}" font-family="Nunito" font-weight="700" font-size="2.4" fill="#8a7c6a">Valabil până la</text>
+<text x="${nx + 76}" y="${y + 73.4}" font-family="Nunito" font-weight="700" font-size="2.4" fill="#8a7c6a">Semnătura șefului agenției</text>
+<text x="${x + VW - 11}" y="${y + 78.3}" text-anchor="end" font-family="Pacifico" font-size="3.3" fill="#6b3fa0">P.S. Pot să vin și eu? — M.</text>`;
+  s += paw(x + VW - 13, y + 15, 6, gold, 20) + paw(x + VW - 21, y + 22, 6, gold, 35) + paw(nx + 13, y + 15, 6, gold, -20);
+  return s;
+}
+function vouchere() {
+  const x0 = (210 - VW) / 2;
+  let s = '';
+  for (let i = 0; i < 3; i++) s += voucher(x0, 13 + i * (VH + 11), i + 1);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 297" width="210mm" height="297mm"><style>${FONTS}</style><rect width="210" height="297" fill="#fff"/>${s}</svg>`;
+}
+
 (async () => {
   const b = await chromium.launch();
-  const out = [['legitimatie', legitimatii(), 'A4', false], ['diploma', diploma(), 'A4', true]];
+  const out = [['legitimatie', legitimatii(), 'A4', false], ['diploma', diploma(), 'A4', true], ['voucher', vouchere(), 'A4', false]];
   for (const [name, svg, fmt, land] of out) {
     const p = await b.newPage();
     await p.setContent(`<!doctype html><html><head><style>@page{size:A4 ${land ? 'landscape' : 'portrait'};margin:0}html,body{margin:0}svg{display:block}</style></head><body>${svg}</body></html>`);
