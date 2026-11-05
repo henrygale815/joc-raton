@@ -38,10 +38,10 @@ ${[['NUME', 'DAVID', 5.2], ['GRAD', 'Ucenic detectiv', 3.6], ['NR.', '001', 3.6]
 }
 function back(x, y) {
   let s = `<rect x="${x}" y="${y}" width="${CW}" height="${CH}" rx="3" fill="#fbf6ea" stroke="${ink}" stroke-width=".4"/>`;
-  [['ECHIPAMENT', 'lupă · lanternă UV'], ['ABILITĂȚI', 'jughineală · puteri ratonești']].forEach(([l, v], i) =>
-    s += `<text x="${x + 7}" y="${y + 11 + i * 13}" font-family="Nunito" font-weight="900" font-size="2.4" letter-spacing=".2" fill="#8a7c6a">${l}</text><text x="${x + 7}" y="${y + 16.2 + i * 13}" font-family="Nunito" font-weight="900" font-size="4" fill="${ink}">${v}</text>`);
+  [['ECHIPAMENT', ['lupă · lanternă UV']], ['ABILITĂȚI', ['jughineală · puteri ratonești', 'coduri secrete']]].forEach(([l, v], i) =>
+    s += `<text x="${x + 7}" y="${y + 10 + i * 12}" font-family="Nunito" font-weight="900" font-size="2.4" letter-spacing=".2" fill="#8a7c6a">${l}</text>` + v.map((t, k) => `<text x="${x + 7}" y="${y + 15 + i * 12 + k * 5}" font-family="Nunito" font-weight="900" font-size="4" fill="${ink}">${t}</text>`).join(''));
   // o dâră de lăbuțe care traversează cartonașul
-  s += `<g opacity=".3">${[[12, 37, 70], [22, 34, 80], [32, 37.5, 90], [42, 34.5, 100], [52, 38, 85], [62, 35, 95], [72, 37, 90]].map(([dx, dy, r]) => paw(x + dx, y + dy, 4.2, '#5b3a1e', r)).join('')}</g>`;
+  s += `<g opacity=".3">${[[40, 37.5, 80], [49, 35.5, 95], [58, 38.5, 85], [67, 36, 100], [76, 39, 90]].map(([dx, dy, r]) => paw(x + dx, y + dy, 4.2, '#5b3a1e', r)).join('')}</g>`;
     s += `<text x="${x + CW / 2}" y="${y + 47}" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="2.4" fill="#8a7c6a">Dacă o găsești, returneaz-o detectivului David.</text><text x="${x + CW / 2}" y="${y + 50.6}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="2.4" fill="#b0413e">NU ratonului!</text>`;
   return s + paw(x + CW - 8, y + 8, 7, '#5b3a1e', 15);
 }
