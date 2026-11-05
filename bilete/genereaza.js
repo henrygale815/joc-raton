@@ -4,8 +4,9 @@
 //   semn-intrebare.pdf: indiciul de sub desenul de pe frigider (se citește cu lupa). Față: un semn de întrebare
 //                al cărui punct e făcut din text de 2,5 pt; colțurile au text de 2 pt care îl plimbă din colț în colț.
 //   semn-intrebare-mic.pdf: la fel, dar punctul și spatele cu 2 pt, colțurile cu 1,5 pt.
+//   semn-intrebare-foarte-mic.pdf: punctul cu 1,5 pt, colțurile și spatele cu 1 pt.
 //                Spate: la mijloc, indiciul adevărat.
-// Rulare: node bilete/genereaza.js  ->  bilete/oglinda.pdf, semn-intrebare.pdf, semn-intrebare-mic.pdf (+ .png pentru previzualizare)
+// Rulare: node bilete/genereaza.js  ->  bilete/oglinda.pdf, semn-intrebare.pdf, semn-intrebare-mic.pdf, semn-intrebare-foarte-mic.pdf (+ .png pentru previzualizare)
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
@@ -36,7 +37,8 @@ ${bilet(0)}${bilet(H / 2)}<path d="M10 ${H / 2} H${W - 10}" stroke="#b0413e" str
 // ---------- semnul de întrebare (în milimetri; 1 pt = 0,3528 mm) ----------
 // variantele de mărime: punctul (și spatele) / colțurile, în puncte tipografice
 const PT = .3528, SANS = 'Liberation Sans';
-const MARIMI = [{ punct: 2.5, colt: 2, file: 'semn-intrebare' }, { punct: 2, colt: 1.5, file: 'semn-intrebare-mic' }];
+const MARIMI = [{ punct: 2.5, colt: 2, spate: 2.5, file: 'semn-intrebare' }, { punct: 2, colt: 1.5, spate: 2, file: 'semn-intrebare-mic' },
+  { punct: 1.5, colt: 1, spate: 1, file: 'semn-intrebare-foarte-mic' }];
 const PUNCT = { ha: 'HA ', mesaj: 'INDICIUL SE AFLĂ ÎN COLȚUL DE SUS STÂNGA! ' };
 const COLTURI = {
   ss: ['NU AICI! HA-HA!', 'MERGI ÎN COLȚUL DE JOS DREAPTA.'],
@@ -76,7 +78,7 @@ function semnFata(m) {
     + corner(COLTURI.ss, 12, 14, 'start', COLT) + corner(COLTURI.sd, 198, 14, 'end', COLT)
     + corner(COLTURI.js, 12, 283, 'start', COLT) + corner(COLTURI.jd, 198, 283, 'end', COLT));
 }
-const semnSpate = m => { const MICRO = m.punct * PT; return A4(SPATE.map((t, i) => `<text x="105" y="${(148 + i * MICRO * 1.3).toFixed(2)}" text-anchor="middle" font-family="${SANS}" font-weight="700" font-size="${MICRO.toFixed(3)}" fill="#111">${t}</text>`).join('')); };
+const semnSpate = m => { const MICRO = m.spate * PT; return A4(SPATE.map((t, i) => `<text x="105" y="${(148 + i * MICRO * 1.3).toFixed(2)}" text-anchor="middle" font-family="${SANS}" font-weight="700" font-size="${MICRO.toFixed(3)}" fill="#111">${t}</text>`).join('')); };
 
 (async () => {
   const b = await chromium.launch();
