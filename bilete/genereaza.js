@@ -3,8 +3,9 @@
 //                dedesubt, textul scris în oglindă, care se citește doar ținând biletul în fața unei oglinzi.
 //   semn-intrebare.pdf: indiciul de sub desenul de pe frigider (se citește cu lupa). Față: un semn de întrebare
 //                al cărui punct e făcut din text de 2,5 pt; colțurile au text de 2 pt care îl plimbă din colț în colț.
+//   semn-intrebare-mic.pdf: la fel, dar punctul și spatele cu 2 pt, colțurile cu 1,5 pt.
 //                Spate: la mijloc, indiciul adevărat.
-// Rulare: node bilete/genereaza.js  ->  bilete/oglinda.pdf, semn-intrebare.pdf (+ .png pentru previzualizare)
+// Rulare: node bilete/genereaza.js  ->  bilete/oglinda.pdf, semn-intrebare.pdf, semn-intrebare-mic.pdf (+ .png pentru previzualizare)
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
@@ -33,7 +34,9 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" wid
 ${bilet(0)}${bilet(H / 2)}<path d="M10 ${H / 2} H${W - 10}" stroke="#b0413e" stroke-width="2" stroke-dasharray="10 8"/></svg>`;
 
 // ---------- semnul de întrebare (în milimetri; 1 pt = 0,3528 mm) ----------
-const PT = .3528, MICRO = 2.5 * PT, COLT = 2 * PT, SANS = 'Liberation Sans';
+// variantele de mărime: punctul (și spatele) / colțurile, în puncte tipografice
+const PT = .3528, SANS = 'Liberation Sans';
+const MARIMI = [{ punct: 2.5, colt: 2, file: 'semn-intrebare' }, { punct: 2, colt: 1.5, file: 'semn-intrebare-mic' }];
 const PUNCT = { ha: 'HA ', mesaj: 'INDICIUL SE AFLĂ ÎN COLȚUL DE SUS STÂNGA! ' };
 const COLTURI = {
   ss: ['NU AICI! HA-HA!', 'MERGI ÎN COLȚUL DE JOS DREAPTA.'],
@@ -43,7 +46,7 @@ const COLTURI = {
 };
 const SPATE = ['URMĂTORUL INDICIU ESTE LIPIT', 'SUB MĂSUȚA TA DIN SUFRAGERIE!', '— M.'];
 // textul din „punct”: rânduri tăiate pe cerc; prima jumătate HA HA, apoi mesajul repetat
-function punct(cx, cy, r) {
+function punct(cx, cy, r, MICRO) {
   const lh = MICRO * 1.15, n = Math.floor(2 * r / lh), cw = MICRO * .66;
   const ha = ['HA'], msg = PUNCT.mesaj.trim().split(' ');
   let out = '', k = 0;
@@ -63,16 +66,17 @@ function punct(cx, cy, r) {
   }
   return out;
 }
-const corner = (lines, x, y, anchor) => lines.map((t, i) => `<text x="${x}" y="${(y + i * COLT * 1.25).toFixed(2)}" text-anchor="${anchor}" font-family="${SANS}" font-weight="700" font-size="${COLT.toFixed(3)}" fill="#111">${t}</text>`).join('');
+const corner = (lines, x, y, anchor, COLT) => lines.map((t, i) => `<text x="${x}" y="${(y + i * COLT * 1.25).toFixed(2)}" text-anchor="${anchor}" font-family="${SANS}" font-weight="700" font-size="${COLT.toFixed(3)}" fill="#111">${t}</text>`).join('');
 const A4 = body => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 297" width="210mm" height="297mm"><rect width="210" height="297" fill="#fff"/>${body}</svg>`;
-function semnFata() {
+function semnFata(m) {
+  const MICRO = m.punct * PT, COLT = m.colt * PT;
   // cârligul semnului, desenat; punctul e textul minuscul
   const hook = `<path d="M62 92 Q62 48 105 48 Q148 48 148 90 Q148 118 120 130 Q105 137 105 158 V170" fill="none" stroke="#2f2a3a" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>`;
-  return A4(hook + punct(105, 210, 15)
-    + corner(COLTURI.ss, 12, 14, 'start') + corner(COLTURI.sd, 198, 14, 'end')
-    + corner(COLTURI.js, 12, 283, 'start') + corner(COLTURI.jd, 198, 283, 'end'));
+  return A4(hook + punct(105, 210, 15, MICRO)
+    + corner(COLTURI.ss, 12, 14, 'start', COLT) + corner(COLTURI.sd, 198, 14, 'end', COLT)
+    + corner(COLTURI.js, 12, 283, 'start', COLT) + corner(COLTURI.jd, 198, 283, 'end', COLT));
 }
-const semnSpate = () => A4(SPATE.map((t, i) => `<text x="105" y="${(148 + i * MICRO * 1.3).toFixed(2)}" text-anchor="middle" font-family="${SANS}" font-weight="700" font-size="${MICRO.toFixed(3)}" fill="#111">${t}</text>`).join(''));
+const semnSpate = m => { const MICRO = m.punct * PT; return A4(SPATE.map((t, i) => `<text x="105" y="${(148 + i * MICRO * 1.3).toFixed(2)}" text-anchor="middle" font-family="${SANS}" font-weight="700" font-size="${MICRO.toFixed(3)}" fill="#111">${t}</text>`).join('')); };
 
 (async () => {
   const b = await chromium.launch();
@@ -84,12 +88,14 @@ const semnSpate = () => A4(SPATE.map((t, i) => `<text x="105" y="${(148 + i * MI
   await q.waitForTimeout(300);
   await q.pdf({ path: path.join(DIR, 'oglinda.pdf'), format: 'A4', printBackground: true });
   // semnul de întrebare: 2 pagini (față, spate), vectorial, ca textul mic să rămână clar
-  const sq = await b.newPage();
-  await sq.setContent(`<!doctype html><html><head><style>@page{size:A4;margin:0}html,body{margin:0}svg{display:block;page-break-after:always}</style></head><body>${semnFata()}${semnSpate()}</body></html>`);
-  await sq.waitForTimeout(300);
-  await sq.pdf({ path: path.join(DIR, 'semn-intrebare.pdf'), format: 'A4', printBackground: true });
-  const pv = await b.newPage({ viewport: { width: 794, height: 1123 }, deviceScaleFactor: 4 });
-  await pv.setContent(`<!doctype html><html><body style="margin:0">${semnFata().replace('width="210mm" height="297mm"', 'width="794" height="1123"')}</body></html>`); await pv.waitForTimeout(300);
-  await pv.screenshot({ path: path.join(DIR, 'semn-intrebare.png') });
+  for (const m of MARIMI) {
+    const sq = await b.newPage();
+    await sq.setContent(`<!doctype html><html><head><style>@page{size:A4;margin:0}html,body{margin:0}svg{display:block;page-break-after:always}svg:last-child{page-break-after:auto}</style></head><body>${semnFata(m)}${semnSpate(m)}</body></html>`);
+    await sq.waitForTimeout(300);
+    await sq.pdf({ path: path.join(DIR, m.file + '.pdf'), format: 'A4', printBackground: true });
+    const pv = await b.newPage({ viewport: { width: 794, height: 1123 }, deviceScaleFactor: 4 });
+    await pv.setContent(`<!doctype html><html><body style="margin:0">${semnFata(m).replace('width="210mm" height="297mm"', 'width="794" height="1123"')}</body></html>`); await pv.waitForTimeout(300);
+    await pv.screenshot({ path: path.join(DIR, m.file + '.png') });
+  }
   await b.close(); console.log('gata');
 })();
