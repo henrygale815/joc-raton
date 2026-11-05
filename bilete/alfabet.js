@@ -1,7 +1,7 @@
 // Mesajul codat cu simboluri (pasul de la colecția de discuri) și Alfabetul secret al lui Mișșișșippi.
 // Pagina 1: mesajul în simboluri, cu o căsuță goală sub fiecare, pentru litera decodată.
 // Pagina 2: alfabetul: fiecare literă are un simbol din lumea ratonului; Ă și Ș = simbolul lui A / S cu semnul lor.
-// Rulare: node bilete/alfabet.js  ->  bilete/mesaj-codat.pdf (2 pagini A4) + mesaj-codat.png, alfabet.png
+// Rulare: node bilete/alfabet.js  ->  bilete/mesaj-codat.pdf (2 pagini A4), alfabet-invizibil.pdf (alfabetul fără litere) + .png
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
@@ -87,14 +87,15 @@ function mesaj() {
   return A4(s);
 }
 
-// pagina 2: alfabetul, 26 de litere pe 5 rânduri + regula pentru diacritice
-function alfabet() {
+// pagina 2: alfabetul, 26 de litere pe 5 rânduri
+// cuLitere=false: fără litere, cu loc gol sub fiecare simbol, ca să le scrii tu cu pixul UV (bilete/alfabet-invizibil.pdf)
+function alfabet(cuLitere = true) {
   let s = title('ALFABETUL SECRET AL LUI MIȘȘIȘȘIPPI', 8.2);
   const cols = 6, cw = 30, ch = 40, x0 = 105 - (cols * cw) / 2;
   LITERE.forEach((l, i) => {
     const c = i % cols, r = Math.floor(i / cols), x = x0 + c * cw + (r === 4 ? cw * 2 : 0), y = 42 + r * ch;
-    s += `<rect x="${x + 2}" y="${y}" width="${cw - 4}" height="${ch - 4}" rx="3" fill="#faf6ee" stroke="#d9cfbd" stroke-width=".4"/>`;
-    s += sym(l, x + 6, y + 3, cw - 12) + `<text x="${x + cw / 2}" y="${y + ch - 8}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="9" fill="${ink}">${l}</text>`;
+    s += `<rect x="${x + 2}" y="${y}" width="${cw - 4}" height="${ch - 4}" rx="3" fill="${cuLitere ? '#faf6ee' : '#fff'}" stroke="#d9cfbd" stroke-width=".4"/>`;
+    s += sym(l, x + 6, y + 3, cw - 12) + (cuLitere ? '' : '<!--') + `<text x="${x + cw / 2}" y="${y + ch - 8}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="9" fill="${ink}">${l}</text>` + (cuLitere ? '' : '-->');
   });
   return A4(s);
 }
@@ -106,7 +107,10 @@ function alfabet() {
   await p.setContent(`<!doctype html><html><head><style>@page{size:A4;margin:0}html,body{margin:0}svg{display:block;page-break-after:always}</style></head><body>${mesaj()}${alfabet()}</body></html>`);
   await p.waitForTimeout(300);
   await p.pdf({ path: path.join(DIR, 'mesaj-codat.pdf'), format: 'A4', printBackground: true });
-  for (const [file, page] of [['mesaj-codat.png', mesaj()], ['alfabet.png', alfabet()]]) {
+  await p.setContent(`<!doctype html><html><head><style>@page{size:A4;margin:0}html,body{margin:0}svg{display:block}</style></head><body>${alfabet(false)}</body></html>`);
+  await p.waitForTimeout(300);
+  await p.pdf({ path: path.join(DIR, 'alfabet-invizibil.pdf'), format: 'A4', printBackground: true });
+  for (const [file, page] of [['mesaj-codat.png', mesaj()], ['alfabet.png', alfabet()], ['alfabet-invizibil.png', alfabet(false)]]) {
     const q = await b.newPage({ viewport: { width: 794, height: 1123 }, deviceScaleFactor: 2 });
     await q.setContent(`<!doctype html><html><body style="margin:0">${page.replace('width="210mm" height="297mm"', 'width="794" height="1123"')}</body></html>`); await q.waitForTimeout(300);
     await q.screenshot({ path: path.join(DIR, file) });
