@@ -38,12 +38,12 @@ ${[['NUME', 'DAVID', 5.2], ['GRAD', 'Ucenic detectiv', 3.6], ['NR.', '001', 3.6]
 }
 function back(x, y) {
   let s = `<rect x="${x}" y="${y}" width="${CW}" height="${CH}" rx="3" fill="#fbf6ea" stroke="${ink}" stroke-width=".4"/>`;
-  s += `<text x="${x + 6}" y="${y + 9}" font-family="Nunito" font-weight="900" font-size="2.2" letter-spacing=".2" fill="#8a7c6a">ECHIPAMENT</text><text x="${x + 6}" y="${y + 13.2}" font-family="Nunito" font-weight="900" font-size="3.3" fill="${ink}">lupă · lanternă UV</text>`;
-  s += `<text x="${x + 6}" y="${y + 19.5}" font-family="Nunito" font-weight="900" font-size="2.2" letter-spacing=".2" fill="#8a7c6a">ABILITĂȚI</text><text x="${x + 6}" y="${y + 23.7}" font-family="Nunito" font-weight="900" font-size="3.3" fill="${ink}">citit în oglindă · coduri secrete</text>`;
-  s += `<text x="${x + 6}" y="${y + 30.5}" font-family="Nunito" font-weight="900" font-size="2.2" letter-spacing=".2" fill="#8a7c6a">SIGILII</text>`;
-  for (let i = 0; i < 5; i++) { const cx = x + 11 + i * 15.5; s += `<circle cx="${cx}" cy="${y + 38}" r="5.4" fill="#fff" stroke="${ink}" stroke-width=".35" stroke-dasharray="1 .8"/><text x="${cx}" y="${y + 39.2}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="3.2" fill="#d9cfbd">${i + 1}</text>`; }
-  s += `<text x="${x + CW / 2}" y="${y + 49.5}" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="2.2" fill="#8a7c6a">Dacă o găsești, returneaz-o detectivului David.</text><text x="${x + CW / 2}" y="${y + 52.3}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="2.2" fill="#b0413e">NU ratonului!</text>`;
-  return s + paw(x + CW - 8, y + 7.5, 7, '#5b3a1e', 15);
+  [['ECHIPAMENT', 'lupă · lanternă UV'], ['ABILITĂȚI', 'jughineală · puteri ratonești']].forEach(([l, v], i) =>
+    s += `<text x="${x + 7}" y="${y + 11 + i * 13}" font-family="Nunito" font-weight="900" font-size="2.4" letter-spacing=".2" fill="#8a7c6a">${l}</text><text x="${x + 7}" y="${y + 16.2 + i * 13}" font-family="Nunito" font-weight="900" font-size="4" fill="${ink}">${v}</text>`);
+  // o dâră de lăbuțe care traversează cartonașul
+  s += `<g opacity=".3">${[[12, 37, 70], [22, 34, 80], [32, 37.5, 90], [42, 34.5, 100], [52, 38, 85], [62, 35, 95], [72, 37, 90]].map(([dx, dy, r]) => paw(x + dx, y + dy, 4.2, '#5b3a1e', r)).join('')}</g>`;
+    s += `<text x="${x + CW / 2}" y="${y + 47}" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="2.4" fill="#8a7c6a">Dacă o găsești, returneaz-o detectivului David.</text><text x="${x + CW / 2}" y="${y + 50.6}" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="2.4" fill="#b0413e">NU ratonului!</text>`;
+  return s + paw(x + CW - 8, y + 8, 7, '#5b3a1e', 15);
 }
 function legitimatii() {
   const x0 = (210 - 2 * CW) / 2, gap = 13;
