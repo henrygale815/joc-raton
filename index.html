@@ -197,6 +197,8 @@ button.parsbtn{background:linear-gradient(90deg,#9fd27f,#ffd166);box-shadow:0 5p
 @keyframes flyback{50%{transform:translate(var(--dx),200px) rotate(300deg)}100%{transform:translate(0,-10px) rotate(700deg);opacity:0}}
 .proj.fist{width:64px;height:64px;left:calc(50% - 32px);top:90px;animation:punch .7s ease-in forwards}
 .proj.fist.back{animation:punchback 1s ease-in-out forwards}
+.proj.claw{width:64px;height:64px;left:calc(50% - 32px);top:90px;animation:grab 1.15s ease-in-out forwards}
+@keyframes grab{40%{transform:translateY(150px) scale(2.8)}55%{transform:translateY(150px) scale(2.8) rotate(10deg)}62%{transform:translateY(150px) scale(2.8) rotate(-10deg)}100%{transform:translateY(-10px) scale(.6);opacity:0}}
 @keyframes punch{to{transform:translateY(160px) scale(3.4);opacity:.5}}
 @keyframes punchback{45%{transform:translateY(120px) scale(2.6)}100%{transform:translateY(-20px) scale(.6);opacity:0}}
 .sweep{position:absolute;bottom:4px;left:-45%;width:45%;height:30px;border-radius:15px;background:repeating-linear-gradient(90deg,#6b737c 0 14px,#2b2118 14px 24px);animation:sweep .75s ease-in forwards;z-index:2}
@@ -731,6 +733,8 @@ ${[[40, 226, 30], [100, 232, 26], [200, 232, 28], [262, 224, 32], [14, 150, 20],
 </svg>`;
 const CAN = '<svg viewBox="0 0 30 36"><rect x="4" y="4" width="22" height="28" rx="4" fill="#c9d1d9" stroke="#2b2118" stroke-width="3"/><rect x="4" y="12" width="22" height="10" fill="#e05a47"/></svg>';
 const PEEL = '<svg viewBox="0 0 36 36"><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#2b2118" stroke-width="8" stroke-linecap="round"/><path d="M18 4 Q14 18 4 30 M18 4 Q20 20 18 34 M18 4 Q24 18 33 28" fill="none" stroke="#ffd84d" stroke-width="5" stroke-linecap="round"/></svg>';
+// clește-ul cu care robotul încearcă să fure nasuri
+const CLAW = '<svg viewBox="0 0 60 60"><g stroke="#2b2118" stroke-width="3" stroke-linecap="round"><rect x="25" y="0" width="10" height="24" fill="#b8c1ca"/><path d="M25 33 Q10 42 19 57 M35 33 Q50 42 41 57" fill="none" stroke-width="9"/><path d="M25 33 Q10 42 19 57 M35 33 Q50 42 41 57" fill="none" stroke="#9aa5b1" stroke-width="4"/><circle cx="30" cy="28" r="8" fill="#9aa5b1"/><circle cx="30" cy="28" r="2.5" fill="#2b2118"/></g></svg>';
 const FIST = '<svg viewBox="0 0 60 60"><g stroke="#2b2118" stroke-width="3"><rect x="8" y="12" width="44" height="38" rx="12" fill="#9aa5b1"/><path d="M19 12 V28 M30 12 V28 M41 12 V28" fill="none"/><rect x="2" y="22" width="14" height="18" rx="5" fill="#b8c1ca"/></g></svg>';
 function starPoints(n, r1, r2) { let p = []; for (let i = 0; i < n * 2; i++) { const r = i % 2 ? r2 : r1, a = Math.PI * i / n; p.push((Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1)); } return p.join(' '); }
 const BURST = `<svg class="burst" viewBox="-110 -110 220 220"><polygon points="${starPoints(14, 105, 60)}" fill="#ff8c42" stroke="#2b2118" stroke-width="4"><animateTransform attributeName="transform" type="rotate" from="0" to="40" dur="2s" fill="freeze"/></polygon><polygon points="${starPoints(11, 72, 40)}" fill="#ffd166"/><polygon points="${starPoints(9, 40, 22)}" fill="#fff6c2"/></svg>`;
@@ -1283,6 +1287,8 @@ const ATTACKS = {
   coada: { warn: 'Coada-elice începe să se învârtă, jos, la nivelul picioarelor...', tip: 'Peste coadă se poate sări!', counter: 'sari', dmg: [2, 2], hit: 'Coada te mătură ca pe o frunză! Pleosc, pe fund!', miss: 'HOP! Sari peste coadă, iar robotul se încurcă singur în ea!' },
   tipat: { warn: 'Robotul trage aer în difuzoare... o să ȚIPE!', tip: 'Un robot gâdilat nu mai poate țipa...', counter: 'gadila', dmg: [1, 2], hit: '«MIȘ-ȘIȘ-ȘIPPIII!» Îți țiuie urechile!', miss: 'Îl gâdili exact când deschide gura: «MIȘ-ȘIȘ-HI-HI-HI!» Se îneacă de râs!' },
   mega: { warn: 'MEGA-LASER! Robotul pornește o sirenă și ochește drept spre tine!', tip: 'Ferește-te!!!', counter: 'fereste', dmg: [3, 4], hit: 'MEGA-LASERUL te nimerește! Ai fum în păr!', miss: 'Te arunci într-o parte în ultima clipă! MEGA-LASERUL face o gaură în tavan.' },
+  nas: { warn: 'Robotul scoate un braț lung cu un clește și se uită fix la nasul tău... vrea să-ți FURE NASUL!', tip: 'Stai liniștit: nasul tău e prea iute pentru el!', auto: true,
+    miss: ['Clește-clește... HAP! Prinde doar aer. Nasul tău s-a ferit singur! Robotul se uită în clește: gol.', 'Nasul tău face o piruetă, iar clește-ul apucă... nasul robotului! «AU! Ăsta e al MEU!»', 'Îți strâmbi nasul exact la timp. Clește-ul se încurcă în mustățile robotului! «Iar n-am prins niciun nas!»'] },
   pumn: { warn: 'Robotul își strânge PUMNUL-RACHETĂ și ochește...', tip: 'Un scut bun oprește orice pumn.', counter: 'blocheaza', dmg: [3, 3], hit: 'BUF! Pumnul-rachetă te aruncă într-un morman de cutii!', miss: 'BOING! Pumnul se lovește de scut și zboară înapoi în nasul robotului!' },
 };
 const SLIPS = ['Robotul calcă pe o coajă de banană din propriile rachete. BUF! Pierde tura.', 'Robotul se oprește să-și lustruiască mustața de metal. Pierde tura!', 'Robotului i se încurcă un cablu în coadă. Pierde tura!'];
@@ -1376,6 +1382,7 @@ async function attackFx(kind, countered) {
     SFX.whoosh();
     for (let i = 0; i < 5; i++) add('proj' + (countered ? ' back' : ''), `top:${Math.round(bw * .5)}px;--dx:${((Math.random() - .5) * 260).toFixed(0)}px;animation-delay:${i * .1}s`, i % 2 ? PEEL : CAN);
   } else if (kind === 'pumn') { SFX.whoosh(); add('proj fist' + (countered ? ' back' : ''), `top:${Math.round(bw * .4)}px`, FIST); }
+  else if (kind === 'nas') { SFX.whoosh(); add('proj claw', `top:${Math.round(bw * .4)}px`, CLAW); await wait(500); SFX.boing(); await wait(300); }
   else if (kind === 'coada') { SFX.whir(); add('sweep'); }
   else if (kind === 'tipat') { SFX.scream(); add('scream', '', countered ? 'MIȘ-ȘIȘ-HI-HI-HI!' : 'MIȘ-ȘIȘ-ȘIPPIII!'); if (!countered) retrigger(card, 'quake'); }
   await wait(850); card.classList.remove('quake');
@@ -1425,6 +1432,11 @@ async function turn(k) {
     else { await wait(700); document.getElementById('boss').classList.remove('asleep'); anim('hit'); lines.push('Robotul se trezește buimac: «Ce... unde... cine m-a pârșit?!» Până se dezmeticește, pierde tura.'); }
   } else if (Math.random() < .1) {
     SFX.boing(); anim('hit'); lines.push(pick(SLIPS));
+  } else if (at.auto) {
+    // „fură nasul”: te ferești singur, oricare ar fi acțiunea aleasă
+    await attackFx(b.next, false);
+    b.learned[b.next] = 1; floatTxt('FERIT!', '#2f6fb5', '75%'); bigText('NASUL E LA LOC!');
+    lines.push(`${pick(at.miss)} <b>Nu te-a atins!</b>`);
   } else {
     const countered = at.counter === k;
     await attackFx(b.next, countered);
